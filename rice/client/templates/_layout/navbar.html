@@ -1,0 +1,42 @@
+<template name="rice_navbar">
+    <li class="{{isActiveRoute name='rice.home'}}"><a href="{{pathFor 'rice.home'}}">Home</a></li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+            Data <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+            <li class="{{isActiveRoute name='rice.customer'}}">
+                <a href="{{pathFor 'rice.customer'}}">Customer</a>
+            </li>
+            <!--<li class="{{isActiveRoute name='rice.sale'}}">-->
+            <!--<a href="{{pathFor 'rice.sale'}}">Sale</a>-->
+            <!--</li>-->
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+            Reports <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+            <li class="{{isActiveRoute name='rice.customerReport'}}">
+                <a href="{{pathFor 'rice.customerReport'}}">Customer (Browser View)</a>
+            </li>
+            <li class="{{isActiveRoute name='rice.customerExcelReport'}}">
+                <a href="{{pathFor 'rice.customerExcelReport'}}">Customer (Excel)</a>
+            </li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+            Settings <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+            <li class="{{isActiveRoute name='cpanel.exchange'}}">
+                <a href="{{pathFor 'cpanel.exchange'}}">Exchange</a>
+            </li>
+            <li class="{{isActiveRoute name='rice.address'}}">
+                <a href="{{pathFor 'rice.address'}}">Address</a>
+            </li>
+        </ul>
+    </li>
+</template>
