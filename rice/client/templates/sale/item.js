@@ -6,6 +6,9 @@ saleItemsState = new ReactiveList();
 var state = new ReactiveObj({
     qty: 0,
     price: 0,
+    discount: 0,
+    subDiscount: 0,
+    cost: 0,
     cssClassForAddMore: 'disabled'
 });
 
@@ -19,13 +22,13 @@ saleItemTpl.onCreated(function () {
     var data = Template.currentData();
     if (!_.isUndefined(data)) {
         _.each(data.saleItems, function (obj, key) {
-            obj.indexName = 'saleItems.' + key + '.name';
+            obj.indexName = 'saleItems.' + key + '.saleItemId';
             obj.indexQty = 'saleItems.' + key + '.qty';
             obj.indexCost = 'saleItems.' + key + '.cost';
-            obj.indexLineCost = 'saleItems.' + key + '.line-cost';
-            obj.indexProfit = 'saleItems.' + key + '.profit';
+            obj.indexLineCost = 'saleItems.' + key + '.lineCost';
             obj.indexPrice = 'saleItems.' + key + '.price';
             obj.indexAmount = 'saleItems.' + key + '.amount';
+            obj.indexDiscount = 'saleItems.' + key + '.discount';
 
             saleItemsState.insert(obj.name, obj);
         });
@@ -37,7 +40,7 @@ saleItemTpl.onRendered(function () {
     var list = []
     var tmpId = {};
     var tmpArr = {};
-    var result = Rice.Collection.SaleItem.find().fetch();
+    var result = Rice.Collection.SaleItem.find({}, {sort: {saleCategoryId: 1}}).fetch();
     result.forEach(function(item) {
         if(_.isUndefined(tmpArr[item.saleCategoryId])){
             tmpArr[item.saleCategoryId] = [];
@@ -57,8 +60,23 @@ saleItemTpl.onRendered(function () {
 
 saleItemTpl.helpers({
     tmpAmount: function () {
-        var tmpAmountVal = math.round(state.get('qty') * state.get('price'), 2);
+        var discount = state.get('discount');
+        var tmpAmountVal = 0 ;
+        if(discount == 0) {
+            tmpAmountVal = math.round(state.get('qty') * state.get('price'), 2);
+            
+        }else{
+            var price = state.get('price');
+            var qty = state.get('qty');
+            var amount = math.round(price * qty, 2);
+            tmpAmountVal = math.round(amount - ((price * qty) * discount / 100), 2)
+        }
         return tmpAmountVal;
+    },
+    tmpLineCost: function(){
+        var cost = state.get('cost');
+        var qty = state.get('qty');
+        return qty * cost;
     },
     cssClassForAddMore: function () {
         var tmpAmountVal = math.round(state.get('qty') * state.get('price'), 2);
@@ -75,15 +93,50 @@ saleItemTpl.helpers({
     },
     total: function () {
         var totalVal = 0;
-        _.each(saleItemsState.fetch(), function (o) {
-            totalVal += o.amount;
-        });
+        var subDiscount = state.get('subDiscount');
+        if(subDiscount == 0 ){
+            _.each(saleItemsState.fetch(), function (o) {
+                totalVal += o.amount;
+            });
+        }else{
+            _.each(saleItemsState.fetch(), function (o) {
+                totalVal += o.amount;
+            });
+            totalVal = totalVal - subDiscount;
+        }
 
         return totalVal;
+    },
+    profit: function(){
+        var totalLineCost = 0 ;
+        var totalVal = 0;
+        var subDiscount = state.get('subDiscount');
+        if(subDiscount == 0 ){
+            _.each(saleItemsState.fetch(), function (o) {
+                totalVal += o.amount;
+                totalLineCost += o.lineCost;
+            });
+            return totalVal - totalLineCost;
+        }else{
+             _.each(saleItemsState.fetch(), function (o) {
+                totalVal += o.amount;
+                totalLineCost += o.lineCost;
+            });
+             return (totalVal - totalLineCost) - subDiscount;
+        }
+
     }
 });
 
 saleItemTpl.events({
+    'change [name="tmpName"]': function(e){
+        var id = $(e.currentTarget).val();
+        var item = Rice.Collection.SaleItem.findOne(id);
+        $('[name="tmpPrice"]').val(item.price);
+        $('[name="tmpCost"]').val(item.cost);
+        state.set('price', item.price);
+        state.set('cost', item.cost);
+    },
     'keyup [name="tmpQty"]': function (e, t) {
         var qty = t.$('[name="tmpQty"]').val();
         qty = _.isEmpty(qty) ? 0 : parseInt(qty);
@@ -96,14 +149,28 @@ saleItemTpl.events({
 
         state.set('price', price);
     },
+    'keyup [name="tmpDiscount"]': function(e){
+        var discount = $(e.currentTarget).val();
+        discount = _.isEmpty(discount) ? 0 : parseFloat(discount);
+
+        state.set('discount', discount)
+    },
     'click .addSaleItem': function (e, t) {
         var index = 0;
         var saleItem = {};
         saleItem.name = t.$('[name="tmpName"]').val();
-        saleItem.qty = parseInt(t.$('[name="tmpQty"]').val());
+        saleItem.tmpName = t.$('[name="tmpName"]').select2('data').text;
+        saleItem.qty = parseFloat(t.$('[name="tmpQty"]').val());
+        saleItem.cost = parseFloat(t.$('[name="tmpCost"]').val())
         saleItem.price = math.round(parseFloat(t.$('[name="tmpPrice"]').val()), 2);
-        saleItem.amount = math.round(saleItem.qty * saleItem.price, 2);
-
+        saleItem.amount = math.round(parseFloat(t.$('[name="tmpAmount"]').val()));
+        saleItem.lineCost = math.round(parseFloat(t.$('[name="tmpLineCost"]').val()));
+        var discount = t.$('[name="tmpDiscount"]').val();
+        if(discount == ''){
+            saleItem.discount = 0 
+        }else{
+            saleItem.discount = parseFloat(discount);
+        }
         // Check saleItems exist
         if (saleItemsState.length() > 0) {
             // Check duplicate
@@ -111,11 +178,12 @@ saleItemTpl.events({
             if (!_.isUndefined(duplicate)) {
                 saleItem.qty = duplicate.qty + saleItem.qty;
                 saleItem.amount = math.round(saleItem.qty * saleItem.price, 2);
-
+                saleItem.lineCost = math.round(saleItem.qty * saleItem.cost, 2);
                 saleItemsState.update(saleItem.name, {
                     qty: saleItem.qty,
                     price: saleItem.price,
-                    amount: saleItem.amount
+                    amount: saleItem.amount,
+                    lineCost: saleItem.lineCost
                 });
 
                 return false;
@@ -124,10 +192,14 @@ saleItemTpl.events({
             }
         }
 
-        saleItem.indexNmae = 'saleItems.' + index + '.name';
+        saleItem.indexName = 'saleItems.' + index + '.saleItemId';
         saleItem.indexQty = 'saleItems.' + index + '.qty';
         saleItem.indexPrice = 'saleItems.' + index + '.price';
+        saleItem.indexCost = 'saleItems.' + index + '.cost';
+        saleItem.indexDiscount = 'saleItems.' + index + '.discount';
         saleItem.indexAmount = 'saleItems.' + index + '.amount';
+        saleItem.indexLineCost = 'saleItems.' + index + '.lineCost';
+
 
         saleItemsState.insert(saleItem.name, saleItem);
     },
@@ -140,21 +212,23 @@ saleItemTpl.events({
     },
     'keyup .qty': function (e, t) {
         var current = $(e.currentTarget);
-        var name = current.parents('div.row.list').find('.name').val();
+        var name = current.parents('div.row.sale-list').find('.name').val();
         var getSaleItem = saleItemsState.get(name);
 
         console.log(name);
 
         var qty = parseInt(current.val());
         var amount = math.round(qty * getSaleItem.price, 2);
+        var lineCost = math.round(qty * getSaleItem.cost, 2)
         saleItemsState.update(name, {
             qty: qty,
-            amount: amount
+            amount: amount,
+            lineCost: lineCost
         });
     },
     'keyup .price': function (e, t) {
         var current = $(e.currentTarget);
-        var name = current.parents('div.row.list').find('.name').val();
+        var name = current.parents('div.row.sale-list').find('.name').val();
         var getSaleItem = saleItemsState.get(name);
 
         console.log(name);
@@ -165,6 +239,26 @@ saleItemTpl.events({
             price: price,
             amount: amount
         });
+    },
+    'keyup .discount': function(e, t){
+        var current = $(e.currentTarget);
+        var name = current.parents('div.row.sale-list').find('.name').val();
+        var getSaleItem = saleItemsState.get(name);
+
+        console.log(name);
+        var discount = current.val();
+        var totalAmount = getSaleItem.qty * getSaleItem.price
+        discount = discount == '' ? 0 : parseFloat(discount);
+        var amount = math.round(totalAmount- (totalAmount * discount/100), 2);
+        saleItemsState.update(name, {
+            amount: amount,
+            discount: discount
+        });
+    },
+    'keyup [name="subDiscount"]': function(e){
+        var value = $(e.currentTarget).val();
+        value = value == '' ? 0 : parseFloat(value);
+        state.set('subDiscount', value);
     }
 });
 
@@ -181,7 +275,7 @@ var saleItemsInputmask = function () {
     var amount = $('.amount');
     var total = $('[name="total"]');
 
-    Inputmask.currency([tmpPrice, tmpAmount, price, amount, total]);
+    Inputmask.currency([tmpPrice, tmpAmount, price, amount, total], {prefix: 'R '});
     Inputmask.integer([tmpQty, qty]);
 };
 
@@ -190,6 +284,6 @@ var getCategoryName = function(id){
 }
 
 var getItem = function(arr, item){
-    arr.push({id: item._id, text: item.name});
+    arr.push({id: item._id, text: item._id+ ' | ' + item.name});
     return arr;
 }

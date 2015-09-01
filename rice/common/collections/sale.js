@@ -53,13 +53,17 @@ Rice.Schema.Sale = new SimpleSchema({
         decimal: true,
         label: 'Amount'
     },
-    'saleItems.$.profit':{
-        type: Number,
-        decimal: true
-    },
     des: {
         type: String,
         label: "Description"
+    },
+    profit: {
+        type: Number,
+        decimal: true
+    }, 
+    subDiscount: {
+        type: Number,
+        decimal: true
     },
     total: {
         type: Number,
