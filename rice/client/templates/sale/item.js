@@ -1,8 +1,8 @@
 // Declare template
-var itemTpl = Template.rice_saleItem;
+var saleItemTpl = Template.rice_saleSaleItem;
 
-// Items state
-itemsState = new ReactiveList();
+// SaleItems state
+saleItemsState = new ReactiveList();
 var state = new ReactiveObj({
     qty: 0,
     price: 0,
@@ -10,36 +10,52 @@ var state = new ReactiveObj({
 });
 
 /**
- * Items
+ * SaleItems
  */
-itemTpl.onCreated(function () {
-    itemsState.clear();
+saleItemTpl.onCreated(function () {
+    saleItemsState.clear();
 
     // Check form type
     var data = Template.currentData();
     if (!_.isUndefined(data)) {
-        _.each(data.items, function (obj, key) {
-            obj.indexName = 'items.' + key + '.name';
-            obj.indexQty = 'items.' + key + '.qty';
-            obj.indexCost = 'items.' + key + '.cost';
-            obj.indexLineCost = 'items.' + key + '.line-cost';
-            obj.indexProfit = 'items.' + key + '.profit';
-            obj.indexPrice = 'items.' + key + '.price';
-            obj.indexAmount = 'items.' + key + '.amount';
+        _.each(data.saleItems, function (obj, key) {
+            obj.indexName = 'saleItems.' + key + '.name';
+            obj.indexQty = 'saleItems.' + key + '.qty';
+            obj.indexCost = 'saleItems.' + key + '.cost';
+            obj.indexLineCost = 'saleItems.' + key + '.line-cost';
+            obj.indexProfit = 'saleItems.' + key + '.profit';
+            obj.indexPrice = 'saleItems.' + key + '.price';
+            obj.indexAmount = 'saleItems.' + key + '.amount';
 
-            itemsState.insert(obj.name, obj);
+            saleItemsState.insert(obj.name, obj);
         });
     }
 });
 
-itemTpl.onRendered(function () {
-    itemsInputmask();
+saleItemTpl.onRendered(function () {
+    saleItemsInputmask();
+    var list = []
+    var tmpId = {};
+    var tmpArr = {};
+    var result = Rice.Collection.SaleItem.find().fetch();
+    result.forEach(function(item) {
+        if(_.isUndefined(tmpArr[item.saleCategoryId])){
+            tmpArr[item.saleCategoryId] = [];
+        }
+        tmpId[item.saleCategoryId] = {
+            text: getCategoryName(item.saleCategoryId),
+            children: getItem(tmpArr[item.saleCategoryId], item)
+        }
+    });
+    for(var k in tmpId){
+        list.push(tmpId[k])
+    }
     $('[name="tmpName"]').select2({
-        data: [{id: 0, text: 'abcd'}, {id: 1, text: 'dxyz'}]
+        data: list
     });
 });
 
-itemTpl.helpers({
+saleItemTpl.helpers({
     tmpAmount: function () {
         var tmpAmountVal = math.round(state.get('qty') * state.get('price'), 2);
         return tmpAmountVal;
@@ -54,12 +70,12 @@ itemTpl.helpers({
 
         return state.get('cssClassForAddMore');
     },
-    items: function () {
-        return itemsState.fetch();
+    saleItems: function () {
+        return saleItemsState.fetch();
     },
     total: function () {
         var totalVal = 0;
-        _.each(itemsState.fetch(), function (o) {
+        _.each(saleItemsState.fetch(), function (o) {
             totalVal += o.amount;
         });
 
@@ -67,7 +83,7 @@ itemTpl.helpers({
     }
 });
 
-itemTpl.events({
+saleItemTpl.events({
     'keyup [name="tmpQty"]': function (e, t) {
         var qty = t.$('[name="tmpQty"]').val();
         qty = _.isEmpty(qty) ? 0 : parseInt(qty);
@@ -80,58 +96,58 @@ itemTpl.events({
 
         state.set('price', price);
     },
-    'click .addItem': function (e, t) {
+    'click .addSaleItem': function (e, t) {
         var index = 0;
-        var item = {};
-        item.name = t.$('[name="tmpName"]').val();
-        item.qty = parseInt(t.$('[name="tmpQty"]').val());
-        item.price = math.round(parseFloat(t.$('[name="tmpPrice"]').val()), 2);
-        item.amount = math.round(item.qty * item.price, 2);
+        var saleItem = {};
+        saleItem.name = t.$('[name="tmpName"]').val();
+        saleItem.qty = parseInt(t.$('[name="tmpQty"]').val());
+        saleItem.price = math.round(parseFloat(t.$('[name="tmpPrice"]').val()), 2);
+        saleItem.amount = math.round(saleItem.qty * saleItem.price, 2);
 
-        // Check items exist
-        if (itemsState.length() > 0) {
+        // Check saleItems exist
+        if (saleItemsState.length() > 0) {
             // Check duplicate
-            var duplicate = itemsState.get(item.name);
+            var duplicate = saleItemsState.get(saleItem.name);
             if (!_.isUndefined(duplicate)) {
-                item.qty = duplicate.qty + item.qty;
-                item.amount = math.round(item.qty * item.price, 2);
+                saleItem.qty = duplicate.qty + saleItem.qty;
+                saleItem.amount = math.round(saleItem.qty * saleItem.price, 2);
 
-                itemsState.update(item.name, {
-                    qty: item.qty,
-                    price: item.price,
-                    amount: item.amount
+                saleItemsState.update(saleItem.name, {
+                    qty: saleItem.qty,
+                    price: saleItem.price,
+                    amount: saleItem.amount
                 });
 
                 return false;
             } else {
-                index = itemsState.last().index + 1;
+                index = saleItemsState.last().index + 1;
             }
         }
 
-        item.indexNmae = 'items.' + index + '.name';
-        item.indexQty = 'items.' + index + '.qty';
-        item.indexPrice = 'items.' + index + '.price';
-        item.indexAmount = 'items.' + index + '.amount';
+        saleItem.indexNmae = 'saleItems.' + index + '.name';
+        saleItem.indexQty = 'saleItems.' + index + '.qty';
+        saleItem.indexPrice = 'saleItems.' + index + '.price';
+        saleItem.indexAmount = 'saleItems.' + index + '.amount';
 
-        itemsState.insert(item.name, item);
+        saleItemsState.insert(saleItem.name, saleItem);
     },
-    'blur .addItem': function (e, t) {
-        itemsInputmask();
+    'blur .addSaleItem': function (e, t) {
+        saleItemsInputmask();
     },
-    'click .removeItem': function (e, t) {
+    'click .removeSaleItem': function (e, t) {
         var self = this;
-        itemsState.remove(self.name);
+        saleItemsState.remove(self.name);
     },
     'keyup .qty': function (e, t) {
         var current = $(e.currentTarget);
         var name = current.parents('div.row.list').find('.name').val();
-        var getItem = itemsState.get(name);
+        var getSaleItem = saleItemsState.get(name);
 
         console.log(name);
 
         var qty = parseInt(current.val());
-        var amount = math.round(qty * getItem.price, 2);
-        itemsState.update(name, {
+        var amount = math.round(qty * getSaleItem.price, 2);
+        saleItemsState.update(name, {
             qty: qty,
             amount: amount
         });
@@ -139,13 +155,13 @@ itemTpl.events({
     'keyup .price': function (e, t) {
         var current = $(e.currentTarget);
         var name = current.parents('div.row.list').find('.name').val();
-        var getItem = itemsState.get(name);
+        var getSaleItem = saleItemsState.get(name);
 
         console.log(name);
 
         var price = parseFloat(current.val());
-        var amount = math.round(getItem.qty * price, 2);
-        itemsState.update(name, {
+        var amount = math.round(getSaleItem.qty * price, 2);
+        saleItemsState.update(name, {
             price: price,
             amount: amount
         });
@@ -155,7 +171,7 @@ itemTpl.events({
 /**
  * Input mask
  */
-var itemsInputmask = function () {
+var saleItemsInputmask = function () {
     var tmpQty = $('[name="tmpQty"]');
     var tmpPrice = $('[name="tmpPrice"]');
     var tmpAmount = $('[name="tmpAmount"]');
@@ -168,3 +184,12 @@ var itemsInputmask = function () {
     Inputmask.currency([tmpPrice, tmpAmount, price, amount, total]);
     Inputmask.integer([tmpQty, qty]);
 };
+
+var getCategoryName = function(id){
+    return Rice.Collection.SaleCategory.findOne(id).name;
+}
+
+var getItem = function(arr, item){
+    arr.push({id: item._id, text: item.name});
+    return arr;
+}
