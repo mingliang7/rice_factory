@@ -138,7 +138,7 @@ AutoForm.hooks({
             }
         },
         onSuccess: function (formType, result) {
-            itemsState.clear();
+            saleItemsState.clear();
             alertify.success('Success');
         },
         onError: function (formType, error) {
@@ -184,7 +184,7 @@ var datePicker = function () {
 
 // Customer search
 customerSearchTpl.events({
-    'click .item': function (e, t) {
+    'click .saleItem': function (e, t) {
         $('[name="customerId"]').val(this._id);
         $('[name="customerId"]').change();
 

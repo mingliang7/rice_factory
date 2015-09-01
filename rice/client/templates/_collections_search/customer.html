@@ -19,7 +19,7 @@
 
 
     <!--Filter-->
-    <span>Filtered by category: </span>
+    <span>Filtered by saleCategory: </span>
     <select class="filter-select">
         <option value="all">All</option>
         <option value="M">Male</option>
@@ -58,7 +58,7 @@
 
 <template name="rice_customerSearchList">
     {{#with data}}
-        <dt><a href="#" class="item">{{_id}}</a></dt>
+        <dt><a href="#" class="saleItem">{{_id}}</a></dt>
         <dd style="bsale-bottom:1px solid">
             {{lightbox url=photoUrl title=name}}
             Name: {{name}} | Gender: {{gender}} | Date Of Birth: {{dobVal}}

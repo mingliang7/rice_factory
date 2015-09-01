@@ -13,6 +13,14 @@ riceRoutes.route('/sale/:customerId', {
             'rice_customerById',
             subs.subscribe('rice_customerById', params.customerId)
         );
+        this.register(
+            'rice_saleCategories',
+            subs.subscribe('rice_saleCategories')
+        );
+        this.register(
+            'rice_saleItemsCategories',
+            subs.subscribe('rice_saleItemsCategories')
+        );
     },
     action: function (params, queryParams) {
         Layout.main('rice_sale');

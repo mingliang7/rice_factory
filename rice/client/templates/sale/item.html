@@ -1,5 +1,5 @@
-<!--Item Temporary-->
-<template name="rice_saleItem">
+<!--SaleItem Temporary-->
+<template name="rice_saleSaleItem">
     <div class="row">
         <div class="col-sm-4">
             <div class="form-group">
@@ -23,11 +23,11 @@
             </div>
         </div>
         <div class="col-sm-1">
-            <button type="button" class="btn btn-primary addItem" {{cssClassForAddMore}}>+</button>
+            <button type="button" class="btn btn-primary addSaleItem" {{cssClassForAddMore}}>+</button>
         </div>
     </div>
     <hr>
-    {{#each items}}
+    {{#each saleItems}}
         <div class="row list">
             <div class="col-sm-4">{{> afQuickField name=indexName value=name class="name" readonly="true" label=false}}</div>
             <div class="col-sm-2">{{> afQuickField name=indexQty type="text" value=qty class="qty" label=false}}</div>
@@ -37,7 +37,7 @@
             <div class="col-sm-3">{{> afQuickField name=indexAmount type="text" value=amount class="amount" readonly="true" label=false}}</div>
             <div class="col-sm-3">{{> afQuickField name=indexProfit type="text" value=profit class="profit" readonly="true" label=false}}</div>
             <div class="col-sm-1">
-                <button type="button" class="btn btn-danger removeItem">-</button>
+                <button type="button" class="btn btn-danger removeSaleItem">-</button>
             </div>
         </div>
     {{/each}}

@@ -15,45 +15,45 @@ Rice.Schema.Sale = new SimpleSchema({
         //    }
         //}
     },
-    items: {
+    saleItems: {
         type: Array
     },
-    'items.$': {
+    'saleItems.$': {
         type: Object
     },
-    'items.$.itemId':{
+    'saleItems.$.saleItemId':{
         type: String,
-        label: 'Item',
+        label: 'SaleItem',
     },
-    'items.$.qty':{
+    'saleItems.$.qty':{
         type: Number,
         decimal: true,
         label: 'Qty'
     },
-    'items.$.cost':{
+    'saleItems.$.cost':{
         type: Number,
         decimal: true
     },
-    'items.$.lineCost':{
+    'saleItems.$.lineCost':{
         type: Number,
         decimal: true
     },
-    'items.$.price':{
+    'saleItems.$.price':{
         type: Number,
         decimal: true,
         label: 'Price'
     },
-    'items.$.discount':{
+    'saleItems.$.discount':{
         type: Number,
         decimal: true,
         label: 'Discount'
     },
-    'items.$.amount':{
+    'saleItems.$.amount':{
         type: Number,
         decimal: true,
         label: 'Amount'
     },
-    'items.$.profit':{
+    'saleItems.$.profit':{
         type: Number,
         decimal: true
     },
