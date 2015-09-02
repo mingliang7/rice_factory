@@ -1,5 +1,5 @@
 // Declare template
-var saleItemTpl = Template.rice_saleSaleItem;
+var saleItemTpl = Template.rice_saleItem;
 
 // SaleItems state
 saleItemsState = new ReactiveList();
@@ -9,15 +9,16 @@ var state = new ReactiveObj({
     discount: 0,
     subDiscount: 0,
     cost: 0,
+    exchange: 0,
     cssClassForAddMore: 'disabled'
 });
 
 /**
  * SaleItems
  */
+
 saleItemTpl.onCreated(function () {
     saleItemsState.clear();
-
     // Check form type
     var data = Template.currentData();
     if (!_.isUndefined(data)) {
@@ -30,7 +31,7 @@ saleItemTpl.onCreated(function () {
             obj.indexAmount = 'saleItems.' + key + '.amount';
             obj.indexDiscount = 'saleItems.' + key + '.discount';
 
-            saleItemsState.insert(obj.name, obj);
+            saleItemsState.insert(obj.saleItemId, obj);
         });
     }
 });
@@ -62,6 +63,7 @@ saleItemTpl.helpers({
     tmpAmount: function () {
         var discount = state.get('discount');
         var tmpAmountVal = 0 ;
+        debugger
         if(discount == 0) {
             tmpAmountVal = math.round(state.get('qty') * state.get('price'), 2);
             
@@ -90,6 +92,15 @@ saleItemTpl.helpers({
     },
     saleItems: function () {
         return saleItemsState.fetch();
+    },
+    subTotal: function () {
+        var totalVal = 0;
+        _.each(saleItemsState.fetch(), function (o) {
+                totalVal += o.amount;
+        });
+        if(totalVal != 0){
+            return totalVal;
+        }
     },
     total: function () {
         var totalVal = 0;
@@ -125,6 +136,31 @@ saleItemTpl.helpers({
              return (totalVal - totalLineCost) - subDiscount;
         }
 
+    },
+    exchange: function(){
+        var getExchange = state.get('exchange');
+        var getExchangeBase = state.get('exchangeBase');
+        var totalInDollar = 0;
+        var totalVal = 0;
+        var subDiscount = state.get('subDiscount');
+        if(subDiscount == 0 ){
+            _.each(saleItemsState.fetch(), function (o) {
+                totalVal += o.amount;
+            });
+        }else{
+            _.each(saleItemsState.fetch(), function (o) {
+                totalVal += o.amount;
+            });
+            totalVal = totalVal - subDiscount;
+        }
+        totalInDollar = getExchange * totalVal ;
+        if(totalVal != 0 ){
+            return 'KHR: ' + numeral(totalVal).format('0,0') + ' USD: ' + numeral(totalInDollar).format('0,0.00');
+        }
+    }, 
+    getItem: function(id){
+        var item = Rice.Collection.SaleItem.findOne(id);
+        return item._id + ' | ' + item.name;
     }
 });
 
@@ -136,6 +172,15 @@ saleItemTpl.events({
         $('[name="tmpCost"]').val(item.cost);
         state.set('price', item.price);
         state.set('cost', item.cost);
+        var exchange = Cpanel.Collection.Exchange.findOne({}, {sort: {dateTime: -1}});
+        setTimeout(function(){
+            $('[name="exchange"]').select2('val', exchange._id)
+            if(exchange.base == 'KHR'){
+                state.set('exchange', exchange.rates.USD);
+            }else if(exchange.base == 'USD') {
+                state.set('exchange', exchange.rates.KHR);
+            }
+        }, 200);
     },
     'keyup [name="tmpQty"]': function (e, t) {
         var qty = t.$('[name="tmpQty"]').val();
@@ -166,6 +211,11 @@ saleItemTpl.events({
         saleItem.amount = math.round(parseFloat(t.$('[name="tmpAmount"]').val()));
         saleItem.lineCost = math.round(parseFloat(t.$('[name="tmpLineCost"]').val()));
         var discount = t.$('[name="tmpDiscount"]').val();
+        var subDiscount = $('[name="subDiscount"]').val()
+        if(subDiscount != ''){
+            subDiscount = parseFloat(subDiscount);
+            state.set('subDiscount', subDiscount);
+        }
         if(discount == ''){
             saleItem.discount = 0 
         }else{
@@ -208,7 +258,16 @@ saleItemTpl.events({
     },
     'click .removeSaleItem': function (e, t) {
         var self = this;
-        saleItemsState.remove(self.name);
+        if(_.isUndefined(self.name)){
+            saleItemsState.remove(self.saleItemId);
+        }else{
+            saleItemsState.remove(self.name);
+        }
+        var subDiscount = $('[name="subDiscount"]').val()
+        if(subDiscount != ''){
+            subDiscount = parseFloat(subDiscount);
+            state.set('subDiscount', subDiscount);
+        }
     },
     'keyup .qty': function (e, t) {
         var current = $(e.currentTarget);
@@ -216,7 +275,7 @@ saleItemTpl.events({
         var getSaleItem = saleItemsState.get(name);
 
         console.log(name);
-
+        console.log(getSaleItem);
         var qty = parseInt(current.val());
         var amount = math.round(qty * getSaleItem.price, 2);
         var lineCost = math.round(qty * getSaleItem.cost, 2)
@@ -269,14 +328,16 @@ var saleItemsInputmask = function () {
     var tmpQty = $('[name="tmpQty"]');
     var tmpPrice = $('[name="tmpPrice"]');
     var tmpAmount = $('[name="tmpAmount"]');
+    var tmpDiscount = $('[name="tmpDiscount"]');
 
     var qty = $('.qty');
     var price = $('.price');
     var amount = $('.amount');
     var total = $('[name="total"]');
-
-    Inputmask.currency([tmpPrice, tmpAmount, price, amount, total], {prefix: 'R '});
-    Inputmask.integer([tmpQty, qty]);
+    var subTotal = $('[name="subTotal"]')
+    Inputmask.currency([tmpPrice, tmpAmount, price, amount, total, subTotal], {prefix: 'R '});
+    Inputmask.decimal([tmpQty, qty]);
+    Inputmask.percentage(tmpDiscount);
 };
 
 var getCategoryName = function(id){

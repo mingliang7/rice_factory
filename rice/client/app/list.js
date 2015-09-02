@@ -77,5 +77,20 @@ Rice.List = {
             value: 'manager'
         });
         return list;
+    },
+    exchange: function(selectOne){
+        var list;
+        list = [];
+        var exchanges = Cpanel.Collection.Exchange.find().fetch();
+        if (!_.isEqual(selectOne, false)) {
+            list.push({
+                label: "(Select One)",
+                value: ""
+            });
+        }
+        exchanges.forEach(function(ex) {
+            list.push({label: JSON.stringify(ex.rates), value: ex._id});
+        });
+        return list;
     }
 };

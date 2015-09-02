@@ -22,7 +22,7 @@ indexTpl.onCreated(function () {
 });
 
 indexTpl.onRendered(function () {
-    //
+
 });
 
 indexTpl.helpers({});

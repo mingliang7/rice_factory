@@ -1,5 +1,5 @@
 <!--SaleItem Temporary-->
-<template name="rice_saleSaleItem">
+<template name="rice_saleItem">
     <div class="row">
         <div class="col-sm-3">
             <div class="form-group">
@@ -59,10 +59,15 @@
     {{#each saleItems}}
         <div class="row sale-list">
             <div class="col-sm-3">
-                <input type="text" value={{tmpName}} class="form-control" 
+            {{#if saleItemId}}
+                <input type="text" name={{indexName}} value={{getItem saleItemId}} class="form-control" 
                        readonly label="Item">
-            {{> afQuickField name=indexName value=name class="name" readonly="true" label=false type='hidden'}}
+            {{else}}
+                <input type="text"  value={{tmpName}} class="form-control" 
+                       readonly label="Item">
+            {{/if}}
             </div>
+            {{> afQuickField name=indexName value=name class="name" readonly="true" label=false type='hidden'}}
             <div class="col-sm-2">
                 {{> afQuickField name=indexPrice type="text" value=price class="price" label=false}}
             </div>
@@ -90,8 +95,17 @@
             {{> afQuickField name="subDiscount"}}
         </div>
         <div class="col-sm-3">
-            {{> afQuickField name="total" type="text" value=total}}
+            {{> afQuickField name="subTotal" type="text" value=subTotal readonly="true"}}
         </div>
-            <div class="col-sm-3">{{> afQuickField name='profit' value=profit readonly="true"}}</div>
+        {{> afQuickField name='profit' value=profit type='hidden'}}
+    </div>
+    <div class="row">
+        <div class="col-sm-9"></div>
+        <div class="col-sm-3">
+            {{> afQuickField name="total" type="text" value=total readonly="true"}}
+            {{{exchange}}}
+            
+            {{> afQuickField name="outstandingAmount" value=total type='hidden'}}
+        </div>
     </div>
 </template>

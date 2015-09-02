@@ -1,5 +1,19 @@
 /***** Before */
-//Rice.Collection.Customer.before.insert(function (userId, doc) {
-//});
-//Rice.Collection.Customer.before.update(function (userId, doc, fieldNames, modifier, options) {
-//});
+Rice.Collection.Sale.before.insert(function (userId, doc) {
+	var id = doc._id;
+	var prefix = doc.branchId + '-';
+	doc._id = idGenerator.genWithPrefix(Rice.Collection.Sale, prefix, 12);
+	State.set(id, doc._id);
+});
+Rice.Collection.Sale.before.update(function (userId, doc, fieldNames, modifier, options) {
+  modifier.$set = modifier.$set || {};
+  if(modifier.$set.saleItems){
+    var saleItems = [];
+    _.each(modifier.$set.saleItems, function(obj){
+      if (!_.isNull(obj)){
+        saleItems.push(obj);
+      }
+    });
+    modifier.$set.saleItems = saleItems;
+  }
+});

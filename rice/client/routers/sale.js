@@ -21,6 +21,7 @@ riceRoutes.route('/sale/:customerId', {
             'rice_saleItemsCategories',
             subs.subscribe('rice_saleItemsCategories')
         );
+        this.register('rice_exchange', subs.subscribe('cpanel_exchange'));
     },
     action: function (params, queryParams) {
         Layout.main('rice_sale');

@@ -34,12 +34,12 @@ indexTpl.helpers({
 
 indexTpl.events({
     'click .insert': function (e, t) {
+        saleItemsState.clear();
         alertify.sale(fa("plus", "Sale"), renderTemplate(insertTpl))
             .maximize();
     },
     'click .update': function (e, t) {
         var data = Rice.Collection.Sale.findOne(this._id);
-
         alertify.sale(fa("pencil", "Sale"), renderTemplate(updateTpl, data))
             .maximize();
     },
@@ -68,7 +68,19 @@ indexTpl.events({
         alertify.alert(fa("eye", "Sale"), renderTemplate(showTpl, data));
     }
 });
-
+showTpl.helpers({
+    extract: function(items){
+        var concate = '';
+        items.forEach(function(item) {
+            concate += '<li>' + 'Item: ' +getItemName(item.saleItemId) +  
+                        ', Qty: ' + formatKh(item.qty) + 
+                        ', Price: ' + formatKh(item.price) + 
+                        ', Cost: ' + formatKh(item.cost) + ', Discount: ' + item.discount +  ', Amount: ' +
+                        formatKh(item.amount) + ', Line-Cost: ' + formatKh(item.lineCost) + '</li>';
+        });
+        return concate;
+    }
+})
 indexTpl.onDestroyed(function () {
     //
 });
@@ -126,55 +138,7 @@ updateTpl.onDestroyed(function () {
 });
 
 // Hook
-AutoForm.hooks({
-    // Sale
-    rice_saleInsert: {
-        before: {
-            insert: function (doc) {
-                var prefix = Session.get('currentBranch') + '-' + doc.customerId;
-                doc._id = idGenerator.genWithPrefix(Rice.Collection.Sale, prefix, 3);
-                doc.cpanel_branchId = Session.get('currentBranch');
-                return doc;
-            }
-        },
-        onSuccess: function (formType, result) {
-            saleItemsState.clear();
-            alertify.success('Success');
-        },
-        onError: function (formType, error) {
-            alertify.error(error.message);
-        }
-    },
-    rice_saleUpdate: {
-        docToForm: function (doc, ss) {
-            doc.saleDate = moment(doc.saleDate).format('YYYY-MM-DD');
-            return doc;
-        },
-        onSuccess: function (formType, result) {
-            alertify.sale().close();
-            alertify.success('Success');
-        },
-        onError: function (formType, error) {
-            alertify.error(error.message);
-        }
-    },
-    // Customer addon
-    rice_customerAddon: {
-        before: {
-            insert: function (doc) {
-                doc._id = idGenerator.gen(Rice.Collection.Customer, 3);
-                return doc;
-            }
-        },
-        onSuccess: function (formType, result) {
-            //alertify.customer().close();
-            alertify.success('Success');
-        },
-        onError: function (formType, error) {
-            alertify.error(error.message);
-        }
-    }
-});
+
 
 // Config date picker
 var datePicker = function () {
@@ -204,3 +168,12 @@ var getCurrentCustomer = function () {
 
     return data;
 };
+
+
+var getItemName = function(id){
+    return Rice.Collection.SaleItem.findOne(id).name;
+}
+
+var formatKh = function(val){
+    return numeral(val).format('0,0')
+}
