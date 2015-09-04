@@ -4,7 +4,20 @@ Rice.Collection.Sale = new Mongo.Collection("rice_sale");
 // Schema
 Rice.Schema.Sale = new SimpleSchema({
     saleDate: {
-        type: Date
+        type: Date,
+        defaultValue: function(){
+            return moment().format('YYYY-MM-DD HH:mm:ss');
+        }
+    },
+    exchange: {
+        type: String,
+        label: 'Exchange',
+        autoform: {
+            type: 'select2',
+            options: function(){
+                return Rice.List.exchange();
+            }
+        }
     },
     customerId: {
         type: String
@@ -53,21 +66,47 @@ Rice.Schema.Sale = new SimpleSchema({
         decimal: true,
         label: 'Amount'
     },
-    'saleItems.$.profit':{
-        type: Number,
-        decimal: true
-    },
     des: {
         type: String,
-        label: "Description"
+        label: "Description",
+        optional: true
+    },
+    profit: {
+        type: Number,
+        decimal: true
+    }, 
+    subDiscount: {
+        type: Number,
+        decimal: true,
+        optional: true,
+        label: 'Sub-Discount'
+    },
+    subTotal: {
+        type: Number,
+        decimal: true,
+        optional: true,
+        label: 'Sub-Total'
     },
     total: {
         type: Number,
-        decimal: true
+        decimal: true,
+        label: 'Total'
     },
-    cpanel_branchId: {
+    branchId: {
         type: String,
-        label: "Branch"
+        label: "Branch",
+        optional: true
+    },
+    paidAmount:{
+        type: Number,
+        decimal: true,
+        optional: true
+
+    },
+    outstandingAmount:{
+        type: Number,
+        decimal: true,
+        optional: true
     }
 });
 

@@ -1,7 +1,7 @@
 <!--SaleItem Temporary-->
-<template name="rice_saleSaleItem">
+<template name="rice_saleItem">
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="form-group">
                 <input type="text" name="tmpName" class="form-control" placeholder="Name">
             </div>
@@ -16,7 +16,12 @@
                 <input type="text" name="tmpPrice" class="form-control" placeholder="Price">
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <input type="text" name="tmpDiscount" class="form-control" placeholder="Discount %">
+            </div>
+        </div>
+        <div class="col-sm-2">
             <div class="form-group">
                 <input type="text" name="tmpAmount" value="{{tmpAmount}}" class="form-control" placeholder="Amount"
                        readonly>
@@ -25,17 +30,59 @@
         <div class="col-sm-1">
             <button type="button" class="btn btn-primary addSaleItem" {{cssClassForAddMore}}>+</button>
         </div>
+        <div class="form-group">
+            <input type="hidden" name="tmpCost" class="form-control" placeholder="cost">
+        </div>
+        <div class="form-group">
+            <input type="hidden" name="tmpLineCost" value="{{tmpLineCost}}" class="form-control" placeholder="Cost"
+                   readonly>
+        </div>
     </div>
     <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <label>Item</label>
+        </div> 
+        <div class="col-sm-2">
+            <label>Price</label>
+        </div>
+        <div class="col-sm-2">
+            <label>Qty</label>
+        </div>
+        <div class="col-sm-2">
+            <label>Discount(%)</label>
+        </div>
+        <div class="col-sm-3">
+            <label>Amount</label>
+        </div>          
+    </div>
     {{#each saleItems}}
-        <div class="row list">
-            <div class="col-sm-4">{{> afQuickField name=indexName value=name class="name" readonly="true" label=false}}</div>
-            <div class="col-sm-2">{{> afQuickField name=indexQty type="text" value=qty class="qty" label=false}}</div>
-            <div class="col-sm-2">{{> afQuickField name=indexCost type="text" value=cost class="cost" label=false}}</div>
-            <div class="col-sm-2">{{> afQuickField name=indexLineCost type="text" value=lineCost class="line-cost" label=false}}</div>
-            <div class="col-sm-2">{{> afQuickField name=indexPrice type="text" value=price class="price" label=false}}</div>
-            <div class="col-sm-3">{{> afQuickField name=indexAmount type="text" value=amount class="amount" readonly="true" label=false}}</div>
-            <div class="col-sm-3">{{> afQuickField name=indexProfit type="text" value=profit class="profit" readonly="true" label=false}}</div>
+        <div class="row sale-list">
+            <div class="col-sm-3">
+            {{#if saleItemId}}
+                <input type="text" name={{indexName}} value={{getItem saleItemId}} class="form-control" 
+                       readonly label="Item">
+            {{else}}
+                <input type="text"  value={{tmpName}} class="form-control" 
+                       readonly label="Item">
+            {{/if}}
+            </div>
+            {{> afQuickField name=indexName value=name class="name" readonly="true" label=false type='hidden'}}
+            <div class="col-sm-2">
+                {{> afQuickField name=indexPrice type="text" value=price class="price" label=false}}
+            </div>
+                {{> afQuickField name=indexCost type="text" value=cost class="cost" label=false type='hidden'}}
+            <div class="col-sm-2">
+                {{> afQuickField name=indexQty type="text" value=qty class="qty" label=false}}
+            </div>
+            <div class="col-sm-2">
+                {{> afQuickField name=indexDiscount type="text" value=discount class="discount" label=false}}
+            </div>
+            
+            <div class="col-sm-2">
+                {{> afQuickField name=indexAmount type="text" value=amount class="amount" readonly="true" label=false}}
+            </div>
+            {{> afQuickField name=indexLineCost type="text" value=lineCost class="line-cost" label=false type='hidden'}}
             <div class="col-sm-1">
                 <button type="button" class="btn btn-danger removeSaleItem">-</button>
             </div>
@@ -43,9 +90,22 @@
     {{/each}}
 
     <div class="row">
-        <div class="col-sm-8"></div>
+        <div class="col-sm-6"></div>
         <div class="col-sm-3">
-            {{> afQuickField name="total" type="text" value=total}}
+            {{> afQuickField name="subDiscount"}}
+        </div>
+        <div class="col-sm-3">
+            {{> afQuickField name="subTotal" type="text" value=subTotal readonly="true"}}
+        </div>
+        {{> afQuickField name='profit' value=profit type='hidden'}}
+    </div>
+    <div class="row">
+        <div class="col-sm-9"></div>
+        <div class="col-sm-3">
+            {{> afQuickField name="total" type="text" value=total readonly="true"}}
+            {{{exchange}}}
+            
+            {{> afQuickField name="outstandingAmount" value=total type='hidden'}}
         </div>
     </div>
 </template>

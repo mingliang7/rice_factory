@@ -18,11 +18,10 @@ indexTpl.onCreated(function () {
     });
 
     // Create new  alertify
-    createNewAlertify(["customer", "address"]);
+    createNewAlertify(["sale", "customer", "address"]);
 });
 
 indexTpl.onRendered(function () {
-    //
 });
 
 indexTpl.helpers({});
@@ -37,6 +36,9 @@ indexTpl.events({
 
         alertify.customer(fa("pencil", "Customer"), renderTemplate(updateTpl, data))
             .maximize();
+    },
+    'click #sale': function(){
+      FlowRouter.go('rice.sale', {customerId: this._id});
     },
     'click .remove': function (e, t) {
         var self = this;
@@ -70,8 +72,8 @@ indexTpl.events({
     'dblclick tbody > tr': function (event) {
         var dataTable = $(event.target).closest('table').DataTable();
         var rowData = dataTable.row(event.currentTarget).data();
-        // alertify.customer(fa('shopping-cart'), renderTemplate(Template.rice_saleInsert, rowData)).maximize();
-        FlowRouter.go('rice.sale', {customerId: rowData._id});
+        alertify.sale(fa('shopping-cart', 'Quick Sale'), renderTemplate(Template.rice_saleInsert, rowData)).maximize();
+
     }
 });
 
