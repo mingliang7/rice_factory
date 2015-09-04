@@ -82,6 +82,7 @@ updateTpl.onRendered(function () {
 AutoForm.hooks({
     cpanel_exchangeInsert: {
         onSuccess: function (formType, result) {
+            alertify.exchange().close();
             alertify.success('Success');
         },
         onError: function (formType, error) {

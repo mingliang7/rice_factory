@@ -18,9 +18,9 @@ Mongo.Collection.prototype.cacheCount = function (fieldName, collection, refFiel
             var fieldsInUpdate = {};
             fieldsInUpdate[cacheField] = 1;
 
-            //console.log('Count->' + refCollection._name + '.after.insert()');
-
             thisCollection.direct.update(selector, {$inc: fieldsInUpdate});
+
+            //console.log('Cache Count->' + refCollection._name + '.after.insert()');
         });
     });
 
@@ -31,49 +31,26 @@ Mongo.Collection.prototype.cacheCount = function (fieldName, collection, refFiel
         Meteor.defer(function () {
             modifier.$set = modifier.$set || {};
 
-            //console.log('Count->' + refCollection._name + '.after.update()');
+            if (!_.isUndefined(modifier.$set[refField])) {
+                if (modifier.$set[refField] != self.previous[refField]) {
+                    var selectorDec = {},
+                        fieldsInUpdateDec = {},
+                        selectorInc = {},
+                        fieldsInUpdateInc = {};
 
-            var selectorDec = {},
-                fieldsInUpdateDec = {},
-                selectorInc = {},
-                fieldsInUpdateInc = {};
-
-            // Check soft remove and restore
-            if (_.isUndefined(modifier.$set.removed)) {
-                if (_.isUndefined(doc.restoredAt)) {
                     /********** Dec **********/
                     selectorDec._id = self.previous[refField];
-
                     //Fields specifier of decrease for Mongo.Collection.update
                     fieldsInUpdateDec[cacheField] = -1;
-
                     thisCollection.direct.update(selectorDec, {$inc: fieldsInUpdateDec});
 
                     /********** Inc **********/
                     selectorInc._id = modifier.$set[refField];
-
                     //Fields specifier of decrease for Mongo.Collection.update
                     fieldsInUpdateInc[cacheField] = 1;
-
                     thisCollection.direct.update(selectorInc, {$inc: fieldsInUpdateInc});
-                } else {
-                    if (!_.isEmpty(modifier.$set) && _.isUndefined(modifier.$set.restoredAt)) {
-                        /********** Dec **********/
-                        selectorDec._id = self.previous[refField];
 
-                        //Fields specifier of decrease for Mongo.Collection.update
-                        fieldsInUpdateDec[cacheField] = -1;
-
-                        thisCollection.direct.update(selectorDec, {$inc: fieldsInUpdateDec});
-
-                        /********** Inc **********/
-                        selectorInc._id = modifier.$set[refField];
-
-                        //Fields specifier of decrease for Mongo.Collection.update
-                        fieldsInUpdateInc[cacheField] = 1;
-
-                        thisCollection.direct.update(selectorInc, {$inc: fieldsInUpdateInc});
-                    }
+                    //console.log('Cache Count->' + refCollection._name + '.after.update()');
                 }
             }
         });
@@ -90,9 +67,9 @@ Mongo.Collection.prototype.cacheCount = function (fieldName, collection, refFiel
             var fieldsInUpdate = {};
             fieldsInUpdate[cacheField] = -1;
 
-            //console.log('Count->' + refCollection._name + '.after.remove()');
-
             thisCollection.direct.update(selector, {$inc: fieldsInUpdate});
+
+            //console.log('Cache Count->' + refCollection._name + '.after.remove()');
         });
     });
 };

@@ -6,7 +6,7 @@ Mongo.Collection.prototype.cacheTimestamp = function () {
         doc.createdAt = new Date();
         doc.createdBy = userId;
 
-        //console.log('Timestamp->' + thisCollection._name + '.before.insert()');
+        //console.log('Cache Timestamp->' + thisCollection._name + '.before.insert()');
     });
 
     /********** Before Update **********/
@@ -15,6 +15,6 @@ Mongo.Collection.prototype.cacheTimestamp = function () {
         modifier.$set.updatedAt = new Date();
         modifier.$set.updatedBy = userId;
 
-        //console.log('Timestamp->' + thisCollection._name + '.before.update()');
+        //console.log('Cache Timestamp->' + thisCollection._name + '.before.update()');
     });
 };

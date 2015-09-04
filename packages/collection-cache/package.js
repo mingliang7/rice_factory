@@ -1,8 +1,8 @@
 Package.describe({
     name: 'theara:collection-cache',
-    version: '0.4.4',
+    version: '0.8.2',
     // Brief, one-line summary of the package.
-    summary: 'Cache docs for collections',
+    summary: 'Cache Mongo Collections',
     // URL to the Git repository containing the source code for this package.
     git: '',
     // By default, Meteor will default to using README.md for documentation.
@@ -27,9 +27,10 @@ Package.onUse(function (api) {
 
     api.addFiles('methods/cacheTimestamp.js', 'server');
     api.addFiles('methods/cacheDoc.js', 'server');
+    api.addFiles('methods/cacheDocBack.js', 'server');
     api.addFiles('methods/cacheCount.js', 'server');
     api.addFiles('methods/cacheField.js', 'server');
-    api.addFiles('methods/cacheArrayField.js', 'server');
+    api.addFiles('methods/cacheCompactArrayField.js', 'server');
 
     api.addFiles('collection-cache.js');
 });

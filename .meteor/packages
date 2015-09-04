@@ -24,10 +24,6 @@ ejson
 twbs:bootstrap
 fortawesome:fontawesome
 
-# Library
-underscorestring:underscore.string
-erasaur:meteor-lodash
-
 # User
 ian:accounts-ui-bootstrap-3
 ongoworks:security
@@ -98,10 +94,11 @@ lbee:moment-helpers
 aldeed:tabular
 matteodem:easy-search
 
-# Modal
+# Modal & Alert
 mizzao:bootboxjs
 ovcharik:alertifyjs
 czbaker:lightbox2
+juliancwirko:s-alert
 
 # File
 cfs:standard-packages
@@ -129,7 +126,10 @@ npm-container
 # Backup/Restore
 phirum:backup-restore
 
-# Other
+# Library
+underscorestring:underscore.string
+erasaur:meteor-lodash
+digilord:sugarjs
 ecwyne:mathjs
 lepozepo:accounting
 numeral:numeral
@@ -154,4 +154,4 @@ theara:call-async
 theara:flow-router-breadcrumb
 theara:autoprint
 theara:reactive-list
-fourseven:scss
+theara:numeral-helpers

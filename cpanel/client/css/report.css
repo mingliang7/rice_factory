@@ -56,6 +56,7 @@
     font-size: 14px;
     font-weight: bold;
     border-bottom: 1px solid #000000;
+    margin-bottom: 10px
 }
 
 .report-body .title {
@@ -63,6 +64,7 @@
     font-size: 12px;
     font-weight: bold;
     border-bottom: 1px solid #000000;
+    margin-bottom: 10px
 }
 
 .report-body-bg .title .title-1x {
@@ -97,9 +99,10 @@
     border-collapse: collapse;
     width: 100%;
     border: 1px solid #000000;
+    margin-top: 30px;
 }
 
-.report-content .header th {
+.report-content .content-header th {
     background-color: #d0d2d0;
     padding: 3px;
     text-align: center;
@@ -107,7 +110,13 @@
     border: 1px solid #555555;
 }
 
-.report-content .body td {
+.report-content .content-body td {
+    padding: 3px;
+    border: 1px solid #555555;
+}
+
+.report-content .content-footer td {
+    font-weight: bold;
     padding: 3px;
     border: 1px solid #555555;
 }

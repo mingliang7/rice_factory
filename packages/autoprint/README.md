@@ -13,5 +13,5 @@ meteor add theara:autoprint
 {{autoprint}}
 
 {{autoprint close="true" timeout=2000}}
-// Default: close = false, timeout = 1000
+// Default: close = false, timeout = 500
 ```

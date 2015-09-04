@@ -144,7 +144,7 @@ legend {
     background-color: #eaeaea;
 }
 
-.table-dblclick > tbody > tr:hover {
+.table-hover-dblclick > tbody > tr:hover {
     cursor: pointer;
     /*color: #337ab7;*/
     background-color: #eaeaea;

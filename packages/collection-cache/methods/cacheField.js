@@ -3,7 +3,6 @@ Mongo.Collection.prototype.cacheField = function (fieldName, collectionFields, v
     if (_.isUndefined(valueFunction)) {
         value = function (doc, fields) {
             var glue = ', ';
-
             return _.compact(_.map(fields, function (field) {
                 return doc[field];
             })).join(glue);
@@ -20,20 +19,31 @@ Mongo.Collection.prototype.cacheField = function (fieldName, collectionFields, v
     var cacheField = '_' + fieldName;
     var thisCollection = this;
 
-    /********** Before Insert This Collection **********/
-    thisCollection.before.insert(function (userId, doc) {
+    /********** After Insert This Collection **********/
+    thisCollection.after.insert(function (userId, doc) {
+        Meteor.defer(function () {
+            var fieldsInUpdate = {};
+            fieldsInUpdate[cacheField] = value(doc, collectionFields);
 
-        doc[cacheField] = value(doc, collectionFields);
+            thisCollection.direct.update(doc._id, {$set: fieldsInUpdate});
 
-        //console.log('Field->' + thisCollection._name + '.before.insert()');
+            //console.log('Cache Field->' + thisCollection._name + '.after.insert()');
+        })
     });
 
     /********** Before Update This Collection **********/
-    thisCollection.before.update(function (userId, doc, fieldNames, modifier, options) {
-        modifier.$set = modifier.$set || {};
+    thisCollection.after.update(function (userId, doc, fieldNames, modifier, options) {
+        Meteor.defer(function () {
+            modifier.$set = modifier.$set || {};
 
-        modifier.$set[cacheField] = value(modifier.$set, collectionFields);
+            if (!_.difference(collectionFields, fieldNames).length) {
+                var fieldsInUpdate = {};
+                fieldsInUpdate[cacheField] = value(modifier.$set, collectionFields);
 
-        //console.log('Field->' + thisCollection._name + '.before.update()');
+                thisCollection.direct.update(doc._id, {$set: fieldsInUpdate});
+
+                //console.log('Cache Field->' + thisCollection._name + '.after.update()');
+            }
+        });
     });
 };

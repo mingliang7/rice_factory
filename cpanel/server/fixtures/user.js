@@ -1,17 +1,29 @@
 Meteor.startup(function () {
     if (Meteor.users.find().count() == 0) {
         // Insert super
-        var id = Accounts.createUser(
+        var superId = Accounts.createUser(
             {
                 username: 'super',
-                email: 'rabbit_tc@gmail.com',
-                password: 'super123',
+                email: 'super@gmail.com',
+                password: 'rabbitsuper',
                 profile: {
-                    fullName: 'Rabbit TC'
+                    fullName: 'Super'
                 }
             }
         );
-        Roles.addUsersToRoles(id, ['super'], 'Cpanel');
-        Meteor.users.update({_id: id}, {$set: {rolesBranch: ['001']}});
+        Roles.addUsersToRoles(superId, ['super'], 'Cpanel');
+        Meteor.users.update({_id: superId}, {$set: {rolesBranch: ['001']}});
+
+        // Insert admin
+        var adminId = Accounts.createUser(
+            {
+                username: 'admin',
+                email: 'admin@gmail.com',
+                password: '123456',
+                profile: {
+                    fullName: 'Admin'
+                }
+            }
+        );
     }
 });

@@ -4,7 +4,7 @@ Template.registerHelper('autoprint', function (options) {
 
     _.defaults(optionsHash, {
         close: false,
-        timeout: 1000
+        timeout: 500
     });
 
     Meteor.setTimeout(function () {

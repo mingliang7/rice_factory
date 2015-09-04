@@ -1,6 +1,6 @@
 Package.describe({
-    name: 'theara:autoprint',
-    version: '0.0.6',
+    name: 'theara:numeral-helpers',
+    version: '0.0.2',
     // Brief, one-line summary of the package.
     summary: '',
     // URL to the Git repository containing the source code for this package.
@@ -14,15 +14,15 @@ Package.onUse(function (api) {
     api.versionsFrom('1.1.0.3');
 
     api.use([
-        'underscore',
-        'templating'
+        'templating',
+        'numeral:numeral@1.5.3'
     ], 'client');
 
-    api.addFiles('autoprint.js', 'client');
+    api.addFiles('numeral-helpers.js');
 });
 
 Package.onTest(function (api) {
     api.use('tinytest');
-    api.use('theara:autoprint');
-    api.addFiles('autoprint-tests.js');
+    api.use('theara:numeral-helpers');
+    api.addFiles('numeral-helpers-tests.js');
 });

@@ -28,7 +28,7 @@ indexTpl.helpers({
             Meteor.call('currentDate', function (error, result) {
                 var dateTime = moment(result, 'YYYY-MM-DD H:mm:ss');
                 var cssClass = 'info';
-                if (dateTime.day == 0 || dateTime.day() == 6) {
+                if (dateTime.day() == 0 || dateTime.day() == 6) {
                     cssClass = 'warning';
                 }
                 var dateTimeVal = dateTime.format('dddd D, MMMM YYYY H:mm:ss');
