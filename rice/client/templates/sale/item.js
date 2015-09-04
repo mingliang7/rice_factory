@@ -1,9 +1,9 @@
 // Declare template
 var saleItemTpl = Template.rice_saleItem;
 
-// SaleItems state
+// SaleItems StateItem
 saleItemsState = new ReactiveList();
-var state = new ReactiveObj({
+StateItem = new ReactiveObj({
     qty: 0,
     price: 0,
     discount: 0,
@@ -61,34 +61,34 @@ saleItemTpl.onRendered(function () {
 
 saleItemTpl.helpers({
     tmpAmount: function () {
-        var discount = state.get('discount');
+        var discount = StateItem.get('discount');
         var tmpAmountVal = 0 ;
         debugger
         if(discount == 0) {
-            tmpAmountVal = math.round(state.get('qty') * state.get('price'), 2);
-            
+            tmpAmountVal = math.round(StateItem.get('qty') * StateItem.get('price'), 2);
+
         }else{
-            var price = state.get('price');
-            var qty = state.get('qty');
+            var price = StateItem.get('price');
+            var qty = StateItem.get('qty');
             var amount = math.round(price * qty, 2);
             tmpAmountVal = math.round(amount - ((price * qty) * discount / 100), 2)
         }
         return tmpAmountVal;
     },
     tmpLineCost: function(){
-        var cost = state.get('cost');
-        var qty = state.get('qty');
+        var cost = StateItem.get('cost');
+        var qty = StateItem.get('qty');
         return qty * cost;
     },
     cssClassForAddMore: function () {
-        var tmpAmountVal = math.round(state.get('qty') * state.get('price'), 2);
+        var tmpAmountVal = math.round(StateItem.get('qty') * StateItem.get('price'), 2);
         if (tmpAmountVal > 0) {
-            state.set('cssClassForAddMore', '');
+            StateItem.set('cssClassForAddMore', '');
         } else {
-            state.set('cssClassForAddMore', 'disabled');
+            StateItem.set('cssClassForAddMore', 'disabled');
         }
 
-        return state.get('cssClassForAddMore');
+        return StateItem.get('cssClassForAddMore');
     },
     saleItems: function () {
         return saleItemsState.fetch();
@@ -104,7 +104,7 @@ saleItemTpl.helpers({
     },
     total: function () {
         var totalVal = 0;
-        var subDiscount = state.get('subDiscount');
+        var subDiscount = StateItem.get('subDiscount');
         if(subDiscount == 0 ){
             _.each(saleItemsState.fetch(), function (o) {
                 totalVal += o.amount;
@@ -121,7 +121,7 @@ saleItemTpl.helpers({
     profit: function(){
         var totalLineCost = 0 ;
         var totalVal = 0;
-        var subDiscount = state.get('subDiscount');
+        var subDiscount = StateItem.get('subDiscount');
         if(subDiscount == 0 ){
             _.each(saleItemsState.fetch(), function (o) {
                 totalVal += o.amount;
@@ -138,11 +138,11 @@ saleItemTpl.helpers({
 
     },
     exchange: function(){
-        var getExchange = state.get('exchange');
-        var getExchangeBase = state.get('exchangeBase');
+        var getExchange = StateItem.get('exchange');
+        var getExchangeBase = StateItem.get('exchangeBase');
         var totalInDollar = 0;
         var totalVal = 0;
-        var subDiscount = state.get('subDiscount');
+        var subDiscount = StateItem.get('subDiscount');
         if(subDiscount == 0 ){
             _.each(saleItemsState.fetch(), function (o) {
                 totalVal += o.amount;
@@ -157,7 +157,7 @@ saleItemTpl.helpers({
         if(totalVal != 0 ){
             return 'KHR: ' + numeral(totalVal).format('0,0') + ' USD: ' + numeral(totalInDollar).format('0,0.00');
         }
-    }, 
+    },
     getItem: function(id){
         var item = Rice.Collection.SaleItem.findOne(id);
         return item._id + ' | ' + item.name;
@@ -170,15 +170,15 @@ saleItemTpl.events({
         var item = Rice.Collection.SaleItem.findOne(id);
         $('[name="tmpPrice"]').val(item.price);
         $('[name="tmpCost"]').val(item.cost);
-        state.set('price', item.price);
-        state.set('cost', item.cost);
+        StateItem.set('price', item.price);
+        StateItem.set('cost', item.cost);
         var exchange = Cpanel.Collection.Exchange.findOne({}, {sort: {dateTime: -1}});
         setTimeout(function(){
             $('[name="exchange"]').select2('val', exchange._id)
             if(exchange.base == 'KHR'){
-                state.set('exchange', exchange.rates.USD);
+                StateItem.set('exchange', exchange.rates.USD);
             }else if(exchange.base == 'USD') {
-                state.set('exchange', exchange.rates.KHR);
+                StateItem.set('exchange', exchange.rates.KHR);
             }
         }, 200);
     },
@@ -186,19 +186,19 @@ saleItemTpl.events({
         var qty = t.$('[name="tmpQty"]').val();
         qty = _.isEmpty(qty) ? 0 : parseInt(qty);
 
-        state.set('qty', qty);
+        StateItem.set('qty', qty);
     },
     'keyup [name="tmpPrice"]': function (e, t) {
         var price = t.$('[name="tmpPrice"]').val();
         price = _.isEmpty(price) ? 0 : parseFloat(price);
 
-        state.set('price', price);
+        StateItem.set('price', price);
     },
     'keyup [name="tmpDiscount"]': function(e){
         var discount = $(e.currentTarget).val();
         discount = _.isEmpty(discount) ? 0 : parseFloat(discount);
 
-        state.set('discount', discount)
+        StateItem.set('discount', discount)
     },
     'click .addSaleItem': function (e, t) {
         var index = 0;
@@ -214,10 +214,10 @@ saleItemTpl.events({
         var subDiscount = $('[name="subDiscount"]').val()
         if(subDiscount != ''){
             subDiscount = parseFloat(subDiscount);
-            state.set('subDiscount', subDiscount);
+            StateItem.set('subDiscount', subDiscount);
         }
         if(discount == ''){
-            saleItem.discount = 0 
+            saleItem.discount = 0
         }else{
             saleItem.discount = parseFloat(discount);
         }
@@ -266,7 +266,7 @@ saleItemTpl.events({
         var subDiscount = $('[name="subDiscount"]').val()
         if(subDiscount != ''){
             subDiscount = parseFloat(subDiscount);
-            state.set('subDiscount', subDiscount);
+            StateItem.set('subDiscount', subDiscount);
         }
     },
     'keyup .qty': function (e, t) {
@@ -317,7 +317,7 @@ saleItemTpl.events({
     'keyup [name="subDiscount"]': function(e){
         var value = $(e.currentTarget).val();
         value = value == '' ? 0 : parseFloat(value);
-        state.set('subDiscount', value);
+        StateItem.set('subDiscount', value);
     }
 });
 

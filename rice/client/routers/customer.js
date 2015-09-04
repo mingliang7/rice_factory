@@ -7,6 +7,15 @@ riceRoutes.route('/customer', {
         //this.register('rice_customer', subs.subscribe('rice_customer', Session.get('currentBranch')));
         // Address
         this.register('rice_address', subs.subscribe('rice_address'));
+        this.register(
+            'rice_saleCategories',
+            subs.subscribe('rice_saleCategories')
+        );
+        this.register(
+            'rice_saleItemsCategories',
+            subs.subscribe('rice_saleItemsCategories')
+        );
+        this.register('rice_exchange', subs.subscribe('cpanel_exchange'));
     },
     action: function (params, queryParams) {
         Layout.main('rice_customer');

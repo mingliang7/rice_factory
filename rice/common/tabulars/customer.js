@@ -13,10 +13,9 @@ Rice.TabularTable.Customer = new Tabular.Table({
         {data: "_id", title: "ID"},
         {data: "name", title: "Name"},
         {data: "gender", title: "Gender"},
-        {data: "position", title: "Position"},
         {data: "address", title: "Address"},
         {data: "telephone", title: "Telephone"},
-        {data: "email", title: "Email"},
+        {data: '_saleCount', title: "Sale <i class='fa fa-arrow-up'></i>", tmpl: Meteor.isClient && Template.rice_saleList},
         {
             data: "photo",
             title: "Photo",

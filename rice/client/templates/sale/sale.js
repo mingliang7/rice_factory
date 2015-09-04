@@ -39,9 +39,15 @@ indexTpl.events({
             .maximize();
     },
     'click .update': function (e, t) {
-        var data = Rice.Collection.Sale.findOne(this._id);
-        alertify.sale(fa("pencil", "Sale"), renderTemplate(updateTpl, data))
-            .maximize();
+        var id = this._id;
+        Meteor.call('saleItem', id, function(err, data){
+          if(err){
+              console.log(err);
+          }else {
+            alertify.sale(fa("pencil", "Sale"), renderTemplate(updateTpl, data))
+              .maximize();
+          }
+        });
     },
     'click .remove': function (e, t) {
         var self = this;
@@ -63,18 +69,24 @@ indexTpl.events({
 
     },
     'click .show': function (e, t) {
-        var data = Rice.Collection.Sale.findOne({_id: this._id});
-
-        alertify.alert(fa("eye", "Sale"), renderTemplate(showTpl, data));
+      var id = this._id;
+      Meteor.call("saleItem",id, function(error, result){
+        if(error){
+          console.log("error", error);
+        }
+        if(result){
+          alertify.alert(fa("eye", "Sale"), renderTemplate(showTpl, result));
+        }
+      });
     }
 });
 showTpl.helpers({
     extract: function(items){
         var concate = '';
         items.forEach(function(item) {
-            concate += '<li>' + 'Item: ' +getItemName(item.saleItemId) +  
-                        ', Qty: ' + formatKh(item.qty) + 
-                        ', Price: ' + formatKh(item.price) + 
+            concate += '<li>' + 'Item: ' +getItemName(item.saleItemId) +
+                        ', Qty: ' + formatKh(item.qty) +
+                        ', Price: ' + formatKh(item.price) +
                         ', Cost: ' + formatKh(item.cost) + ', Discount: ' + item.discount +  ', Amount: ' +
                         formatKh(item.amount) + ', Line-Cost: ' + formatKh(item.lineCost) + '</li>';
         });

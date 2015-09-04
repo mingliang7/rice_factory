@@ -22,7 +22,15 @@
         <!--<li><a href="#" class="sale">{{fa "shopping-cart"}} Sale</a></li>-->
     {{/tabularAction}}
 </template>
-
+<template name="rice_saleList">
+      <button id="sale" class="btn btn-default">
+        {{#if _saleCount}}
+         {{_saleCount}}
+        {{else}}
+         0
+        {{/if}}
+      </button>
+</template>
 <!--Insert-->
 <template name="rice_customerInsert">
     {{#autoForm collection=Rice.Collection.Customer id="rice_customerInsert" type="insert"}}
@@ -30,7 +38,7 @@
             <div class="col-md-6">
                 {{> afQuickField name='name'}}
                 {{> afQuickField name='gender'}}
-                {{> afQuickField name='status'}}    
+                {{> afQuickField name='status'}}
                 {{> afQuickField name='telephone'}}
             </div>
             <div class="col-md-6">
