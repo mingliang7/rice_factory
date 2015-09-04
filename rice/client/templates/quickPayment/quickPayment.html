@@ -1,0 +1,27 @@
+<template name="rice_quickPayment">
+	{{> rice_quickPaymentInsertTemplate}}
+</template>
+
+<template name="rice_quickPaymentInsertTemplate">
+	{{#autoForm collection=Rice.Collection.Payment id="rice_quickPaymentInsertTemplate" type="insert"}}
+	<div class="row">
+		<div class="col-md-12">
+					<strong>Customer:</strong>
+					<label class="customerName">{{customerId}} | {{getCustomer customerId}}</label>
+					{{> afQuickField name="customerId" type="hidden" value=customerId }}
+					<br>
+					<strong>Invoice ID:</strong>
+					<label class="saleId">{{_id}}</label>
+					{{> afQuickField name="saleId" type="hidden" value=_id}}
+					{{> afQuickField name="paymentDate" type="text"}}
+					{{> afQuickField name="dueAmount" readonly='true' value=outstandingAmount}}
+					{{> afQuickField name="paidAmount" value=outstandingAmount}}
+					{{> afQuickField name="outstandingAmount" readonly='true' value=0}}
+					{{> afQuickField name='sumPaidAmount' readonly=true}}
+					<!-- {{> afQuickField name="staffId"}} -->
+		<button type="submit" class="btn btn-primary">{{fa "floppy-o"}} Save</button>
+		<button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+		</div>
+	</div>
+	{{/autoForm}}
+</template>

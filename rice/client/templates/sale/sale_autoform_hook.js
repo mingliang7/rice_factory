@@ -8,21 +8,16 @@ AutoForm.hooks({
             }
         },
         onSuccess: function(formType, _id) {
-            StateItem = new ReactiveObj({
-                qty: 0,
-                price: 0,
-                discount: 0,
-                subDiscount: 0,
-                cost: 0,
-                exchange: 0,
-                cssClassForAddMore: 'disabled'
-            });
             alertify.success('Successfully');
             alertify.sale().close();
-            excutePayment(_id);
+            var saveNpay = Session.get('saveNpay');
+            if(!_.isUndefined(saveNpay)){
+              excutePayment(_id);
+              Session.set('saveNpay', undefined);
+            }
         },
         onError: function(formType, err){
-            alertify.error(err.message)
+            alertify.error(err.message);
         }
     },
     rice_saleUpdate: {
@@ -31,15 +26,6 @@ AutoForm.hooks({
             return doc;
         },
         onSuccess: function (formType, result) {
-          StateItem = new ReactiveObj({
-              qty: 0,
-              price: 0,
-              discount: 0,
-              subDiscount: 0,
-              cost: 0,
-              exchange: 0,
-              cssClassForAddMore: 'disabled'
-          });
           alertify.sale().close();
           alertify.success('Success');
         },
@@ -68,11 +54,17 @@ AutoForm.hooks({
 
 
 var excutePayment = function(id){
-    Meteor.call('getReactiveSaleId', id, function(err, result){
+    Meteor.call('getSaleReactiveId', id, function(err, doc){
         if(err){
             alertify.error(err);
         }else{
-            console.log(result);
+          fireQuickPayment(doc);
         }
     });
-}
+
+};
+var fireQuickPayment = function(doc){
+  setTimeout(function(){
+    alertify.quickPayment(fa('plus', 'Payment'), renderTemplate(Template.rice_quickPayment,doc));
+  }, 200);
+};

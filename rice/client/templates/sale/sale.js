@@ -33,6 +33,7 @@ indexTpl.helpers({
 });
 
 indexTpl.events({
+
     'click .insert': function (e, t) {
         saleItemsState.clear();
         alertify.sale(fa("plus", "Sale"), renderTemplate(insertTpl))
@@ -109,6 +110,9 @@ insertTpl.helpers({
 });
 
 insertTpl.events({
+    'click .pay': function(){
+      Session.set('saveNpay', true);
+    },
     'click [name="customerId"]': function (e, t) {
         var val = $('[name="customerId"]').val();
         var data = {data: val};

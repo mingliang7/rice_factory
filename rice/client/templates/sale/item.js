@@ -98,7 +98,7 @@ saleItemTpl.helpers({
         _.each(saleItemsState.fetch(), function (o) {
                 totalVal += o.amount;
         });
-        if(totalVal != 0){
+        if(totalVal){
             return totalVal;
         }
     },

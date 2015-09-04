@@ -18,7 +18,7 @@ indexTpl.onCreated(function () {
     });
 
     // Create new  alertify
-    createNewAlertify(["sale", "customer", "address"]);
+    createNewAlertify(["sale", "customer", "address", 'quickPayment']);
 });
 
 indexTpl.onRendered(function () {
@@ -38,6 +38,15 @@ indexTpl.events({
             .maximize();
     },
     'click #sale': function(){
+      StateItem = new ReactiveObj({
+          qty: 0,
+          price: 0,
+          discount: 0,
+          subDiscount: 0,
+          cost: 0,
+          exchange: 0,
+          cssClassForAddMore: 'disabled'
+      });
       FlowRouter.go('rice.sale', {customerId: this._id});
     },
     'click .remove': function (e, t) {
@@ -70,6 +79,15 @@ indexTpl.events({
         alertify.alert(fa("eye", "Customer"), renderTemplate(showTpl, data));
     },
     'dblclick tbody > tr': function (event) {
+      StateItem = new ReactiveObj({
+          qty: 0,
+          price: 0,
+          discount: 0,
+          subDiscount: 0,
+          cost: 0,
+          exchange: 0,
+          cssClassForAddMore: 'disabled'
+      });
         var dataTable = $(event.target).closest('table').DataTable();
         var rowData = dataTable.row(event.currentTarget).data();
         alertify.sale(fa('shopping-cart', 'Quick Sale'), renderTemplate(Template.rice_saleInsert, rowData)).maximize();
