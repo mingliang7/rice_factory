@@ -14,23 +14,16 @@ Rice.TabularTable.Sale = new Tabular.Table({
     columns: [{
             title: '<i class="fa fa-bars"></i>',
             tmpl: Meteor.isClient && Template.rice_saleAction
-        }, 
+        },
         {
             data: "_id",
             title: "ID"
-        }, 
+        },
         {
             data: "saleDate",
-            title: "Date"
-        }, 
-        {
-            data: "saleItems",
-            title: "Sale Items",
+            title: "Date",
             render: function(val) {
-                if(_.isUndefined(val)){
-                    return '';
-                }
-                return extract(val);
+              return moment(val).format('YYYY-MM-DD HH:mm:ss')
             }
         },
         {
@@ -41,12 +34,12 @@ Rice.TabularTable.Sale = new Tabular.Table({
             }
         },
         {
-            data: 'paidAmount', 
+            data: 'paidAmount',
             title: 'Paid',
             render: function(val){
                 return formatKh(val);
             }
-        }, 
+        },
         {
             data: 'outstandingAmount',
             title: 'Outstanding',
@@ -60,23 +53,28 @@ Rice.TabularTable.Sale = new Tabular.Table({
             render: function(val){
                 return formatKh(val);
             }
-        } 
-        //{data: "customerId", title: "Customer ID"},
-        //{
-        //    data: "_customer",
-        //    title: "Customer Info",
-        //    render: function (val, type, doc) {
-        //        return JSON.stringify(val, null, ' ');
-        //    }
-        //}
-    ]
+        },
+        {
+          data: 'status',
+          title: 'status',
+          render: function(val) {
+            if(val == 'closed'){
+              return '<label class="label label-success">' + val + '</label>';
+            }else{
+              return '<label class="label label-warning">' + val + '</label>';
+
+            }
+          }
+        }
+
+    ],extraFields: ['customerId']
 });
 var extract = function(items) {
     var concate = '';
     items.forEach(function(item) {
-        concate += '<li>' + 'Item: ' +getItemName(item.saleItemId) +  
-                    ', Qty: ' + formatKh(item.qty) + 
-                    ', Price: ' + formatKh(item.price) + 
+        concate += '<li>' + 'Item: ' +getItemName(item.saleItemId) +
+                    ', Qty: ' + formatKh(item.qty) +
+                    ', Price: ' + formatKh(item.price) +
                      ', Discount: ' + item.discount +  ', Amount: ' +
                     formatKh(item.amount) + '</li>';
     });

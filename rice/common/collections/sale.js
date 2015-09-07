@@ -74,7 +74,7 @@ Rice.Schema.Sale = new SimpleSchema({
     profit: {
         type: Number,
         decimal: true
-    }, 
+    },
     subDiscount: {
         type: Number,
         decimal: true,
@@ -107,6 +107,12 @@ Rice.Schema.Sale = new SimpleSchema({
         type: Number,
         decimal: true,
         optional: true
+    },
+    status:{
+      type: String
+    },
+    statusDate: {
+      type: Date
     }
 });
 

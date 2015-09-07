@@ -3,7 +3,7 @@ Rice.Collection.Sale.before.insert(function (userId, doc) {
 	var id = doc._id;
 	var prefix = doc.branchId + '-';
 	doc._id = idGenerator.genWithPrefix(Rice.Collection.Sale, prefix, 12);
-	State.set(id, doc._id);
+	State.set(id, doc);
 });
 Rice.Collection.Sale.before.update(function (userId, doc, fieldNames, modifier, options) {
   modifier.$set = modifier.$set || {};

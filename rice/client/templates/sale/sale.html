@@ -48,6 +48,7 @@
                 <div class="pull-right">
                     <br>
                     <button type="submit" class="btn btn-primary">{{fa "floppy-o"}} Save</button>
+                    <button type="submit" class="btn btn-warning pay">{{fa "floppy-o"}} Save & Pay</button>
                     <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
                 </div>
             </div>
@@ -123,6 +124,10 @@
         <dd>{{paidAmount}}</dd>
         <dt>Due-Amount</dt>
         <dd>{{outstandingAmount}}</dd>
+        <dt>Status</dt>
+        <dd>{{status}}</dd>
+        <dt>Status Date</dt>
+        <dd>{{statusDate}}</dd>
         <dt>Customer</dt>
         <dd>{{_customer.name}}</dd>
         <dt>Customer ID</dt>
