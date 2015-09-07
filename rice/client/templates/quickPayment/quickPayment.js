@@ -1,7 +1,6 @@
 var datePicker, fillInDetail, selectCustomer, selectInvoice;
 Template.rice_quickPaymentInsertTemplate.onRendered(function() {
   datePicker(this.data._id);
-  setSumPaid('sale', this.data);
 });
 
 Template.rice_quickPaymentInsertTemplate.events({
@@ -10,7 +9,7 @@ Template.rice_quickPaymentInsertTemplate.events({
     dueAmount = parseInt($('[name="dueAmount"]').val());
     try {
       paidAmount = $('[name="paidAmount"]').val();
-      var oldSumPaid = Session.get('sumPaid');
+      var oldSumPaid = Session.get('sumPaidAmount');
       $('[name="sumPaidAmount"]').val(oldSumPaid + parseFloat(paidAmount));
     } catch (e) {
       console.log(e);
@@ -27,31 +26,21 @@ Template.rice_quickPaymentInsertTemplate.events({
 });
 Template.rice_quickPaymentInsertTemplate.helpers({
   getCustomer: function(id) {
-    Meteor.call('getCustomerName', id, function(err, result) {
-      if (err) {
-        console.log(err);
-      }
-      if (result) {
-        Session.set('customerName', result);
-      }
-    });
-    return Session.get('customerName');
+    var customer = ReactiveMethod.call('getCustomerName', id);
+    return customer;
+  },
+  sumPaidAmount: function() {
+    var doc = this;
+    var sumPaidAmount = ReactiveMethod.call('getSumPayment', doc._id);
+    Session.set('sumPaidAmount', sumPaidAmount);
+    if(sumPaidAmount === 0){
+      return doc.outstandingAmount;
+    }else{
+      return sumPaidAmount + doc.outstandingAmount;
+    }
   }
 });
 datePicker = function(currentInvoiceId) {
   paymentDate = $('[name="paymentDate"]');
   return DateTimePicker.dateTime(paymentDate);
-};
-var setSumPaid = function(doc) {
-  Meteor.call('getSumPayment', doc._id, function(err, data) {
-    if (err) {
-      console.log(err);
-    } else {
-      Session.set('sumPaid', data);
-    }
-  });
-  var sumPaid = Session.get('sumPaid') + doc.outstandingAmount;
-  console.log(sumPaid);
-  $('[name="sumPaidAmount"]').val(sumPaid);
-  return Session.set('sumpPaid', Session.get('sumPaid'));
 };

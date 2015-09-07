@@ -3,10 +3,8 @@ Meteor.methods
     Rice.Collection.Customer.findOne(id).name
 
   getSumPayment: (id) ->
-      payment = Rice.Collection.Payment.findOne(id)
+      payment = Rice.Collection.Payment.findOne({saleId: id})
       if(payment)
         payment.sumPaidAmount
-        console.log 'in if blog'
       else
-        console.log 'in else blog'
         0

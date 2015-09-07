@@ -1,6 +1,6 @@
 
 AutoForm.hooks({
-  ice_quickPaymentInsertTemplate: {
+  rice_quickPaymentInsertTemplate: {
     before: {
       insert: function(doc) {
         doc.branchId = Session.get('currentBranch');
@@ -10,11 +10,17 @@ AutoForm.hooks({
     onSuccess: function(formType, result) {
       id = Session.get('invioceReportId');
       alertify.success('Successfully');
-      alertify.quickPayment().close();
+      alertifyName = Session.get('alertifyName');
+      if(alertifyName){
+        alertify[alertifyName]().close();
+      }else{
+        alertify.quickPayment().close();
+      }
       if(!_.isUndefined(id)){
         GenReport(id);
-        Session.set('invioceReportId', undefined)
+        Session.set('invioceReportId', undefined);
       }
+      Session.set('alertifyName', undefined);
     },
     onError: function(formType, error) {
       return alertify.error(error.message);

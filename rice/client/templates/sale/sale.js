@@ -16,7 +16,7 @@ indexTpl.onCreated(function () {
     });
 
     // Create new  alertify
-    createNewAlertify(['sale', 'customer', 'customerSearch']);
+    createNewAlertify(['sale', 'customer', 'customerSearch', 'saleQuickPayment']);
 });
 
 indexTpl.onRendered(function () {
@@ -28,6 +28,7 @@ indexTpl.helpers({
         return {customerId: FlowRouter.getParam('customerId')};
     },
     customer: function () {
+        var customerId = FlowRouter.getParam('customerId');
         return getCurrentCustomer();
     }
 });
@@ -41,33 +42,41 @@ indexTpl.events({
     },
     'click .update': function (e, t) {
         var id = this._id;
-        Meteor.call('saleItem', id, function(err, data){
-          if(err){
-              console.log(err);
-          }else {
-            alertify.sale(fa("pencil", "Sale"), renderTemplate(updateTpl, data))
-              .maximize();
-          }
-        });
+        var data = this;
+        if(data.paidAmount != 0){
+          alertify.error('Sorry sale #' + data._id + ' had payment!');
+        }else{
+          Meteor.call('saleItem', id, function(err, data){
+            if(err){
+                console.log(err);
+            }else {
+              alertify.sale(fa("pencil", "Sale"), renderTemplate(updateTpl, data))
+                .maximize();
+            }
+          });
+        }
     },
     'click .remove': function (e, t) {
         var self = this;
+        if(self.paidAmount != 0 ){
+          alertify.error('Sorry sale #' + self._id + ' had payment!');
 
-        alertify.confirm(
-            fa("remove", "Sale"),
-            "Are you sure to delete [" + self._id + "]?",
-            function () {
-                Rice.Collection.Sale.remove(self._id, function (error) {
-                    if (error) {
-                        alertify.error(error.message);
-                    } else {
-                        alertify.success("Success");
-                    }
-                });
-            },
-            null
-        );
-
+        }else{
+          alertify.confirm(
+              fa("remove", "Sale"),
+              "Are you sure to delete [" + self._id + "]?",
+              function () {
+                  Rice.Collection.Sale.remove(self._id, function (error) {
+                      if (error) {
+                          alertify.error(error.message);
+                      } else {
+                          alertify.success("Success");
+                      }
+                  });
+              },
+              null
+          );
+        }
     },
     'click .show': function (e, t) {
       var id = this._id;
@@ -79,6 +88,15 @@ indexTpl.events({
           alertify.alert(fa("eye", "Sale"), renderTemplate(showTpl, result));
         }
       });
+    },
+    'dblclick tbody > tr': function(event) {
+      var dataTable = $(event.target).closest('table').DataTable();
+      var rowData = dataTable.row(event.currentTarget).data();
+      if(rowData.outstandingAmount == 0 ){
+        alertify.error('Sorry sale #' + rowData._id + ' has been paid!');
+      }else{
+        QuickPayment.fireQuickPayment('saleQuickPayment', rowData);
+      }
     }
 });
 showTpl.helpers({
@@ -105,7 +123,13 @@ insertTpl.onRendered(function () {
 
 insertTpl.helpers({
     customer: function () {
-        return getCurrentCustomer();
+        data = this;
+        customerId = FlowRouter.getParam('customerId');
+        if(customerId){
+          return getCurrentCustomer(customerId);
+        }else{
+          return data;
+        }
     }
 });
 
@@ -173,8 +197,7 @@ customerSearchTpl.events({
 });
 
 // Get current customer
-var getCurrentCustomer = function () {
-    var id = FlowRouter.getParam('customerId');
+var getCurrentCustomer = function (id) {
     var data = Rice.Collection.Customer.findOne(id);
     if (!_.isUndefined(data.photo)) {
         data.photoUrl = Files.findOne(data.photo).url();
@@ -191,5 +214,5 @@ var getItemName = function(id){
 }
 
 var formatKh = function(val){
-    return numeral(val).format('0,0')
+    return numeral(val).format('0,0');
 }

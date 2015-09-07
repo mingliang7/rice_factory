@@ -3,6 +3,8 @@ AutoForm.hooks({
         before: {
             insert: function(doc){
                 doc.paidAmount = 0;
+                doc.status = 'active';
+                doc.statusDate = doc.saleDate;
                 doc.branchId = Session.get('currentBranch');
                 return doc;
             }
@@ -58,13 +60,17 @@ var excutePayment = function(id){
         if(err){
             alertify.error(err);
         }else{
-          fireQuickPayment(doc);
+          QuickPayment.fireQuickPayment('saleQuickPayment', doc);
         }
     });
 
 };
-var fireQuickPayment = function(doc){
-  setTimeout(function(){
-    alertify.quickPayment(fa('plus', 'Payment'), renderTemplate(Template.rice_quickPayment,doc));
-  }, 200);
+
+QuickPayment = {
+  fireQuickPayment: function(alertifyName,doc) {
+    Session.set('alertifyName', alertifyName);
+    setTimeout(function(){
+      alertify[alertifyName](fa('plus', 'Payment'), renderTemplate(Template.rice_quickPayment,doc));
+    }, 200);
+  }
 };

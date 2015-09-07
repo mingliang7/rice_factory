@@ -25,5 +25,8 @@ Rice.Schema.Payment = new SimpleSchema(
 
   customerId:
     type: String
+
+  branchId:
+    type: String
 )
 Rice.Collection.Payment.attachSchema(Rice.Schema.Payment);

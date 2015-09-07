@@ -90,7 +90,7 @@ indexTpl.events({
       });
         var dataTable = $(event.target).closest('table').DataTable();
         var rowData = dataTable.row(event.currentTarget).data();
-        alertify.sale(fa('shopping-cart', 'Quick Sale'), renderTemplate(Template.rice_saleInsert, rowData)).maximize();
+        alertify.sale(fa('shopping-cart', "Quick Sale (" + rowData._id + ' | '+ rowData.name+ ')'), renderTemplate(Template.rice_saleInsert, rowData)).maximize();
 
     }
 });
