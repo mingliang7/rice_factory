@@ -44,7 +44,7 @@ indexTpl.events({
         var id = this._id;
         var data = this;
         if(data.paidAmount != 0){
-          alertify.error('Sorry sale #' + data._id + ' had payment!');
+          alertify.warning('Sorry sale #' + data._id + ' had payment!');
         }else{
           Meteor.call('saleItem', id, function(err, data){
             if(err){
@@ -59,7 +59,7 @@ indexTpl.events({
     'click .remove': function (e, t) {
         var self = this;
         if(self.paidAmount != 0 ){
-          alertify.error('Sorry sale #' + self._id + ' had payment!');
+          alertify.warning('Sorry sale #' + self._id + ' had payment!');
 
         }else{
           alertify.confirm(
@@ -68,7 +68,7 @@ indexTpl.events({
               function () {
                   Rice.Collection.Sale.remove(self._id, function (error) {
                       if (error) {
-                          alertify.error(error.message);
+                          alertify.warning(error.message);
                       } else {
                           alertify.success("Success");
                       }
@@ -93,7 +93,7 @@ indexTpl.events({
       var dataTable = $(event.target).closest('table').DataTable();
       var rowData = dataTable.row(event.currentTarget).data();
       if(rowData.outstandingAmount == 0 ){
-        alertify.error('Sorry sale #' + rowData._id + ' has been paid!');
+        alertify.warning('Sorry sale #' + rowData._id + ' has been paid!');
       }else{
         QuickPayment.fireQuickPayment('saleQuickPayment', rowData);
       }

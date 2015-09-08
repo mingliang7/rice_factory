@@ -1,9 +1,13 @@
 <!--Index-->
 <template name="rice_customer">
+  <span>
+    <p class="pull-right" style="font-family: 'khmer os fasthand';">
+      សូមចុចពីរដងទៅលើឈ្មោះអតិថិជនដើម្បីធ្វើការ Order រឺក៏ Click ទៅលើប៊ូតុងក្រោម Sale&nbsp;<i class='fa fa-arrow-up'></i>នៃឈ្មោះអតិថិជន ដើម្បីទៅកាន់ Order List
+    </p>
     <p>
         <button type="button" class="btn btn-primary insert">{{fa "plus"}} Add New</button>
     </p>
-
+  </span>
     <!--{{#if isSubReady "rice_customer"}}-->
         {{> tabular table=Rice.TabularTable.Customer selector=selector class="table table-striped table-bsaleed table-condensed table-hover-dblclick"}}
     <!--{{else}}-->
