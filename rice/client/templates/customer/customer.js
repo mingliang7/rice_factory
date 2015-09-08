@@ -22,6 +22,7 @@ indexTpl.onCreated(function () {
 });
 
 indexTpl.onRendered(function () {
+  createNewAlertify('saleQuickPayment');
 });
 
 indexTpl.helpers({});

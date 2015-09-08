@@ -1,7 +1,7 @@
 // Sale
-Rice.TabularTable.Sale = new Tabular.Table({
-    name: "rice_saleList",
-    collection: Rice.Collection.Sale,
+Rice.TabularTable.Payment = new Tabular.Table({
+    name: "rice_paymentList",
+    collection: Rice.Collection.Payment,
     pagingType: "full_numbers",
     autoWidth: false,
     columnDefs: [{
@@ -13,29 +13,33 @@ Rice.TabularTable.Sale = new Tabular.Table({
     ],
     columns: [{
             title: '<i class="fa fa-bars"></i>',
-            tmpl: Meteor.isClient && Template.rice_saleAction
+            tmpl: Meteor.isClient && Template.rice_paymentAction
         },
         {
             data: "_id",
             title: "ID"
         },
         {
-            data: "saleDate",
+            data: "paymentDate",
             title: "Date",
             render: function(val) {
               return moment(val).format('YYYY-MM-DD HH:mm:ss');
             }
         },
         {
-            data: "subDiscount",
-            title: "Discount",
+            data: "saleId",
+            title: "Sale ID",
+        },
+        {
+            data: 'dueAmount',
+            title: 'Due-Amount',
             render: function(val){
                 return formatKh(val);
             }
         },
         {
             data: 'paidAmount',
-            title: 'Paid',
+            title: 'Paid-Amount',
             render: function(val){
                 return formatKh(val);
             }
@@ -43,13 +47,6 @@ Rice.TabularTable.Sale = new Tabular.Table({
         {
             data: 'outstandingAmount',
             title: 'Outstanding',
-            render: function(val){
-                return formatKh(val);
-            }
-        },
-        {
-            data: "total",
-            title: "Total",
             render: function(val){
                 return formatKh(val);
             }
@@ -65,14 +62,10 @@ Rice.TabularTable.Sale = new Tabular.Table({
 
             }
           }
-        },
-        {
-            data: '_paymentCount',
-            title: 'Payment <i class="fa fa-arrow-up"></i>',
-            tmpl: Meteor.isClient && Template.rice_paymentList
-        },
+        }
 
-    ],extraFields: ['customerId']
+
+    ],extraFields: ['sumPaidAmount','customerId']
 });
 var extract = function(items) {
     var concate = '';

@@ -25,5 +25,21 @@ AutoForm.hooks({
     onError: function(formType, error) {
       return alertify.error(error.message);
     }
+  },
+  rice_quickPaymentUpdateTemplate: {
+    docToForm: function(doc,ss){
+      doc.paymentDate = moment(doc.paymentDate).format('YYYY-MM-DD HH:mm:ss');
+      return doc;
+    },
+    onSuccess: function(formType, result){
+      var alertifyName = Session.get('alertifyName');
+      alertify[alertifyName]().close();
+      alertify.success('Successfully updated');
+      Session.set('alertifyName', undefined);
+    },
+    onError: function(formType, error) {
+      return alertify.error(error.message);
+    }
   }
+
 });
