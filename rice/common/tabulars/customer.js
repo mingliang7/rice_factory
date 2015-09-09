@@ -5,7 +5,9 @@ Rice.TabularTable.Customer = new Tabular.Table({
     pagingType: "full_numbers",
     autoWidth: false,
     columnDefs: [
-        {"width": "12px", "targets": 0}
+        {"width": "12px", "targets": 0}, {
+          "width": '120px', "targets":6
+        }
     ],
     sale: [['1', 'desc']],
     columns: [

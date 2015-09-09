@@ -34,7 +34,10 @@ indexTpl.helpers({
 });
 
 indexTpl.events({
+    'click #payment':function() {
+      FlowRouter.go('rice.payment', {customerId: this.customerId, saleId: this._id});
 
+    },
     'click .insert': function (e, t) {
         saleItemsState.clear();
         alertify.sale(fa("plus", "Sale"), renderTemplate(insertTpl))
@@ -95,7 +98,7 @@ indexTpl.events({
       if(rowData.outstandingAmount == 0 ){
         alertify.warning('Sorry sale #' + rowData._id + ' has been paid!');
       }else{
-        QuickPayment.fireQuickPayment('saleQuickPayment', rowData);
+        QuickPayment.fireQuickPayment('saleQuickPayment','Quick Pay', rowData);
       }
     }
 });

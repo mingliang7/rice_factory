@@ -14,7 +14,7 @@ AutoForm.hooks({
             alertify.sale().close();
             var saveNpay = Session.get('saveNpay');
             if(!_.isUndefined(saveNpay)){
-              excutePayment(_id);
+              excutePayment('Payment', _id);
               Session.set('saveNpay', undefined);
             }
         },
@@ -55,22 +55,13 @@ AutoForm.hooks({
 
 
 
-var excutePayment = function(id){
+var excutePayment = function(title, id){
     Meteor.call('getSaleReactiveId', id, function(err, doc){
         if(err){
             alertify.error(err);
         }else{
-          QuickPayment.fireQuickPayment('saleQuickPayment', doc);
+          QuickPayment.fireQuickPayment('saleQuickPayment', title,  doc);
         }
     });
 
-};
-
-QuickPayment = {
-  fireQuickPayment: function(alertifyName,doc) {
-    Session.set('alertifyName', alertifyName);
-    setTimeout(function(){
-      alertify[alertifyName](fa('plus', 'Payment'), renderTemplate(Template.rice_quickPayment,doc));
-    }, 200);
-  }
 };

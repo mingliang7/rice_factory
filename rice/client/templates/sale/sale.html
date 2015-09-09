@@ -7,7 +7,7 @@
             </p>
 
             {{#if isSubReady "rice_saleByCustomer"}}
-                {{> tabular table=Rice.TabularTable.Sale selector=tabularSelector class="table table-striped table-bsaleed table-condensed table-hover"}}
+                {{> tabular table=Rice.TabularTable.Sale selector=tabularSelector class="table table-striped table-bsaleed table-condensed table-hover-dblclick"}}
             {{else}}
                 {{> loading}}
             {{/if}}
@@ -35,7 +35,15 @@
         <li><a class="show">{{fa "eye"}} Show</a></li>
     {{/tabularAction}}
 </template>
-
+<template name="rice_paymentList">
+      <button id="payment" class="btn btn-default">
+        {{#if _paymentCount}}
+         {{_paymentCount}}
+        {{else}}
+         0
+        {{/if}}
+      </button>
+</template>
 <!--Insert-->
 <template name="rice_saleInsert">
     {{#autoForm collection=Rice.Collection.Sale id="rice_saleInsert" type="insert"}}
