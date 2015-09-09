@@ -2,6 +2,9 @@ var datePicker, fillInDetail, selectCustomer, selectInvoice;
 Template.rice_quickPaymentInsertTemplate.onRendered(function() {
   datePicker(this.data._id);
 });
+Template.rice_quickPaymentUpdateTemplate.onRendered(function() {
+  datePicker(this.data._id);
+});
 Template.rice_quickPaymentInsertTemplate.events({
   'keyup [name="paidAmount"]': function() {
     var dueAmount, paidAmount;

@@ -17,7 +17,7 @@ Rice.Collection.Payment.after.insert(function(userId, doc) {
 });
 
 Rice.Collection.Payment.before.update(function(userId, doc, fieldNames, modifier, options) {
-  
+
   if(modifier.$set.outstandingAmount == 0){
     modifier.$set.status = 'closed';
   }else{
@@ -31,6 +31,33 @@ Rice.Collection.Payment.after.update(function(userId, doc){
     updateSale(doc, true, preDoc);
   });
 });
+
+Rice.Collection.Payment.after.remove(function(userId, doc){
+  Meteor.defer(function(){
+    removePaymentFromSale(doc);
+  });
+});
+
+//for remove
+var removePaymentFromSale = function(doc){
+
+  var sale = Rice.Collection.Sale.findOne(doc.saleId);
+  var paidAmount = sale.paidAmount - doc.paidAmount;
+  var outstandingAmount = sale.outstandingAmount + doc.paidAmount;
+  Rice.Collection.Sale.direct.update({_id: sale._id},
+    {
+      $set: {
+        status: 'active',
+        statusDate: sale.saleDate,
+        paidAmount: paidAmount,
+        outstandingAmount: outstandingAmount
+      }
+    }
+  );
+};
+
+
+// for update and insert
 var updateSale = function(doc, update, oldDoc) {
   var sale = Rice.Collection.Sale.findOne(doc.saleId);
   var paidAmount, outstandingAmount, selector;

@@ -31,6 +31,37 @@ Template.rice_payment.events({
   },
   'click .update': function() {
       var data = this;
-      QuickPayment.fireUpdateQuickPayment('saleQuickPayment', 'Edit Payment', data);
+      var id = this._id;
+      Meteor.call('checkAvailable', this._id, this.saleId, function(err,result){
+        if(result){
+          QuickPayment.fireUpdateQuickPayment('saleQuickPayment', 'Edit Payment', data);
+        }else{
+          alertify.warning('Payment #' + id + ' is not the last record!');
+        }
+      });
+  },
+  'click .remove': function() {
+    var self = this;
+    Meteor.call('checkAvailable', self._id, self.saleId, function(err, result){
+      console.log(result)
+      if(!result){
+        alertify.warning('Sorry payment #' + self._id + ' not the last record!');
+      }else{
+        alertify.confirm(
+            fa("remove", "Sale"),
+            "Are you sure to delete [" + self._id + "]?",
+            function () {
+                Meteor.call('removePayment',self._id, function (err,result) {
+                    if (err) {
+                        alertify.warning(err);
+                    } else {
+                        alertify.success("Success");
+                    }
+                });
+            },
+            null
+        );
+      }
+    });
   }
 });
