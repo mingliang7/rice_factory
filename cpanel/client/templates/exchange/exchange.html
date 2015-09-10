@@ -25,7 +25,7 @@
     {{#autoForm collection=Cpanel.Collection.Exchange id="cpanel_exchangeInsert" type="insert"}}
         <div class="row">
             <div class="col-md-6">
-                {{> afQuickField name='dateTime'}}
+                {{> afQuickField name='exDate' type="text"}}
             </div>
             <div class="col-md-6">
                 {{> afQuickField name='base' value=doc.base readonly="true"}}
@@ -59,7 +59,7 @@
     {{#autoForm collection=Cpanel.Collection.Exchange id="cpanel_exchangeUpdate" doc=this type="update"}}
         <div class="row">
             <div class="col-md-6">
-                {{> afQuickField name='dateTime'}}
+                {{> afQuickField name='exDate' type="text"}}
             </div>
             <div class="col-md-6">
                 {{> afQuickField name='base' readonly="true"}}
@@ -87,7 +87,7 @@
 <template name="cpanel_exchangeShow">
     <dl class="dl-horizontal">
         <dt>Date</dt>
-        <dd>{{dateTime}}</dd>
+        <dd>{{moFormat exDate "YYYY-MM-DD"}}</dd>
         <dt>Base Currency</dt>
         <dd>{{base}}</dd>
         <dt>Rates</dt>

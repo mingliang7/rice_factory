@@ -73,19 +73,17 @@ Mongo.Collection.prototype.cacheDoc = function (fieldName, collection, collectio
             var selector = {};
             selector[refField] = doc._id;
 
-            //Fields specifier for Mongo.Collection.update
-            var fieldsInUpdate = {};
-            fieldsInUpdate[refField] = doc._id;
-
             // Attach soft remove
             thisCollection.attachBehaviour('softRemovable');
             if (_.isUndefined(doc.removedAt)) {
                 if (_.isUndefined(doc.restoredAt)) {
-                    if (!_.difference(collectionFields, fieldNames).length) {
-                        thisCollection.update(selector, {$set: fieldsInUpdate}, {multi: true});
+                    //Fields specifier for Mongo.Collection.update
+                    var fieldsInUpdate = {};
+                    fieldsInUpdate[refField] = doc._id;
 
-                        //console.log('Cache Doc->' + refCollection._name + '.after.update()');
-                    }
+                    thisCollection.update(selector, {$set: fieldsInUpdate}, {multi: true});
+
+                    //console.log('Cache Doc->' + refCollection._name + '.after.update()');
                 } else {
                     thisCollection.restore(selector);
 
@@ -96,7 +94,6 @@ Mongo.Collection.prototype.cacheDoc = function (fieldName, collection, collectio
 
                 //console.log('Cache Doc (Soft Remove)->' + refCollection._name + '.after.update()');
             }
-
         });
     });
 

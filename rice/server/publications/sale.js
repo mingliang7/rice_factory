@@ -4,3 +4,8 @@ Meteor.publish('rice_saleByCustomer', function (customerId) {
         return Rice.Collection.Sale.find({customerId: customerId}, {removed: true});
     }
 });
+
+Meteor.publish("rice_saleList", function(){
+  Counts.publish(this, 'saleCount', Rice.Collection.Sale.find({status: 'active'}));
+  this.ready();
+});

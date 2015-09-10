@@ -25,13 +25,12 @@ var Rates = new SimpleSchema({
 });
 
 Cpanel.Schema.Exchange = new SimpleSchema({
-    dateTime: {
-        type: String,
+    exDate: {
+        type: Date,
         label: "Date",
         unique: true,
         defaultValue: function () {
-            var currentDate = moment(ReactiveMethod.call("currentDate"), 'YYYY-MM-DD H:mm:ss').format('YYYY-MM-DD H:mm:ss');
-            return currentDate;
+            return moment().format('YYYY-MM-DD');
         }
     },
     base: {

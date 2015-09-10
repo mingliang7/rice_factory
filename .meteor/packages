@@ -68,7 +68,7 @@ sacha:spin
 simple:reactive-method
 okgrow:promise
 
-# Faker
+# Factory, Faker
 digilord:faker
 anti:fake
 

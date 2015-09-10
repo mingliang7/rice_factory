@@ -11,3 +11,8 @@ button.saleBtn{
 button.saleBtn:hover{
 	width: 120px;
 }
+
+span.badge.badge-warning {
+	background: rgb(255, 54, 0);
+	color: #fff;
+}

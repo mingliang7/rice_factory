@@ -102,6 +102,6 @@ AutoForm.hooks({
 
 // Config on rendered
 var configDate = function () {
-    var name = $('[name="dateTime"]');
-    DateTimePicker.dateTime(name);
+    var exDate = $('[name="exDate"]');
+    DateTimePicker.date(exDate);
 };
