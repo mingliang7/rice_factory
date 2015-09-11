@@ -48,7 +48,7 @@ Template.rice_invoiceReportGen.helpers({
     return saleItem.name;
   },
   itemDiscount: function(discount) {
-    if (discount === undefined) {
+    if (discount === undefined || discount === 0) {
       return '';
     } else {
       return discount;

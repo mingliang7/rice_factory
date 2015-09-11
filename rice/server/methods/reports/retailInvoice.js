@@ -42,7 +42,8 @@ Meteor.methods({
 		itemsDetail.forEach(function(item) {
 			item.price = formatKH(item.price);
 			item.amount = formatDollar(item.amount);
-			item.discount = item.discount === undefined ? '' : item.discount + '%';
+			item.discount = item.discount === undefined || item.discount === 0 ? '' :
+				item.discount + '%';
 			content.push(item);
 		});
 		content.push(itemsDetail);
