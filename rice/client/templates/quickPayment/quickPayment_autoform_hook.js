@@ -1,4 +1,3 @@
-
 AutoForm.hooks({
   rice_quickPaymentInsertTemplate: {
     before: {
@@ -7,18 +6,22 @@ AutoForm.hooks({
         return doc;
       }
     },
-    onSuccess: function(formType, result) {
-      id = Session.get('invioceReportId');
+    onSuccess: function(formType, _id) {
+      var payNprint = Session.get('payNprint');
       alertify.success('Successfully');
       alertifyName = Session.get('alertifyName');
-      if(alertifyName){
+      if (alertifyName) {
         alertify[alertifyName]().close();
-      }else{
+      } else {
         alertify.quickPayment().close();
       }
-      if(!_.isUndefined(id)){
-        GenReport(id);
-        Session.set('invioceReportId', undefined);
+      if (payNprint) {
+        Meteor.call('getSaleIdWithPayment', _id, function(err, saleId) {
+          if (saleId) {
+            Report.quickInvoice(saleId);
+          }
+        });
+        Session.set('payNprint', undefined);
       }
       Session.set('alertifyName', undefined);
     },
@@ -27,11 +30,12 @@ AutoForm.hooks({
     }
   },
   rice_quickPaymentUpdateTemplate: {
-    docToForm: function(doc,ss){
-      doc.paymentDate = moment(doc.paymentDate).format('YYYY-MM-DD HH:mm:ss');
+    docToForm: function(doc, ss) {
+      doc.paymentDate = moment(doc.paymentDate).format(
+        'YYYY-MM-DD HH:mm:ss');
       return doc;
     },
-    onSuccess: function(formType, result){
+    onSuccess: function(formType, result) {
       var alertifyName = Session.get('alertifyName');
       alertify[alertifyName]().close();
       alertify.success('Successfully updated');

@@ -1,7 +1,11 @@
 Meteor.methods
+  getSaleIdWithPayment: (id) ->
+    payment = StatePayment.get(id);
+    console.log(payment);
+    payment.saleId;
   removePayment: (id) ->
     Rice.Collection.Payment.remove(id)
-    
+
   getCustomerName: (id)->
     Rice.Collection.Customer.findOne(id).name
 
