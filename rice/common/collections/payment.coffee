@@ -28,5 +28,13 @@ Rice.Schema.Payment = new SimpleSchema(
 
   branchId:
     type: String
+  staffId:
+    type: String
+    label: 'Staff'
+    autoform:
+      type: 'select2'
+      options: ->
+        Rice.List.staff()
+
 )
 Rice.Collection.Payment.attachSchema(Rice.Schema.Payment);

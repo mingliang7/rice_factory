@@ -5,7 +5,7 @@
     </p>
 
     {{#if isSubReady "rice_saleCategories"}}
-        {{> tabular table=Rice.TabularTable.SaleCategory selector=selector class="table table-striped table-bsaleed table-condensed table-dblclick"}}
+        {{> tabular table=Rice.TabularTable.SaleCategory selector=selector class="table table-striped table-bsaleed table-condensed table-hover-dblclick"}}
     {{else}}
         {{> loading}}
     {{/if}}
@@ -27,7 +27,7 @@
             <div class="col-md-12">
                 {{> afQuickField name='name'}}
                 {{> afQuickField name='shortName'}}
-    
+
                 <button type="submit" class="btn btn-primary">{{fa "floppy-o"}} Save</button>
                 <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
             </div>
