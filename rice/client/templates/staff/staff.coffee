@@ -69,7 +69,7 @@ checkAvailable = (id) ->
 	flag = false
 	userId = Meteor.userId()
 	currentUser = Rice.Collection.UserStaffs.findOne({userId: userId})
-	if currentUser.staffIds
+	if currentUser
 		i = 0
 		while i < currentUser.staffIds.length
 			if id == currentUser.staffIds[i]
@@ -77,5 +77,7 @@ checkAvailable = (id) ->
 			else
 				flag = true
 			i++
-		flag
+	else
+		flag = true
+	flag
 DateTimePicker

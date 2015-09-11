@@ -87,3 +87,23 @@
         </div>
     {{/autoForm}}
 </template>
+<template name="rice_paymentShow">
+    <dl class="dl-horizontal">
+        <dt>Id</dt>
+        <dd>{{_id}}</dd>
+        <dt>Date</dt>
+        <dd>{{paymentDate}}</dd>
+        <dt>Due-Amount</dt>
+        <dd>{{numFormat dueAmount '0,0'}}</dd>
+        <dt>Paid-Amount</dt>
+        <dd>{{numFormat paidAmount '0,0'}}</dd>
+        <dt>Outstanding-Amount</dt>
+        <dd>{{numFormat outstandingAmount '0,0'}}</dd>
+        <dt>Sale ID</dt>
+        <dd>{{saleId}}</dd>
+        <dt>Customer</dt>
+        <dd>{{_customer.name}}</dd>
+        <dt>Staff</dt>
+        <dd>{{_staff.name}}</dd>
+    </dl>
+</template>
