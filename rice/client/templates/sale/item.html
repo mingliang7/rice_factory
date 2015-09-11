@@ -103,8 +103,7 @@
         <div class="col-sm-9"></div>
         <div class="col-sm-3">
             {{> afQuickField name="total" type="text" value=total readonly="true"}}
-            {{> afQuickField name="totalInDollar" type="text" value=exchange readonly="true"}}
-
+            <input name="totalInDollar" type="text" value={{exchange}} readonly="true" class="form-control">
             {{> afQuickField name="outstandingAmount" value=total type='hidden'}}
         </div>
     </div>

@@ -145,8 +145,9 @@ saleItemTpl.helpers({
 
   },
   exchange: function() {
-    var getExchange = StateItem.get('exchange');
-    var getExchangeBase = StateItem.get('exchangeBase');
+    var exchangeObj = StateItem.get('exchange');
+    fx.base = exchangeObj.base;
+    fx.rates = exchangeObj.rates;
     var totalInDollar = 0;
     var totalVal = 0;
     var subDiscount = StateItem.get('subDiscount');
@@ -160,7 +161,10 @@ saleItemTpl.helpers({
       });
       totalVal = totalVal - subDiscount;
     }
-    totalInDollar = getExchange * totalVal;
+    totalInDollar = fx.convert(totalVal, {
+      from: 'KHR',
+      to: 'USD'
+    });
     if (totalVal !== 0) {
       return math.round(totalInDollar, 2);
     }
@@ -185,12 +189,8 @@ saleItemTpl.events({
       }
     });
     setTimeout(function() {
-      $('[name="exchange"]').select2('val', exchange._id)
-      if (exchange.base == 'KHR') {
-        StateItem.set('exchange', exchange.rates.USD);
-      } else if (exchange.base == 'USD') {
-        StateItem.set('exchange', exchange.rates.KHR);
-      }
+      $('[name="exchange"]').select2('val', exchange._id);
+      StateItem.set('exchange', exchange);
     }, 200);
   },
   'keyup [name="tmpQty"]': function(e, t) {
@@ -221,7 +221,8 @@ saleItemTpl.events({
     saleItem.price = math.round(parseFloat(t.$('[name="tmpPrice"]').val()),
       2);
     saleItem.amount = math.round(parseFloat(t.$('[name="tmpAmount"]').val()));
-    saleItem.lineCost = math.round(parseFloat(t.$('[name="tmpLineCost"]')
+    saleItem.lineCost = math.round(parseFloat(t.$(
+        '[name="tmpLineCost"]')
       .val()));
     var discount = t.$('[name="tmpDiscount"]').val();
     var subDiscount = $('[name="subDiscount"]').val()

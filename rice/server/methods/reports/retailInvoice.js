@@ -5,7 +5,6 @@ Meteor.methods({
 		var splitDate = convertDate.split(' ');
 		var date = splitDate[0];
 		var time = splitDate[1];
-		console.log(splitDate);
 		var data = {
 			title: {},
 			header: {},
@@ -27,13 +26,16 @@ Meteor.methods({
 		// dueDate = '' + getGroup.startDate + '-' + getGroup.endDate;
 
 		var exchange = Cpanel.Collection.Exchange.findOne(getOrder.exchange);
+		fx.base = exchange.base;
+		fx.rates = exchange.rates;
 		data.header = {
 			id: getOrder._id,
 			staffName: getOrder._staff.name,
 			customerName: getOrder._customer.name,
 			date: date,
 			time: time,
-			exchange: 'USD = ' + exchange.rates.USD
+			exchange: '1R = ' + exchange.rates.USD +
+				'$ = ' + exchange.rates.THB + 'B'
 		};
 
 		/********* Content & Footer *********/
@@ -53,7 +55,18 @@ Meteor.methods({
 				subTotal: formatKH(getOrder.subTotal),
 				subDiscount: getOrder.subDiscount === undefined ? '' : getOrder.subDiscount,
 				total: formatKH(getOrder.total),
-				totalInDollar: formatDollar(getOrder.totalInDollar),
+				totalInDollar: formatDollar(
+					fx.convert(getOrder.total, {
+						from: 'KHR',
+						to: 'USD'
+					})
+				),
+				totalInBath: formatKH(
+					fx.convert(getOrder.total, {
+						from: 'KHR',
+						to: 'THB'
+					})
+				),
 				paidAmount: formatKH(getOrder.paidAmount),
 				outstandingAmount: formatKH(getOrder.outstandingAmount)
 			};

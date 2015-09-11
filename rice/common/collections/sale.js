@@ -92,11 +92,6 @@ Rice.Schema.Sale = new SimpleSchema({
     decimal: true,
     label: 'Total'
   },
-  totalInDollar: {
-    type: Number,
-    decimal: true,
-    label: 'Total Dollar'
-  },
   branchId: {
     type: String,
     label: "Branch",

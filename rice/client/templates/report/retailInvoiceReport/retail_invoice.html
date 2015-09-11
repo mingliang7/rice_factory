@@ -16,7 +16,7 @@
         <!--Header-->
         {{#with header}}
             <div style="width: 100%">
-                <div style="width: 70%; float: left">
+                <div style="width: 60%; float: left">
                     <ul class="list-unstyled">
                         <li><strong>Sale ID:</strong> {{id}}</li>
                         <li><strong>Customer:</strong> {{customerName}}</li>
@@ -24,7 +24,7 @@
                     </ul>
                 </div>
 
-                <div style="width: 30%; float: right">
+                <div style="width: 40%; float: right">
                     <ul class="list-unstyled">
                         <li><strong>Date:</strong> {{date}}</li>
                         <li><strong>Time:</strong> {{time}}</li>
@@ -83,6 +83,12 @@
                <th></th>
                <th class="pull-right">តម្លៃសរុប(ដុល្លារ):</th> <th>&nbsp;{{footer.totalInDollar}}</th>
            </tr>
+           <tr>
+              <th></th>
+              <th></th>
+              <th class="pull-right">តម្លៃសរុប(បាត):</th> <th>&nbsp;{{footer.totalInBath}}</th>
+
+          </tr>
            <br>
            <tr>
                <th>ប្រាក់បង់:</th><th>&nbsp;{{footer.paidAmount}}</th>
@@ -106,7 +112,7 @@
 <!--footerNote-->
 <template name="rice_invoiceReportGenFooterNote">
     <div style="font-size: 10px; text-align: center">
-    <br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br>
     <strong> សូមអរគុណដែលបានជាវស្រូវពីសិប្បកម្មយើងខ្ញំុ!</strong>
 
     <p style="font-size: 8px;">(Developed by: Rabbit IT Solutions, Tel: 053 50 66 777)</p>
