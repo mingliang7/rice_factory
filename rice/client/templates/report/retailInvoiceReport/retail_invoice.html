@@ -1,0 +1,114 @@
+
+<template name="rice_invoiceReportGen">
+    {{#if data}}
+    {{#reportTpl options}}
+
+    {{#each data}}
+        <!--Title-->
+            <div class="title">
+                <div class="title-1x-kh-muol">{{title.company}}</div>
+                <div class="title-1x">{{title.enName}}</div>
+                <div class="title-2x">អាស័យដ្ឋាន: {{title.address}}
+                  ទូរស័ព្ទ: {{title.telephone}}
+                </div>
+                <u style="font-size: 16px">វិក័យប័ត្រ</u>
+            </div>
+        <!--Header-->
+        {{#with header}}
+            <div style="width: 100%">
+                <div style="width: 70%; float: left">
+                    <ul class="list-unstyled">
+                        <li><strong>Sale ID:</strong> {{id}}</li>
+                        <li><strong>Customer:</strong> {{customerName}}</li>
+                        <li><strong>Staff:</strong> {{staffName}}</li>
+                    </ul>
+                </div>
+
+                <div style="width: 30%; float: right">
+                    <ul class="list-unstyled">
+                        <li><strong>Date:</strong> {{date}}</li>
+                        <li><strong>Time:</strong> {{time}}</li>
+                        <li><strong>Exchange:</strong> {{exchange}}</li>
+                    </ul>
+                </div>
+            </div>
+        {{/with}}
+
+        <!--Content-->
+        <table class="table">
+            <thead class="header">
+              <tr>
+                   <th colspan="2">ទំនិញ</th>
+                   <th>ចំនួន</th>
+                   <th>តម្លៃ</th>
+                   <th>បញ្ចុះ</th>
+                   <th>សរុប</th>
+               </tr>
+            </thead>
+
+            <tbody class="body">
+              {{#each content}}
+                  <tr>
+                      <td colspan="2">{{itemName saleItemId}}</td>
+                      <td>{{qty}}</td>
+                      <td>{{price}}</td>
+                      <td>{{itemDiscount discount}}</td>
+                      <td>{{amount}}</td>
+                  </tr>
+              {{/each}}
+            </tbody>
+        </table>
+
+    <p></p>
+    <div class="pull-right">
+       <table class="small-table" >
+       <thead>
+           <tr>
+               <th></th>
+               <th></th>
+               <th class="pull-right">តម្លៃសរុប: </th> <th>&nbsp;{{footer.subTotal}}</th>
+           </tr>
+           <tr>
+               <th></th>
+               <th></th>
+           <th class="pull-right">បញ្ចុះតម្លៃ: </th> <th>&nbsp;{{footer.subDiscount}}</th>
+           </tr>
+            <tr>
+               <th></th>
+               <th></th>
+           <th class="pull-right">តម្លៃសរុប(រៀល): </th> <th>&nbsp;{{footer.total}}</th>
+           </tr>
+            <tr>
+               <th></th>
+               <th></th>
+               <th class="pull-right">តម្លៃសរុប(ដុល្លារ):</th> <th>&nbsp;{{footer.totalInDollar}}</th>
+           </tr>
+           <br>
+           <tr>
+               <th>ប្រាក់បង់:</th><th>&nbsp;{{footer.paidAmount}}</th>
+               <th class="pull-right">ប្រាក់ជំពាក់:</th><th>&nbsp;{{footer.outstandingAmount}}</th>
+           </tr>
+       </thead>
+       </table>
+   </div>
+     <div class="col-md-12">
+      {{> rice_invoiceReportGenFooterNote}}
+    </div>
+    <!--Sign-->
+    {{/each}}
+      {{autoprint close='true'}}
+    {{/reportTpl}}
+    {{else}}
+        {{> loading}}
+    {{/if}}
+
+</template>
+<!--footerNote-->
+<template name="rice_invoiceReportGenFooterNote">
+    <div style="font-size: 10px; text-align: center">
+    <br><br><br><br><br><br><br>
+    <strong> សូមអរគុណដែលបានជាវស្រូវពីសិប្បកម្មយើងខ្ញំុ!</strong>
+
+    <p style="font-size: 8px;">(Developed by: Rabbit IT Solutions, Tel: 053 50 66 777)</p>
+    </div>
+</template>
