@@ -62,7 +62,7 @@ indexTpl.events({
   'click .update': function(e, t) {
     var id = this._id;
     var data = this;
-    if (data.paidAmount != 0) {
+    if (data.paidAmount !== 0) {
       alertify.warning('Sorry sale #' + data._id + ' had payment!');
     } else {
       Meteor.call('saleItem', id, function(err, data) {
@@ -78,7 +78,7 @@ indexTpl.events({
   },
   'click .remove': function(e, t) {
     var self = this;
-    if (self.paidAmount != 0) {
+    if (self.paidAmount !== 0) {
       alertify.warning('Sorry sale #' + self._id + ' had payment!');
 
     } else {
@@ -113,7 +113,7 @@ indexTpl.events({
   'dblclick tbody > tr': function(event) {
     var dataTable = $(event.target).closest('table').DataTable();
     var rowData = dataTable.row(event.currentTarget).data();
-    if (rowData.outstandingAmount == 0) {
+    if (rowData.outstandingAmount === 0) {
       alertify.warning('Sorry sale #' + rowData._id + ' has been paid!');
     } else {
       QuickPayment.fireQuickPayment('saleQuickPayment', 'Quick Pay',
@@ -135,7 +135,7 @@ showTpl.helpers({
     });
     return concate;
   }
-})
+});
 indexTpl.onDestroyed(function() {
   //
 });
@@ -143,6 +143,8 @@ indexTpl.onDestroyed(function() {
 // Insert
 insertTpl.onRendered(function() {
   Session.set('invioceId', undefined);
+  Session.set('payNprint', undefined);
+  Session.set('pay', undefined);
   datePicker();
 });
 
