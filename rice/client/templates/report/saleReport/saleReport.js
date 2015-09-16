@@ -41,23 +41,46 @@ var datePicker = function() {
 };
 
 Template.rice_saleReportGen.helpers({
-  data: function() {
-    var data = FlowRouter.current().queryParams;
-    var call = Meteor.callAsync(data.customerId, 'rice_saleReport',
-      data);
-
-    if (!call.ready()) {
-      return false;
-    }
-    return call.result();
+  options: function() {
+    // font size = null (default), bg
+    // paper = a4, a5, mini
+    // orientation = portrait, landscape
+    return {
+      //fontSize: 'bg',
+      paper: 'a4',
+      orientation: 'portrait'
+    };
   },
-  saleItems: function() {
-    var val = this;
-    td = '';
-    console.log(val);
-    val.saleItems.forEach(function(item) {
-      td += '<td>' + item.saleItemId + '</td>';
-    });
-    return td;
-  }
+  data: function() {
+      var data = FlowRouter.current().queryParams;
+      var call = Meteor.callAsync(data.customerId, 'rice_saleReport',
+        data);
+
+      if (!call.ready()) {
+        return false;
+      }
+      return call.result();
+    }
+    // },
+    // saleItems: function() {
+    //   var val = this;
+    //   td = '';
+    //   console.log(val);
+    //   val.saleItems.forEach(function(item) {
+    //     obj = itemName(item.saleItemId);
+    //     td += '<td>' + obj + '</td>';
+    //   });
+    //   return td;
+    // }
 });
+
+// var itemName = function(itemId) {
+//   var categoryId = itemId.slice(0, 3);
+//   console.log(categoryId);
+//   categoryName = Rice.Collection.SaleCategory.findOne(categoryId).name;
+//   saleItemName = Rice.Collection.SaleItem.findOne({
+//     _id: itemId,
+//     saleCategoryId: categoryId
+//   }).name;
+//   return categoryName + saleItemName;
+// };

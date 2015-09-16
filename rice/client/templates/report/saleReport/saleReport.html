@@ -34,6 +34,7 @@
                     </small>
                   </blockquote>
                 {{/if }}
+            {{> afQuickField name="exchange"}}
             <button type="submit" class="btn btn-primary">{{fa "file-text"}} Generate</button>
             <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
             </div>
@@ -86,11 +87,12 @@
                     <tr>
                         <th>No</th>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>gender</th>
-                        <th>Birth Date</th>
-                        <th>Address</th>
-                        <th>Branch</th>
+                        <th>Date</th>
+                        <th>Customer</th>
+                        <th>Telephone</th>
+                        <th>Sub-Total</th>
+                        <th>Discount</th>
+                        <th>Total</th>
                     </tr>
                     </thead>
 
@@ -99,15 +101,66 @@
                         <tr>
                             <td>{{index}}</td>
                             <td>{{_id}}</td>
+                            <td>{{moFormat saleDate 'YYYY-MM-DD HH:mm:ss'}}</td>
                             <td>{{_customer.name}}</td>
-                            <td>{{{saleItems}}}</td>
-                            <td>{{dob}}</td>
-                            <td>{{addressId}} : {{_address.name}}</td>
-                            <td>{{cpanel_branchId}}</td>
+                            <td>{{_customer.telephone}}</td>
+                            <td>{{numFormat subTotal '0,0'}}</td>
+                            <td>
+                              {{#if subDiscount}}
+                                {{numFormat subDiscount '0,0'}}
+                              {{/if}}
+                            </td>
+                            <td>{{numFormat total '0,0'}}</td>
                         </tr>
                     {{/each}}
+                    {{#with footer}}
+                        <tr align='right'>
+                          <td colspan="7">
+                          Sub-Total KHR:
+                          </td>
+                          <td>
+                               {{numFormat subTotal '0,0'}}
+                          </td>
+                        </tr>
+                        <tr align='right'>
+                          <td colspan="7">
+                          Discount KHR:
+                          </td>
+                          <td>
+                               {{numFormat discount '0,0'}}
+                          </td>
+                        </tr>
+                        <tr align='right'>
+                          <td colspan="7">
+                          Total KHR:
+                          </td>
+                          <td>
+                               {{numFormat total '0,0'}}
+                          </td>
+                        </tr>
+                        <tr align='right'>
+                          <td colspan="7">
+                          Total USD:
+                          </td>
+                          <td>
+                               {{numFormat totalInDollar '0,0.00'}}
+                          </td>
+                        </tr>
+
+                        <tr align='right'>
+                          <td colspan="7">
+                          Total THB:
+                          </td>
+                          <td>
+                               {{totalInBath}}
+                          </td>
+                        </tr>
+
+
+                    {{/with}}
                     </tbody>
                 </table>
+
 
             {{/with}}
 

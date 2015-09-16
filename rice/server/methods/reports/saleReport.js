@@ -11,8 +11,13 @@ Meteor.methods({
     var date = s.words(params.date, ' To ');
     var fDate = moment(date[0], 'YYYY-MM-DD').toDate();
     var tDate = moment(date[1], 'YYYY-MM-DD').add(1, 'days').toDate();
+    var discount = 0;
+    var subTotal = 0;
+    var total = 0;
+    var exchange = Cpanel.Collection.Exchange.findOne(params.exchange);
+    fx.base = exchange.base;
+    fx.rates = exchange.rates;
     var customerId = params.customer;
-    console.log(customerId);
     /****** Title *****/
     data.title = Cpanel.Collection.Company.findOne();
 
@@ -70,12 +75,30 @@ Meteor.methods({
     sales.forEach(function(sale) {
       sale.index = index;
       sale.itemIds = extractAggregate(saleAggregate);
+      subTotal += sale.subTotal;
+      total += sale.total;
+      if (!_.isUndefined(sale.subDiscount)) {
+        discount += sale.subDiscount;
+      }
       content.push(sale);
       index += 1;
     });
     footer = saleAggregate;
     if (content.length > 0) {
       data.content = content;
+      data.footer = {
+        subTotal: subTotal,
+        discount: discount,
+        total: total,
+        totalInDollar: fx.convert(total, {
+          from: 'KHR',
+          to: 'USD'
+        }),
+        totalInBath: fx.convert(total, {
+          from: 'KHR',
+          to: 'THB'
+        })
+      };
     }
 
     return data;

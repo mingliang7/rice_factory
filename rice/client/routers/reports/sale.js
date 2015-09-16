@@ -1,7 +1,11 @@
+var subs = new SubsManager();
 riceRoutes.route('/saleReport', {
   name: 'rice.saleReport',
   action: function(params, queryParams) {
     Layout.main('rice_saleReport');
+  },
+  subscriptions: function() {
+    this.register('rice_exchange', subs.subscribe('cpanel_exchange'));
   },
   breadcrumb: {
     //params: ['id'],

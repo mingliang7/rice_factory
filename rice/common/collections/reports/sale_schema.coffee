@@ -6,4 +6,11 @@ Rice.Schema.SaleReport = new SimpleSchema(
   date:
     type: String
 
+  exchange:
+    type: String
+    autoform:
+      type: 'select2'
+      options: ->
+        Rice.List.exchange()
+
 )
