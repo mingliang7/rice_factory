@@ -1,0 +1,125 @@
+<!--Form-->
+<template name="rice_saleReport">
+    {{#autoForm schema=Rice.Schema.SaleReport id="rice_saleReport" action="saleReportGen" target="_blank"}}
+        <div class="row">
+            <div class="col-md-6">
+              {{#if customerName}}
+              <label >Customer</label>
+              <div class="input-group  select2-bootstrap-append">
+                    {{> afFieldInput name="customer" value=customerId}}
+                    <span class="input-group-addon">
+                        <a href="#" class="select-customer">
+                            {{fa "list-alt"}}
+                        </a>
+                    </span>
+                  </div>
+                <blockquote>
+                  <small>
+                  {{customerName}}
+                  </small>
+                </blockquote>
+                {{else}}
+                <label >Customer</label>
+                <div class="input-group  select2-bootstrap-append">
+                      {{> afFieldInput name="customer" value='All'}}
+                      <span class="input-group-addon">
+                          <a href="#" class="select-customer">
+                              {{fa "list-alt"}}
+                          </a>
+                      </span>
+                    </div>
+                  <blockquote>
+                    <small>
+                    All
+                    </small>
+                  </blockquote>
+                {{/if }}
+            <button type="submit" class="btn btn-primary">{{fa "file-text"}} Generate</button>
+            <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+            </div>
+            <div class="col-md-6">
+                {{> afQuickField name="date"}}
+              </div>
+        </div>
+    {{/autoForm}}
+</template>
+
+<!--Generate-->
+<template name="rice_saleReportGen">
+    <!--Is ready-->
+    {{#if data}}
+        {{#reportTpl options}}
+
+            {{#with data}}
+
+                <!--Title-->
+                {{#with title}}
+                    <div class="title">
+                        <div class="title-1x-kh-muol">{{khName}}</div>
+                        <div class="title-1x">{{enName}}</div>
+                        <div><u>Sale Report</u></div>
+                        <div class="title-2x">{{enAddress}}</div>
+                    </div>
+                {{/with}}
+
+                <!--Header-->
+                {{#with header}}
+                    <div style="width: 100%">
+                        <div style="width: 50%; float: left">
+                            <ul class="list-unstyled">
+                                <li><strong>Branch:</strong> {{branch}}</li>
+                                <li><strong>Name:</strong> {{name}}</li>
+                            </ul>
+                        </div>
+
+                        <div style="width: 50%; float: right">
+                            <ul class="list-unstyled">
+                                <li><strong>Date:</strong> {{date}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                {{/with}}
+
+                <!--Content-->
+                <table class="report-content">
+                    <thead class="header">
+                    <tr>
+                        <th>No</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>gender</th>
+                        <th>Birth Date</th>
+                        <th>Address</th>
+                        <th>Branch</th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="body">
+                    {{#each content}}
+                        <tr>
+                            <td>{{index}}</td>
+                            <td>{{_id}}</td>
+                            <td>{{_customer.name}}</td>
+                            <td>{{{saleItems}}}</td>
+                            <td>{{dob}}</td>
+                            <td>{{addressId}} : {{_address.name}}</td>
+                            <td>{{cpanel_branchId}}</td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+
+            {{/with}}
+
+            <!--Sign-->
+            {{> signFooter}}
+
+        {{/reportTpl}}
+
+        <!--Auto print-->
+        <!-- {{autoprint close="true"}} -->
+
+    {{else}}
+        {{> loading}}
+    {{/if}}
+</template>
