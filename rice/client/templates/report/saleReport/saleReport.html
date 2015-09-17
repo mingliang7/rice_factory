@@ -60,14 +60,15 @@
                     <div style="width: 100%">
                         <div style="width: 50%; float: left">
                             <ul class="list-unstyled">
-                                <li><strong>Branch:</strong> {{branch}}</li>
-                                <li><strong>Name:</strong> {{name}}</li>
+                                <li><strong>Branch:</strong> {{branch._id}} | {{branch.khName}}({{branch.khName}})</li>
+                                <li><strong>Customer:</strong> {{customer}}</li>
                             </ul>
                         </div>
 
                         <div style="width: 50%; float: right">
                             <ul class="list-unstyled">
                                 <li><strong>Date:</strong> {{date}}</li>
+                                <li><strong>Exchange:</strong> {{exchange}}</li>
                             </ul>
                         </div>
                     </div>

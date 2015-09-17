@@ -29,6 +29,7 @@ Template.rice_saleReport.onDestroyed(function() {
 Template.rice_saleReport.events({
   "click .reset": function(event, template) {
     Session.set('customerId', undefined);
+    clearSelect2($('[name="exchange"]'));
   },
   'keyup [name="customer"]': function() {
     var currentValue = this.value;
@@ -53,6 +54,7 @@ Template.rice_saleReportGen.helpers({
   },
   data: function() {
       var params = FlowRouter.current().queryParams;
+      params.branchId = Session.get('currentBranch');
       Fetcher.setDefault('data', false);
       Fetcher.retrieve('data', 'rice_saleReport', params);
       return Fetcher.get('data');

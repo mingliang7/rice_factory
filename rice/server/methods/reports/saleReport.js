@@ -22,7 +22,12 @@ Meteor.methods({
     data.title = Cpanel.Collection.Company.findOne();
 
     /****** Header *****/
-    data.header = params;
+    data.header = {
+      customer: ReportInfo.customerName(params.customer),
+      branch: ReportInfo.branchName(params.branchId),
+      date: params.date,
+      exchange: ReportInfo.readbleExchange(params.exchange)
+    };
 
     /****** Content *****/
     var content = [];
