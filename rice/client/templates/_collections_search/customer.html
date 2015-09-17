@@ -5,7 +5,7 @@
 
                 <div class="form-group">
                     <div class="input-group">
-                        {{> esInput index="rice_customerSearch" value=data allDocsOnEmpty="true" placeholder="Search customer..." class="form-control"}}
+                        {{> esInput index="rice_customerSearch" value='' allDocsOnEmpty="true" placeholder="Search customer..." class="form-control"}}
                         <div class="input-group-addon">
                             <a href="#" class="insert">
                                 {{fa "plus"}}
@@ -58,7 +58,7 @@
 
 <template name="rice_customerSearchList">
     {{#with data}}
-        <dt><a href="#" class="saleItem">{{_id}}</a></dt>
+        <dt><a href="#" class="customerId">{{_id}}</a></dt>
         <dd style="bsale-bottom:1px solid">
             {{lightbox url=photoUrl title=name}}
             Name: {{name}} | Gender: {{gender}} | Date Of Birth: {{dobVal}}
