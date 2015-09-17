@@ -27,7 +27,7 @@ Meteor.methods({
     /****** Content *****/
     var content = [];
     var selector;
-    if (customerId == 'All') {
+    if (customerId == 'All' || customerId == '') {
       selector = {
         saleDate: {
           $gte: fDate,

@@ -4,45 +4,37 @@
         <div class="row">
             <div class="col-md-6">
               {{#if customerName}}
-              <label >Customer</label>
+              <label >Customer: <span class="label label-primary">{{customerName}}</span></label>
               <div class="input-group  select2-bootstrap-append">
                     {{> afFieldInput name="customer" value=customerId}}
                     <span class="input-group-addon">
-                        <a href="#" class="select-customer">
+                        <a  class="select-customer">
                             {{fa "list-alt"}}
                         </a>
                     </span>
                   </div>
-                <blockquote>
-                  <small>
-                  {{customerName}}
-                  </small>
-                </blockquote>
                 {{else}}
-                <label >Customer</label>
+                <label >Customer: <span class="label label-primary">All</span></label>
                 <div class="input-group  select2-bootstrap-append">
                       {{> afFieldInput name="customer" value='All'}}
                       <span class="input-group-addon">
-                          <a href="#" class="select-customer">
+                          <a class="select-customer">
                               {{fa "list-alt"}}
                           </a>
                       </span>
-                    </div>
-                  <blockquote>
-                    <small>
-                    All
-                    </small>
-                  </blockquote>
+                </div>
                 {{/if }}
-            {{> afQuickField name="exchange"}}
+                {{> afQuickField name="date"}}
+            </div>
+            <div class="col-md-6">
+                {{> afQuickField name="exchange"}}
             <button type="submit" class="btn btn-primary">{{fa "file-text"}} Generate</button>
             <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
             </div>
-            <div class="col-md-6">
-                {{> afQuickField name="date"}}
-              </div>
         </div>
     {{/autoForm}}
+    {{> collapseTabular}}
+
 </template>
 
 <!--Generate-->
@@ -83,7 +75,7 @@
 
                 <!--Content-->
                 <table class="report-content">
-                    <thead class="header">
+                    <thead class="content-header">
                     <tr>
                         <th>No</th>
                         <th>ID</th>
@@ -96,7 +88,7 @@
                     </tr>
                     </thead>
 
-                    <tbody class="body">
+                    <tbody class="content-body">
                     {{#each content}}
                         <tr>
                             <td>{{index}}</td>
@@ -104,54 +96,38 @@
                             <td>{{moFormat saleDate 'YYYY-MM-DD HH:mm:ss'}}</td>
                             <td>{{_customer.name}}</td>
                             <td>{{_customer.telephone}}</td>
-                            <td>{{numFormat subTotal '0,0'}}</td>
-                            <td>
+                            <td align='right'>{{numFormat subTotal '0,0'}}</td>
+                            <td align='right'>
                               {{#if subDiscount}}
                                 {{numFormat subDiscount '0,0'}}
                               {{/if}}
                             </td>
-                            <td>{{numFormat total '0,0'}}</td>
+                            <td align='right'>{{numFormat total '0,0'}}</td>
                         </tr>
                     {{/each}}
                     {{#with footer}}
                         <tr align='right'>
                           <td colspan="7">
-                          Sub-Total KHR:
-                          </td>
-                          <td>
-                               {{numFormat subTotal '0,0'}}
-                          </td>
-                        </tr>
-                        <tr align='right'>
-                          <td colspan="7">
-                          Discount KHR:
-                          </td>
-                          <td>
-                               {{numFormat discount '0,0'}}
-                          </td>
-                        </tr>
-                        <tr align='right'>
-                          <td colspan="7">
                           Total KHR:
                           </td>
-                          <td>
+                          <td align='right'>
                                {{numFormat total '0,0'}}
                           </td>
                         </tr>
                         <tr align='right'>
                           <td colspan="7">
-                          Total USD:
+                          USD:
                           </td>
-                          <td>
+                          <td align='right'>
                                {{numFormat totalInDollar '0,0.00'}}
                           </td>
                         </tr>
 
                         <tr align='right'>
                           <td colspan="7">
-                          Total THB:
+                          THB:
                           </td>
-                          <td>
+                          <td align='right'>
                                {{totalInBath}}
                           </td>
                         </tr>
@@ -175,4 +151,19 @@
     {{else}}
         {{> loading}}
     {{/if}}
+</template>
+
+<template name="collapseTabular">
+  <p>
+    <button class="btn btn-info pull-right hidden collapseTabular" type="button" data-toggle="collapse" data-target="#collapseTabular" aria-expanded="false" aria-controls="collapseExample">
+      {{fa "lightbulb-o"}} Tips
+    </button>
+    <p>
+      <div class="collapse" id="collapseTabular">
+        <div class="bs-callout bs-callout-info" id="callout-overview-not-both">
+          {{> customerList}}
+        </div>
+      </div>
+    </p>
+  </p>
 </template>

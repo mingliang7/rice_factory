@@ -349,9 +349,13 @@ var saleItemsInputmask = function() {
   var price = $('.price');
   var amount = $('.amount');
   var total = $('[name="total"]');
-  var subTotal = $('[name="subTotal"]')
+  var subTotal = $('[name="subTotal"]');
+  var totalInDollar = $('[name="totalInDollar"]');
   Inputmask.currency([tmpPrice, tmpAmount, price, amount, total, subTotal], {
     prefix: 'R '
+  });
+  Inputmask.currency([totalInDollar], {
+    prefix: '$ '
   });
   Inputmask.decimal([tmpQty, qty]);
   Inputmask.percentage(tmpDiscount);

@@ -67,6 +67,7 @@ sacha:spin
 # Method
 simple:reactive-method
 okgrow:promise
+msavin:fetcher
 
 # Factory, Faker
 digilord:faker
@@ -139,6 +140,9 @@ rzymek:fullcalendar
 #froatsnook:sleep
 meteorhacks:kadira
 
+# Backup/Restore
+hitchcott:app-dump
+
 ######
 # Local
 ######
@@ -155,3 +159,4 @@ theara:flow-router-breadcrumb
 theara:autoprint
 theara:reactive-list
 theara:numeral-helpers
+theara:factory

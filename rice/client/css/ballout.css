@@ -1,0 +1,14 @@
+.bs-callout-info {
+    border-top-color: #5bc0de;
+    border-left-color: #fff;
+}
+
+.bs-callout{
+  top: 0px;
+  left: 0px;
+  margin-top: -20px;
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
+  background: #fff;
+}

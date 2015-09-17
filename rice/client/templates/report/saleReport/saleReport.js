@@ -25,9 +25,14 @@ Template.rice_saleReport.helpers({
 
 Template.rice_saleReport.events({
   "click .select-customer": function(event, template) {
-    alertify.customerList(fa('list-alt', 'customer'),
-      renderTemplate(
-        Template.customerList)).maximize();
+    // alertify.customerList(fa('list-alt', 'customer'),
+    //   renderTemplate(
+    //     Template.customerList)).set({
+    //   onclose: function() {
+    //     console.log('Template Destroy');
+    //   }
+    // }).maximize();
+    $('button.collapseTabular').trigger('click');
 
   },
   'keyup [name="customer"]': function() {
@@ -52,14 +57,10 @@ Template.rice_saleReportGen.helpers({
     };
   },
   data: function() {
-      var data = FlowRouter.current().queryParams;
-      var call = Meteor.callAsync(data.customerId, 'rice_saleReport',
-        data);
-
-      if (!call.ready()) {
-        return false;
-      }
-      return call.result();
+      var params = FlowRouter.current().queryParams;
+      Fetcher.setDefault('data', false);
+      Fetcher.retrieve('data', 'rice_saleReport', params);
+      return Fetcher.get('data');
     }
     // },
     // saleItems: function() {
