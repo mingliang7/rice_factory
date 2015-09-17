@@ -27,8 +27,9 @@ Template.rice_saleReport.onDestroyed(function() {
 });
 
 Template.rice_saleReport.events({
-  "click .select-customer": function(event, template) {
-
+  "click .reset": function(event, template) {
+    Session.set('customerId', undefined);
+    $('select [name="exchange"]').select2(val, '');
   },
   'keyup [name="customer"]': function() {
     var currentValue = this.value;
