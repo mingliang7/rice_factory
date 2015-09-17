@@ -8,7 +8,7 @@
               <div class="input-group  select2-bootstrap-append">
                     {{> afFieldInput name="customer" value=customerId}}
                     <span class="input-group-addon">
-                        <a  class="select-customer">
+                        <a  class="select-customer" data-toggle="modal" data-target=".collapseTabular">
                             {{fa "list-alt"}}
                         </a>
                     </span>
@@ -18,7 +18,7 @@
                 <div class="input-group  select2-bootstrap-append">
                       {{> afFieldInput name="customer" value='All'}}
                       <span class="input-group-addon">
-                          <a class="select-customer">
+                          <a class="select-customer" data-toggle="modal" data-target=".collapseTabular">
                               {{fa "list-alt"}}
                           </a>
                       </span>
@@ -154,16 +154,26 @@
 </template>
 
 <template name="collapseTabular">
-  <p>
-    <button class="btn btn-info pull-right hidden collapseTabular" type="button" data-toggle="collapse" data-target="#collapseTabular" aria-expanded="false" aria-controls="collapseExample">
-      {{fa "lightbulb-o"}} Tips
-    </button>
-    <p>
-      <div class="collapse" id="collapseTabular">
-        <div class="bs-callout bs-callout-info" id="callout-overview-not-both">
-          {{> customerList}}
+  <div class="container">
+
+    <div class="row">
+      <div class="modal fade collapseTabular" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel"><i class="fa fa-list-alt"></i> Customer</h4>
+            </div>
+            <div class="modal-body">
+
+              {{> customerList}}
+
+            </div>
+          </div>
         </div>
       </div>
-    </p>
-  </p>
+    </div>
+
+
+  </div>
 </template>

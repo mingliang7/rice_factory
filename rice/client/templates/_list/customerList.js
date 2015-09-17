@@ -4,6 +4,6 @@ Template.customerList.events({
     var rowData = dataTable.row(event.currentTarget).data();
     Session.set("customerId", rowData._id);
     // alertify.customerList().close();
-    $('button.collapseTabular').trigger('click');
+    $('.collapseTabular').modal('hide');
   }
 });

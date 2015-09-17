@@ -22,17 +22,12 @@ Template.rice_saleReport.helpers({
     }
   }
 });
+Template.rice_saleReport.onDestroyed(function() {
+  Session.set("customerId", undefined);
+});
 
 Template.rice_saleReport.events({
   "click .select-customer": function(event, template) {
-    // alertify.customerList(fa('list-alt', 'customer'),
-    //   renderTemplate(
-    //     Template.customerList)).set({
-    //   onclose: function() {
-    //     console.log('Template Destroy');
-    //   }
-    // }).maximize();
-    $('button.collapseTabular').trigger('click');
 
   },
   'keyup [name="customer"]': function() {
