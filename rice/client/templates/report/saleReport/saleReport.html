@@ -3,27 +3,22 @@
     {{#autoForm schema=Rice.Schema.SaleReport id="rice_saleReport" action="saleReportGen" target="_blank"}}
         <div class="row">
             <div class="col-md-6">
-              {{#if customerName}}
-              <label >Customer: <span class="label label-primary">{{customerName}}</span></label>
+              <label >Customer: <span class="label label-primary">{{customerId.name}}</span></label>
               <div class="input-group  select2-bootstrap-append">
-                    {{> afFieldInput name="customer" value=customerId}}
+                    {{> afFieldInput name="customer" value=customerId._id readonly=true}}
                     <span class="input-group-addon">
-                        <a  class="select-customer" data-toggle="modal" data-target=".collapseTabular">
+                      <a  href="#" class="clear-customer" >
+                          {{fa "eraser"}}
+                      </a>
+                    </span>
+                    <span class="input-group-addon">
+
+                        <a  href="#"  data-toggle="modal" data-target=".collapseTabular">
                             {{fa "list-alt"}}
                         </a>
                     </span>
                   </div>
-                {{else}}
-                <label >Customer: <span class="label label-primary">All</span></label>
-                <div class="input-group  select2-bootstrap-append">
-                      {{> afFieldInput name="customer" value='All'}}
-                      <span class="input-group-addon">
-                          <a class="select-customer" data-toggle="modal" data-target=".collapseTabular">
-                              {{fa "list-alt"}}
-                          </a>
-                      </span>
-                </div>
-                {{/if }}
+
                 {{> afQuickField name="date"}}
             </div>
             <div class="col-md-6">
@@ -32,9 +27,8 @@
             <button type="reset" class="btn btn-default reset">{{fa "refresh"}} Reset</button>
             </div>
         </div>
+        {{> collapseTabular }}
     {{/autoForm}}
-    {{> collapseTabular}}
-
 </template>
 
 <!--Generate-->
@@ -155,7 +149,7 @@
 </template>
 
 <template name="collapseTabular">
-  <div class="container">
+    <div class="container">
 
     <div class="row">
       <div class="modal fade collapseTabular" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
@@ -166,15 +160,12 @@
               <h4 class="modal-title" id="myModalLabel"><i class="fa fa-list-alt"></i> Customer</h4>
             </div>
             <div class="modal-body">
-
-              {{> customerList}}
-
+              {{> tabular table=Rice.TabularTable.CustomerList  class="table table-striped table-bsaleed table-condensed table-hover-dblclick"}}
             </div>
           </div>
         </div>
       </div>
     </div>
-
-
   </div>
+
 </template>

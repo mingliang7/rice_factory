@@ -1,45 +1,71 @@
+var state = new ReactiveObj();
+
 Template.rice_saleReport.onCreated(function() {
-  Session.set('customerId', undefined);
-  createNewAlertify('customerList');
+  createNewAlertify('listCustomer', 'zoom');
 });
 Template.rice_saleReport.onRendered(function() {
+  state.set('customerId', {
+    _id: 'All',
+    name: 'All'
+  });
   datePicker();
+});
+
+Template.collapseTabular.events({
+  "click tbody > tr": function(event, template) {
+    var dataTable = $(event.target).closest('table').DataTable();
+    var rowData = dataTable.row(event.currentTarget).data();
+    state.set('customerId', rowData);
+    $('.collapseTabular').modal('hide');
+    // alertify.listCustomer().close();
+  }
+});
+
+Template.rice_saleReport.events({
+  "click .select-customer": function(event, template) {
+    // alertify.listCustomer(fa('list-alt', 'Customer'), renderTemplate(
+    //   Template.collapseTabular)).maximize();
+  }
 });
 
 Template.rice_saleReport.helpers({
   customerId: function() {
-    return Session.get('customerId');
-  },
-  customerName: function() {
-    var customerId = Session.get('customerId');
-    if (customerId) {
-      try {
-        var customer = ReactiveMethod.call('getCustomer', customerId);
-        return customer.name;
-      } catch (e) {}
-    } else {
-      return false;
-    }
+    return state.get('customerId');
   }
+
 });
-Template.rice_saleReport.onDestroyed(function() {
-  Session.set("customerId", undefined);
-});
+Template.rice_saleReport.onDestroyed(function() {});
 
 Template.rice_saleReport.events({
   "click .reset": function(event, template) {
-    Session.set('customerId', undefined);
+    state.set('customerId', {
+      _id: 'All',
+      name: 'All'
+    });
     clearSelect2($('[name="exchange"]'));
   },
-  'keyup [name="customer"]': function() {
-    var currentValue = this.value;
-    Session.set('customerId', undefined);
+  'click [name="customer"]': function() {
+    state.set('customerId', {
+      _id: 'All',
+      name: 'All'
+    });
+  },
+  'click .clear-customer': function() {
+    state.set('customerId', {
+      _id: 'All',
+      name: 'All'
+    });
   }
+});
+Template.rice_saleReport.onDestroyed(function() {
+  state.set([], {});
 });
 var datePicker = function() {
   var date = $('[name="date"]');
   DateTimePicker.dateTimeRange(date);
 };
+
+
 
 Template.rice_saleReportGen.helpers({
   options: function() {
