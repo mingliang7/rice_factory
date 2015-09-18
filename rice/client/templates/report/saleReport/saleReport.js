@@ -80,7 +80,6 @@ Template.rice_saleReportGen.helpers({
   },
   data: function() {
       var params = FlowRouter.current().queryParams;
-      params.branchId = Session.get('currentBranch');
       Fetcher.setDefault('data', false);
       Fetcher.retrieve('data', 'rice_saleReport', params);
       return Fetcher.get('data');

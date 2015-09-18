@@ -13,4 +13,12 @@ Rice.Schema.SaleReport = new SimpleSchema(
       options: ->
         Rice.List.exchange()
 
+  branch:
+    type: String
+    autoform:
+      type: 'select2'
+      options: ->
+        Rice.ListForReport.branch()
+
+
 )

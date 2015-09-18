@@ -24,7 +24,7 @@ Meteor.methods({
     /****** Header *****/
     data.header = {
       customer: ReportInfo.customerName(params.customer),
-      branch: ReportInfo.branchName(params.branchId),
+      branch: ReportInfo.branchName(params.branch),
       date: params.date,
       exchange: ReportInfo.readbleExchange(params.exchange)
     };
