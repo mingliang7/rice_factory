@@ -1,6 +1,6 @@
 <!--Form-->
-<template name="rice_saleReport">
-    {{#autoForm schema=Rice.Schema.SaleReport id="rice_saleReport" action="saleReportGen" target="_blank"}}
+<template name="rice_saleDetailReport">
+    {{#autoForm schema=Rice.Schema.SaleDetail id="rice_saleDetailReport" action="saleDetailReportGen" target="_blank"}}
         <div class="row">
             <div class="col-md-6">
               <label >Customer: <span class="label label-primary">{{customerId.name}}</span></label>
@@ -13,7 +13,7 @@
                     </span>
                     <span class="input-group-addon">
 
-                        <a  href="#"  data-toggle="modal" data-target=".collapseTabular">
+                        <a  href="#"  data-toggle="modal" data-target=".tabularModal">
                             {{fa "list-alt"}}
                         </a>
                     </span>
@@ -28,12 +28,12 @@
             <button type="reset" class="btn btn-default reset">{{fa "refresh"}} Reset</button>
             </div>
         </div>
-        {{> collapseTabular }}
+        {{> tabularModal }}
     {{/autoForm}}
 </template>
 
 <!--Generate-->
-<template name="rice_saleReportGen">
+<template name="rice_saleDetailReportGen">
     <!--Is ready-->
     {{#if data}}
         {{#reportTpl options}}
@@ -45,7 +45,7 @@
                     <div class="title">
                         <div class="title-1x-kh-muol">{{khName}}</div>
                         <div class="title-1x">{{enName}}</div>
-                        <div><u>Sale Report</u></div>
+                        <div><u>Sale Detail Report</u></div>
                         <div class="title-2x">{{enAddress}}</div>
                     </div>
                 {{/with}}
@@ -74,69 +74,54 @@
                     <thead class="content-header">
                     <tr>
                         <th>No</th>
-                        <th>ID</th>
-                        <th>Date</th>
-                        <th>Customer</th>
-                        <th>Telephone</th>
-                        <th>Sub-Total</th>
-                        <th>Discount</th>
-                        <th>Total</th>
-                        <th>Profit</th>
+                        <th>Item</th>
+                        <th>Cost</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>discount</th>
+                        <th>Amount</th>
+                        <th>Line Cost</th>
+
                     </tr>
                     </thead>
 
                     <tbody class="content-body">
                     {{#each content}}
-                        <tr>
-                            <td>{{index}}</td>
-                            <td>{{_id}}</td>
-                            <td>{{moFormat saleDate 'YYYY-MM-DD HH:mm:ss'}}</td>
-                            <td>{{_customer.name}}</td>
-                            <td>{{_customer.telephone}}</td>
-                            <td align='right'>{{numFormat subTotal '0,0'}}</td>
+                        <th colspan="6" align='center'>{{_id}} | Sale-Date: {{moFormat saleDate 'YYYY-MM-DD HH:mm:ss'}} |
+                        Discount: {{numFormat discount '0,0'}} | Total: {{numFormat total '0,0'}} | Profit: {{numFormat profit '0,0'}}
+                        </th>
+                        {{#each saleItems}}
+                          <tr>
+                            <td align='right'>{{index}}</td>
                             <td align='right'>
-                              {{#if subDiscount}}
-                                {{numFormat subDiscount '0,0'}}
+                              {{getItemName saleItemId}}
+                            </td>
+                            <td align='right'>
+                              {{numFormat cost '0,0'}}
+                            </td>
+                            <td align='right'>
+                              {{numFormat price '0,0'}}
+                            </td>
+                            <td align='right'>
+                              {{qty}}
+                            </td>
+                            <td align='right'>
+                              {{#if checkDiscount discount}}
+                                {{discount}}%
                               {{/if}}
                             </td>
-                            <td align='right'>{{numFormat total '0,0'}}</td>
-                            <td align='right'>{{numFormat profit '0,0'}}</td>
-                        </tr>
+                            <td align='right'>
+                              {{ numFormat amount '0,0'}}
+                            </td>
+                            <td align='right'>
+                              {{numFormat lineCost '0,0'}}
+                            </td>
+                          </tr>
+                        {{/each}}
                     {{/each}}
-                    {{#with footer}}
-                        <tr align='right'>
-                          <td colspan="7">
-                          Total KHR:
-                          </td>
-                          <td align='right'>
-                               {{numFormat total '0,0'}}
-                          </td>
-                          <td align='right'>{{numFormat profit '0,0'}}</td>
-                        </tr>
-                        <tr align='right'>
-                          <td colspan="7">
-                          USD:
-                          </td>
-                          <td align='right'>
-                               {{numFormat totalInDollar '0,0.00'}}
-                          </td>
-                          <td align='right'>{{numFormat profitInDollar '0,0.00'}}</td>
 
-                        </tr>
-
-                        <tr align='right'>
-                          <td colspan="7">
-                          THB:
-                          </td>
-                          <td align='right'>
-                               {{totalInBath}}
-                          </td>
-                          <td align='right'> {{profitInBath}}</td>
-                        </tr>
-                    {{/with}}
-                    </tbody>
-                </table>
-
+                </tbody>
+            </table>
 
             {{/with}}
 
@@ -153,11 +138,11 @@
     {{/if}}
 </template>
 
-<template name="collapseTabular">
+<template name="tabularModal">
     <div class="container">
 
     <div class="row">
-      <div class="modal fade collapseTabular" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+      <div class="modal fade tabularModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
