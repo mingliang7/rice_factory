@@ -1,5 +1,5 @@
 Meteor.methods({
-  rice_saleReport: function(params) {
+  rice_saleDetailReport: function(params) {
     var data = {
       title: {},
       header: {},
@@ -49,19 +49,24 @@ Meteor.methods({
       };
     }
 
+
     var index = 1;
     var totalProfit = 0;
     var sales = Rice.Collection.Sale.find(selector).fetch();
     sales.forEach(function(sale) {
-      sale.index = index;
+      index = 1;
       subTotal += sale.subTotal;
       total += sale.total;
       totalProfit += sale.profit;
       if (!_.isUndefined(sale.subDiscount)) {
         discount += sale.subDiscount;
       }
+      sale.saleItems.forEach(function(item) {
+        item.index = index;
+        index += 1;
+      });
       content.push(sale);
-      index += 1;
+
     });
     if (content.length > 0) {
       data.content = content;
