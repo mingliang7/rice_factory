@@ -66,6 +66,10 @@ Rice.Schema.Sale = new SimpleSchema({
     decimal: true,
     label: 'Amount'
   },
+  'saleItems.$.saleCategoryId': {
+    type: String,
+    optional: true
+  },
   des: {
     type: String,
     label: "Description",

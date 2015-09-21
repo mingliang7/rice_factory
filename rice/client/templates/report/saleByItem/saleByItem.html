@@ -1,0 +1,140 @@
+<!--Form-->
+<template name="rice_saleByItemReport">
+    {{#autoForm schema=Rice.Schema.SaleByItem id="rice_saleByItemReport" action="saleByItemReportGen" target="_blank"}}
+        <div class="row">
+            <div class="col-md-6">
+                {{> afQuickField name="branch"}}
+                {{> afQuickField name="category"}}
+                {{> afQuickField name="item"}}
+            <button type="submit" class="btn btn-primary">{{fa "file-text"}} Generate</button>
+            <button type="reset" class="btn btn-default reset">{{fa "refresh"}} Reset</button>
+            </div>
+            <div class="col-md-6">
+                {{> afQuickField name="date"}}
+                {{> afQuickField name="exchange"}}
+            </div>
+        </div>
+        {{> collapseTabular }}
+    {{/autoForm}}
+</template>
+
+<!--Generate-->
+<template name="rice_saleByItemReportGen">
+    <!--Is ready-->
+    {{#if data}}
+        {{#reportTpl options}}
+
+            {{#with data}}
+
+                <!--Title-->
+                {{#with title}}
+                    <div class="title">
+                        <div class="title-1x-kh-muol">{{khName}}</div>
+                        <div class="title-1x">{{enName}}</div>
+                        <div><u>Sale Report</u></div>
+                        <div class="title-2x">{{enAddress}}</div>
+                    </div>
+                {{/with}}
+
+                <!--Header-->
+                {{#with header}}
+                    <div style="width: 100%">
+                        <div style="width: 50%; float: left">
+                            <ul class="list-unstyled">
+                                <li><strong>Branch:</strong> {{branch._id}} | {{branch.khName}}({{branch.khName}})</li>
+                                <li><strong>Customer:</strong> {{customer}}</li>
+                            </ul>
+                        </div>
+
+                        <div style="width: 50%; float: right">
+                            <ul class="list-unstyled">
+                                <li><strong>Date:</strong> {{date}}</li>
+                                <li><strong>Exchange:</strong> {{exchange}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                {{/with}}
+
+                <!--Content-->
+                <table class="report-content">
+                    <thead class="content-header">
+                    <tr>
+                        <th>No</th>
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Customer</th>
+                        <th>Telephone</th>
+                        <th>Sub-Total</th>
+                        <th>Discount</th>
+                        <th>Total</th>
+                        <th>Profit</th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="content-body">
+                    {{#each content}}
+                        <tr>
+                            <td>{{index}}</td>
+                            <td>{{_id}}</td>
+                            <td>{{moFormat saleDate 'YYYY-MM-DD HH:mm:ss'}}</td>
+                            <td>{{_customer.name}}</td>
+                            <td>{{_customer.telephone}}</td>
+                            <td align='right'>{{numFormat subTotal '0,0'}}</td>
+                            <td align='right'>
+                              {{#if subDiscount}}
+                                {{numFormat subDiscount '0,0'}}
+                              {{/if}}
+                            </td>
+                            <td align='right'>{{numFormat total '0,0'}}</td>
+                            <td align='right'>{{numFormat profit '0,0'}}</td>
+                        </tr>
+                    {{/each}}
+                    {{#with footer}}
+                        <tr align='right'>
+                          <td colspan="7">
+                          Total KHR:
+                          </td>
+                          <td align='right'>
+                               {{numFormat total '0,0'}}
+                          </td>
+                          <td align='right'>{{numFormat profit '0,0'}}</td>
+                        </tr>
+                        <tr align='right'>
+                          <td colspan="7">
+                          USD:
+                          </td>
+                          <td align='right'>
+                               {{numFormat totalInDollar '0,0.00'}}
+                          </td>
+                          <td align='right'>{{numFormat profitInDollar '0,0.00'}}</td>
+
+                        </tr>
+
+                        <tr align='right'>
+                          <td colspan="7">
+                          THB:
+                          </td>
+                          <td align='right'>
+                               {{totalInBath}}
+                          </td>
+                          <td align='right'> {{profitInBath}}</td>
+                        </tr>
+                    {{/with}}
+                    </tbody>
+                </table>
+
+
+            {{/with}}
+
+            <!--Sign-->
+            {{> signFooter}}
+
+        {{/reportTpl}}
+
+        <!--Auto print-->
+        <!-- {{autoprint close="true"}} -->
+
+    {{else}}
+        {{> loading}}
+    {{/if}}
+</template>
