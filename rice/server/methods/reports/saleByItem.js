@@ -39,31 +39,11 @@ Meteor.methods({
     };
 
     if (categoryId != '' && itemId == '') {
-      selector = {
-        saleDate: {
-          $gte: fDate,
-          $lte: tDate
-        },
-        'saleItems.saleCategoryId': categoryId
-      };
+      selector['saleItems.saleCategoryId'] = categoryId;
     } else if (categoryId != '' && itemId != '') {
-      selector = {
-        saleDate: {
-          $gte: fDate,
-          $lte: tDate
-        },
-        'saleItems.saleCategoryId': categoryId,
-        'saleItems.saleItemId': itemId
-      };
-    } else {
-      selector = {
-        saleDate: {
-          $gte: fDate,
-          $lte: tDate
-        }
-      };
+      selector['saleItems.saleCategoryId'] = categoryId;
+      selector['saleItems.saleItemId'] = itemId;
     }
-
     var index = 1;
     var totalProfit = 0;
     var sales = Rice.Collection.Sale.aggregate([{
@@ -72,11 +52,9 @@ Meteor.methods({
       $match: selector
     }, {
       $group: {
-        _id: {
-          saleItemId: '$saleItems.saleItemId'
-        },
-        price: {
-          $last: '$saleItems.price'
+        _id: '$saleItems.saleItemId',
+        averagePrice: {
+          $avg: '$saleItems.price'
         },
         cost: {
           $last: '$saleItems.cost'
@@ -85,58 +63,28 @@ Meteor.methods({
           $sum: '$saleItems.qty'
         },
         totalDiscount: {
-          $sum: '$saleItems.discount'
+          $avg: '$saleItems.discount'
         },
         totalCost: {
-          $sum: '$saleItems.cost'
+          $sum: '$saleItems.lineCost'
         },
         totalAmount: {
           $sum: '$saleItems.amount'
         }
       }
-    }]);
-    console.log(sales);
-    sales.forEach(function(sale) {
-      index = 1;
-      subTotal += sale.subTotal;
-      total += sale.total;
-      totalProfit += sale.profit;
-      if (!_.isUndefined(sale.subDiscount)) {
-        discount += sale.subDiscount;
+    }, {
+      $sort: {
+        _id: 1
       }
-      sale.saleItems.forEach(function(item) {
-        item.index = index;
-        index += 1;
-      });
+    }]);
+    sales.forEach(function(sale) {
       content.push(sale);
-
     });
+    console.log(content);
     if (content.length > 0) {
       data.content = content;
-      data.footer = {
-        subTotal: subTotal,
-        discount: discount,
-        total: total,
-        profit: totalProfit,
-        profitInDollar: fx.convert(totalProfit, {
-          from: 'KHR',
-          to: 'USD'
-        }),
-        profitInBath: fx.convert(totalProfit, {
-          from: 'KHR',
-          to: 'THB'
-        }),
-        totalInDollar: fx.convert(total, {
-          from: 'KHR',
-          to: 'USD'
-        }),
-        totalInBath: fx.convert(total, {
-          from: 'KHR',
-          to: 'THB'
-        })
-      };
     }
-
+    console.log(data);
     return data;
   }
 });

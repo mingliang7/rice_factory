@@ -29,6 +29,8 @@ riceRoutes.route('/saleByItemReportGen', {
   subscriptions: function() {
     this.register('rice_saleItems', subs.subscribe(
       'rice_saleItemsCategories'));
+    this.register('rice_saleCategories', subs.subscribe(
+      'rice_saleCategories'));
   },
   breadcrumb: {
     title: 'Sale By Item Report',

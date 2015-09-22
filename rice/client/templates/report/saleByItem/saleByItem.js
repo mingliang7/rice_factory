@@ -43,6 +43,23 @@ Template.rice_saleByItemReportGen.helpers({
       orientation: 'portrait'
     };
   },
+  getItemName: function(id) {
+    if (id) {
+      var categoryName = Rice.Collection.SaleCategory.findOne(id.slice(0,
+          3))
+        .name;
+      var itemName = Rice.Collection.SaleItem.findOne(id).name;
+      return id + ' | ' + categoryName + itemName;
+    }
+    return 'No Result';
+  },
+  getProfit: function(totalAmount, totalCost) {
+    if (totalAmount) {
+      return numeral(totalAmount - totalCost).format('0,0');
+    }
+    return 0;
+
+  },
   data: function() {
       var params = FlowRouter.current().queryParams;
       Fetcher.setDefault('data', false);

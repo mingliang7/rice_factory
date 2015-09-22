@@ -3,11 +3,7 @@ Template.rice_sellingList.onRendered(function() {
   createNewAlertify(['saleQuickPayment', 'sale']);
 });
 Template.rice_sellingList.helpers({
-  selector: function() {
-    return {
-      status: 'active'
-    };
-  }
+
 });
 
 Template.rice_sellingList.events({

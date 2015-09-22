@@ -31,7 +31,7 @@
                     <div class="title">
                         <div class="title-1x-kh-muol">{{khName}}</div>
                         <div class="title-1x">{{enName}}</div>
-                        <div><u>Sale Report</u></div>
+                        <div><u>Sale By Item Report</u></div>
                         <div class="title-2x">{{enAddress}}</div>
                     </div>
                 {{/with}}
@@ -59,13 +59,12 @@
                 <table class="report-content">
                     <thead class="content-header">
                     <tr>
-                        <th>No</th>
-                        <th>ID</th>
-                        <th>Date</th>
-                        <th>Customer</th>
-                        <th>Telephone</th>
-                        <th>Sub-Total</th>
+                        <th>Item</th>
+                        <th>Cost</th>
+                        <th>Average-Price</th>
+                        <th>Qty</th>
                         <th>Discount</th>
+                        <th>Total-Cost</th>
                         <th>Total</th>
                         <th>Profit</th>
                     </tr>
@@ -74,56 +73,18 @@
                     <tbody class="content-body">
                     {{#each content}}
                         <tr>
-                            <td>{{index}}</td>
-                            <td>{{_id}}</td>
-                            <td>{{moFormat saleDate 'YYYY-MM-DD HH:mm:ss'}}</td>
-                            <td>{{_customer.name}}</td>
-                            <td>{{_customer.telephone}}</td>
-                            <td align='right'>{{numFormat subTotal '0,0'}}</td>
-                            <td align='right'>
-                              {{#if subDiscount}}
-                                {{numFormat subDiscount '0,0'}}
-                              {{/if}}
-                            </td>
-                            <td align='right'>{{numFormat total '0,0'}}</td>
-                            <td align='right'>{{numFormat profit '0,0'}}</td>
+                            <td>{{getItemName _id}}</td>
+                            <td align="center">{{numFormat cost '0,0'}}</td>
+                            <td align="center">{{numFormat averagePrice '0,0'}}</td>
+                            <td align="center">{{totalQty}}</td>
+                            <td align="center">{{totalDiscount}}%</td>
+                            <td align="center">{{numFormat totalCost '0,0'}}</td>
+                            <td align="center">{{numFormat totalAmount '0,0'}}</td>
+                            <td align="center">{{{getProfit totalAmount totalCost}}}</td>
                         </tr>
                     {{/each}}
-                    {{#with footer}}
-                        <tr align='right'>
-                          <td colspan="7">
-                          Total KHR:
-                          </td>
-                          <td align='right'>
-                               {{numFormat total '0,0'}}
-                          </td>
-                          <td align='right'>{{numFormat profit '0,0'}}</td>
-                        </tr>
-                        <tr align='right'>
-                          <td colspan="7">
-                          USD:
-                          </td>
-                          <td align='right'>
-                               {{numFormat totalInDollar '0,0.00'}}
-                          </td>
-                          <td align='right'>{{numFormat profitInDollar '0,0.00'}}</td>
-
-                        </tr>
-
-                        <tr align='right'>
-                          <td colspan="7">
-                          THB:
-                          </td>
-                          <td align='right'>
-                               {{totalInBath}}
-                          </td>
-                          <td align='right'> {{profitInBath}}</td>
-                        </tr>
-                    {{/with}}
                     </tbody>
                 </table>
-
-
             {{/with}}
 
             <!--Sign-->

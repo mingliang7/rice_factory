@@ -13,8 +13,6 @@ riceRoutes.route('/sale/:customerId', {
       subs.subscribe('rice_saleItemsCategories')
     );
     this.register('rice_exchange', subs.subscribe('cpanel_exchange'));
-    this.register('rice_quickPayment', subs.subscribe('rice_quickPayment'));
-
   },
   action: function(params, queryParams) {
     Layout.main('rice_sale');
