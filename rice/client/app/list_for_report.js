@@ -3,7 +3,7 @@ Rice.ListForReport = {
   branch: function() {
     var list = [];
     list.push({
-      label: "(Select All)",
+      label: "(Select One)",
       value: ""
     });
     Cpanel.Collection.Branch.find()

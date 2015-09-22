@@ -24,7 +24,8 @@ Meteor.methods({
 
     /****** Header *****/
     data.header = {
-      customer: ReportInfo.customerName(params.customer),
+      category: ReportInfo.category(params.category),
+      item: ReportInfo.item(params.item),
       branch: ReportInfo.branchName(params.branch),
       date: params.date,
       exchange: ReportInfo.readbleExchange(params.exchange)
@@ -80,7 +81,6 @@ Meteor.methods({
     sales.forEach(function(sale) {
       content.push(sale);
     });
-    console.log(content);
     if (content.length > 0) {
       data.content = content;
     }
