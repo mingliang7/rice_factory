@@ -1,0 +1,102 @@
+<!--Form-->
+<template name="rice_saleByItemReport">
+    {{#autoForm schema=Rice.Schema.SaleByItem id="rice_saleByItemReport" action="saleByItemReportGen" target="_blank"}}
+        <div class="row">
+            <div class="col-md-6">
+                {{> afQuickField name="branch"}}
+                {{> afQuickField name="category"}}
+                {{> afQuickField name="item"}}
+            <button type="submit" class="btn btn-primary">{{fa "file-text"}} Generate</button>
+            <button type="reset" class="btn btn-default reset">{{fa "refresh"}} Reset</button>
+            </div>
+            <div class="col-md-6">
+                {{> afQuickField name="date"}}
+                {{> afQuickField name="exchange"}}
+            </div>
+        </div>
+        {{> collapseTabular }}
+    {{/autoForm}}
+</template>
+
+<!--Generate-->
+<template name="rice_saleByItemReportGen">
+    <!--Is ready-->
+    {{#if data}}
+        {{#reportTpl options}}
+
+            {{#with data}}
+
+                <!--Title-->
+                {{#with title}}
+                    <div class="title">
+                        <div class="title-1x-kh-muol">{{khName}}</div>
+                        <div class="title-1x">{{enName}}</div>
+                        <div><u>Sale By Item Report</u></div>
+                        <div class="title-2x">{{enAddress}}</div>
+                    </div>
+                {{/with}}
+
+                <!--Header-->
+                {{#with header}}
+                    <div style="width: 100%">
+                        <div style="width: 50%; float: left">
+                            <ul class="list-unstyled">
+                                <li><strong>Branch:</strong> {{branch._id}} | {{branch.khName}}({{branch.khName}})</li>
+                                <li><strong>Category:</strong> {{category}}</li>
+                                <li><strong>Item:</strong> {{item}}</li>
+                            </ul>
+                        </div>
+
+                        <div style="width: 50%; float: right">
+                            <ul class="list-unstyled">
+                                <li><strong>Date:</strong> {{date}}</li>
+                                <li><strong>Exchange:</strong> {{exchange}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                {{/with}}
+
+                <!--Content-->
+                <table class="report-content">
+                    <thead class="content-header">
+                    <tr>
+                        <th>Item</th>
+                        <th>Cost</th>
+                        <th>Avg-Price</th>
+                        <th>Qty</th>
+                        <th>Avg-Discount</th>
+                        <th>Total-Cost</th>
+                        <th>Total</th>
+                        <th>Profit</th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="content-body">
+                    {{#each content}}
+                        <tr>
+                            <td>{{getItemName _id}}</td>
+                            <td align="center">{{numFormat cost '0,0'}}</td>
+                            <td align="center">{{numFormat averagePrice '0,0'}}</td>
+                            <td align="center">{{totalQty}}</td>
+                            <td align="center">{{totalDiscount}}%</td>
+                            <td align="center">{{numFormat totalCost '0,0'}}</td>
+                            <td align="center">{{numFormat totalAmount '0,0'}}</td>
+                            <td align="center">{{{getProfit totalAmount totalCost}}}</td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            {{/with}}
+
+            <!--Sign-->
+            {{> signFooter}}
+
+        {{/reportTpl}}
+
+        <!--Auto print-->
+        <!-- {{autoprint close="true"}} -->
+
+    {{else}}
+        {{> loading}}
+    {{/if}}
+</template>

@@ -73,7 +73,6 @@
 
 <!--Update-->
 <template name="rice_saleUpdate">
-    {{#if isSubReady "rice_saleByCustomer"}}
         {{#autoForm collection=Rice.Collection.Sale doc=this id="rice_saleUpdate" type="update"}}
            <div class="row">
             <div class="col-md-9">
@@ -102,9 +101,6 @@
             </div>
         </div>
         {{/autoForm}}
-    {{else}}
-        {{> loading}}
-    {{/if}}
 </template>
 
 <!--Show-->
