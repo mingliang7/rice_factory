@@ -38,7 +38,7 @@ Template.rice_sellingList.events({
         console.log("error", error);
       }
       if (result) {
-        alertify.alert(fa("eye", "Sale"), renderTemplate(Template.rice_saleShow,
+        alertify.sale(fa("eye", "Sale"), renderTemplate(Template.rice_saleShow,
           result));
       }
     });

@@ -105,7 +105,7 @@ indexTpl.events({
         console.log("error", error);
       }
       if (result) {
-        alertify.alert(fa("eye", "Sale"), renderTemplate(showTpl,
+        alertify.sale(fa("eye", "Sale"), renderTemplate(showTpl,
           result));
       }
     });

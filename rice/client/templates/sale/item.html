@@ -6,6 +6,7 @@
                 <input type="text" name="tmpName" class="form-control" placeholder="Name">
             </div>
         </div>
+        <input type="hidden" name="tmpCate" class="form-control" placeholder="cate">
         <div class="col-sm-2">
             <div class="form-group">
                 <input type="text" name="tmpQty" class="form-control" placeholder="Qty">
@@ -68,6 +69,7 @@
             {{/if}}
             </div>
             {{> afQuickField name=indexName value=name class="name" readonly="true" label=false type='hidden'}}
+            {{> afQuickField name=indexCate value=saleCategoryId class="name" readonly="true" type='hidden'}}
             <div class="col-sm-2">
                 {{> afQuickField name=indexPrice type="text" value=price class="price" label=false}}
             </div>

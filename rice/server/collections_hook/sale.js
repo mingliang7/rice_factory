@@ -18,19 +18,5 @@ Rice.Collection.Sale.before.update(function(userId, doc, fieldNames, modifier,
 		modifier.$set.saleItems = saleItems;
 	}
 });
-//set categoryId for each item 
-Rice.Collection.Sale.after.insert(function(userId, doc) {
-	Meteor.defer(function() {
-		doc.saleItems.forEach(function(item) {
-			var categoryId = item.saleItemId.slice(0, 3);
-			return Rice.Collection.Sale.direct.update({
-				_id: doc._id,
-				'saleItems.saleItemId': item.saleItemId
-			}, {
-				$set: {
-					'saleItems.$.saleCategoryId': categoryId
-				}
-			});
-		});
-	});
-});
+//set categoryId for each item
+Rice.Collection.Sale.after.insert(function(userId, doc) {});

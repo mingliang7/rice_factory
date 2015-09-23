@@ -84,7 +84,6 @@ Meteor.methods({
     if (content.length > 0) {
       data.content = content;
     }
-    console.log(data);
     return data;
   }
 });

@@ -24,13 +24,13 @@ saleItemTpl.onCreated(function() {
   if (!_.isUndefined(data)) {
     _.each(data.saleItems, function(obj, key) {
       obj.indexName = 'saleItems.' + key + '.saleItemId';
+      obj.indexCate = 'saleItems.' + key + '.saleCategoryId';
       obj.indexQty = 'saleItems.' + key + '.qty';
       obj.indexCost = 'saleItems.' + key + '.cost';
       obj.indexLineCost = 'saleItems.' + key + '.lineCost';
       obj.indexPrice = 'saleItems.' + key + '.price';
       obj.indexAmount = 'saleItems.' + key + '.amount';
       obj.indexDiscount = 'saleItems.' + key + '.discount';
-
       saleItemsState.insert(obj.saleItemId, obj);
     });
   }
@@ -67,7 +67,6 @@ saleItemTpl.helpers({
   tmpAmount: function() {
     var discount = StateItem.get('discount');
     var tmpAmountVal = 0;
-    debugger
     if (discount == 0) {
       tmpAmountVal = math.round(StateItem.get('qty') * StateItem.get(
         'price'), 2);
@@ -179,6 +178,7 @@ saleItemTpl.events({
   'change [name="tmpName"]': function(e) {
     var id = $(e.currentTarget).val();
     var item = Rice.Collection.SaleItem.findOne(id);
+    $('[name="tmpCate"]').val(id.slice(0, 3));
     $('[name="tmpPrice"]').val(item.price);
     $('[name="tmpCost"]').val(item.cost);
     StateItem.set('price', item.price);
@@ -215,6 +215,7 @@ saleItemTpl.events({
     var index = 0;
     var saleItem = {};
     saleItem.name = t.$('[name="tmpName"]').val();
+    saleItem.saleCategoryId = t.$('[name="tmpCate"]').val();
     saleItem.tmpName = t.$('[name="tmpName"]').select2('data').text;
     saleItem.qty = parseFloat(t.$('[name="tmpQty"]').val());
     saleItem.cost = parseFloat(t.$('[name="tmpCost"]').val())
@@ -257,6 +258,7 @@ saleItemTpl.events({
     }
 
     saleItem.indexName = 'saleItems.' + index + '.saleItemId';
+    saleItem.indexCate = 'saleItems.' + index + '.saleCategoryId';
     saleItem.indexQty = 'saleItems.' + index + '.qty';
     saleItem.indexPrice = 'saleItems.' + index + '.price';
     saleItem.indexCost = 'saleItems.' + index + '.cost';

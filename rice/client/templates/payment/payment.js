@@ -1,5 +1,5 @@
 Template.rice_payment.onRendered(function() {
-  createNewAlertify('saleQuickPayment');
+  createNewAlertify('saleQuickPayment', 'payment');
 });
 Template.rice_payment.helpers({
   selector: function() {
@@ -75,7 +75,7 @@ Template.rice_payment.events({
   },
   'click .show': function() {
     var data = this;
-    alertify.alert(fa("eye", "Sale"), renderTemplate(Template.rice_paymentShow,
+    alertify.saleQuickPayment(fa("eye", "Sale"), renderTemplate(Template.rice_paymentShow,
       data));
   }
 });

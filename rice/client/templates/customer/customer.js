@@ -82,7 +82,7 @@ indexTpl.events({
       data.photoUrl = Files.findOne(data.photo).url();
     }
 
-    alertify.alert(fa("eye", "Customer"), renderTemplate(showTpl, data));
+    alertify.customer(fa("eye", "Customer"), renderTemplate(showTpl, data));
   },
   'dblclick tbody > tr': function(event) {
     StateItem = new ReactiveObj({
