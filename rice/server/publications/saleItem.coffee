@@ -6,3 +6,5 @@ Meteor.publish 'rice_saleItems', (saleCategoryId)->
 
 Meteor.publish 'rice_saleItemsCategories', ->
 	Rice.Collection.SaleItem.find() if @userId
+Meteor.publish 'rice_purchaseItems', ->
+	Rice.Collection.PurchaseItem.find() if @userId

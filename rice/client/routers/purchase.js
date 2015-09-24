@@ -1,26 +1,26 @@
 var subs = new SubsManager();
 
-riceRoutes.route('/sale/:customerId', {
-  name: 'rice.sale',
+riceRoutes.route('/purchase/:supplierId', {
+  name: 'rice.purchase',
   subscriptions: function(params, queryParams) {
 
     this.register(
-      'rice_saleCategories',
-      subs.subscribe('rice_saleCategories')
+      'rice_purchaseCategories',
+      subs.subscribe('rice_purchaseCategories')
     );
     this.register(
-      'rice_saleItemsCategories',
-      subs.subscribe('rice_saleItemsCategories')
+      'rice_purchaseItems',
+      subs.subscribe('rice_purchaseItems')
     );
     this.register('rice_exchange', subs.subscribe('cpanel_exchange'));
   },
   action: function(params, queryParams) {
-    Layout.main('rice_sale');
+    Layout.main('rice_purchase');
   },
   breadcrumb: {
-    params: ['customerId'],
+    params: ['supplierId'],
     //queryParams: ['show', 'color'],
     title: 'purchase',
-    parent: 'rice.customer'
+    parent: 'rice.supplier'
   }
 });
