@@ -145,9 +145,6 @@ AutoForm.hooks({
   rice_supplierInsert: {
     before: {
       insert: function(doc) {
-        var prefix = Session.get('currentBranch') + '-';
-        doc._id = idGenerator.genWithPrefix(Rice.Collection.Supplier,
-          prefix, 4);
         doc.branchId = Session.get('currentBranch');
         return doc;
       }
