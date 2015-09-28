@@ -52,6 +52,7 @@ Meteor.methods({
 
     var index = 1;
     var totalProfit = 0;
+    var lineCost = 0;
     var sales = Rice.Collection.Sale.find(selector).fetch();
     sales.forEach(function(sale) {
       index = 1;
@@ -63,7 +64,9 @@ Meteor.methods({
       }
       sale.saleItems.forEach(function(item) {
         item.index = index;
+        lineCost += item.lineCost;
         index += 1;
+
       });
       content.push(sale);
 
@@ -73,22 +76,31 @@ Meteor.methods({
       data.footer = {
         subTotal: subTotal,
         discount: discount,
+        lineCost: lineCost,
         total: total,
         profit: totalProfit,
-        profitInDollar: fx.convert(totalProfit, {
-          from: 'KHR',
-          to: 'USD'
+        lineCostInKhmer: fx.convert(lineCost, {
+          from: 'USD',
+          to: 'KHR'
         }),
-        profitInBath: fx.convert(totalProfit, {
-          from: 'KHR',
+        lineCostInBath: fx.convert(lineCost, {
+          from: 'USD',
           to: 'THB'
         }),
-        totalInDollar: fx.convert(total, {
-          from: 'KHR',
-          to: 'USD'
+        profitInKhmer: fx.convert(totalProfit, {
+          from: 'USD',
+          to: 'KHR'
+        }),
+        profitInBath: fx.convert(totalProfit, {
+          from: 'USD',
+          to: 'THB'
+        }),
+        totalInKhmer: fx.convert(total, {
+          from: 'USD',
+          to: 'KHR'
         }),
         totalInBath: fx.convert(total, {
-          from: 'KHR',
+          from: 'USD',
           to: 'THB'
         })
       };

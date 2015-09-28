@@ -3,6 +3,7 @@
     {{#autoForm schema=Rice.Schema.SaleReport id="rice_saleReport" action="saleReportGen" target="_blank"}}
         <div class="row">
             <div class="col-md-6">
+              {{> afQuickField name="branch"}}
               <label >Customer: <span class="label label-primary">{{customerId.name}}</span></label>
               <div class="input-group  select2-bootstrap-append">
                     {{> afFieldInput name="customer" value=customerId._id readonly=true}}
@@ -20,7 +21,6 @@
                   </div>
                 <br>
                 {{> afQuickField name="date"}}
-                {{> afQuickField name="branch"}}
             </div>
             <div class="col-md-6">
                 {{> afQuickField name="exchange"}}
@@ -93,14 +93,14 @@
                             <td>{{moFormat saleDate 'YYYY-MM-DD HH:mm:ss'}}</td>
                             <td>{{_customer.name}}</td>
                             <td>{{_customer.telephone}}</td>
-                            <td align='right'>{{numFormat subTotal '0,0'}}</td>
+                            <td align='right'>{{numFormat subTotal '0,0.00'}}</td>
                             <td align='right'>
                               {{#if subDiscount}}
-                                {{numFormat subDiscount '0,0'}}
+                                {{numFormat subDiscount '0,0.00'}}
                               {{/if}}
                             </td>
-                            <td align='right'>{{numFormat total '0,0'}}</td>
-                            <td align='right'>{{numFormat profit '0,0'}}</td>
+                            <td align='right'>{{numFormat total '0,0.00'}}</td>
+                            <td align='right'>{{numFormat profit '0,0.00'}}</td>
                         </tr>
                     {{/each}}
                     {{#with footer}}
@@ -109,18 +109,18 @@
                           Total USD:
                           </td>
                           <td align='right'>
-                               {{numFormat total '0,0'}}
+                               {{numFormat total '0,0.00'}}
                           </td>
-                          <td align='right'>{{numFormat profit '0,0'}}</td>
+                          <td align='right'>{{numFormat profit '0,0.00'}}</td>
                         </tr>
                         <tr align='right'>
                           <td colspan="7">
                           KHR:
                           </td>
                           <td align='right'>
-                               {{numFormat totalInKhmer '0,0.00'}}
+                               {{numFormat totalInKhmer '0,0'}}
                           </td>
-                          <td align='right'>{{numFormat profitInKhmer '0,0.00'}}</td>
+                          <td align='right'>{{numFormat profitInKhmer '0,0'}}</td>
 
                         </tr>
 
