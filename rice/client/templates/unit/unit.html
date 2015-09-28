@@ -1,0 +1,67 @@
+<template name="rice_unit">
+	{{> rice_unitTabular}}
+</template>
+<!--Index-->
+<template name="rice_unitTabular">
+    <p>
+        <button type="button" class="btn btn-primary insert"><i class="fa fa-plus"></i> Add New</button>
+    </p>
+
+    {{> tabular table=Rice.TabularTable.Unit class="table table-striped table-bordered table-condensed table-hover"}}
+</template>
+
+<!--Action-->
+<template name="rice_unitAction">
+    {{#tabularAction}}
+        <li><a href="#" class="update"><i class="fa fa-pencil"></i> Update</a></li>
+        <li><a href="#" class="remove"><i class="fa fa-remove"></i> Remove</a></li>
+        <li><a href="#" class="show"><i class="fa fa-eye"></i> Show</a></li>
+    {{/tabularAction}}
+</template>
+<template name="rice_unitInsertTemplate">
+    {{#autoForm collection=Rice.Collection.Unit id="rice_unitInsertTemplate" type="insert"}}
+        <div class="row">
+            <div class="col-md-12">
+                {{> afQuickField name='name' }}
+                {{> afQuickField name='shortName'}}
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="reset" class="btn btn-default">Reset</button>
+            </div>
+        </div>
+
+    {{/autoForm}}
+</template>
+<template name="rice_unitUpdateTemplate">
+    {{#autoForm collection=Rice.Collection.Unit id="rice_unitUpdateTemplate" type="update" doc=this}}
+        <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                  <div class="col-md-12">
+                      {{> afQuickField name='name' }}
+                      {{> afQuickField name='shortName'}}
+                  <button type="submit" class="btn btn-primary">Save</button>
+                  <button type="reset" class="btn btn-default">Reset</button>
+                  </div>
+              </div>
+            </div>
+        </div>
+    {{/autoForm}}
+</template>
+
+<!--Show-->
+<template name="rice_unitShowTemplate">
+    <dl class="dl-horizontal">
+        <dt>Id</dt>
+        <dd>{{_id}}</dd>
+        <dt>Name:</dt>
+        <dd>{{name}}</dd>
+        <dt>Gender</dt>
+        <dd>{{gender}}</dd>
+        <dt>Position</dt>
+        <dd>{{position}}</dd>
+        <dt>Telephone</dt>
+        <dd>{{telephone}}</dd>
+        <dt>Address</dt>
+        <dd>{{address}}</dd>
+    </dl>
+</template>

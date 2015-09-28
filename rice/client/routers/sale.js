@@ -9,6 +9,10 @@ riceRoutes.route('/sale/:customerId', {
       subs.subscribe('rice_saleCategories')
     );
     this.register(
+      'rice_unit',
+      subs.subscribe('rice_unit')
+    );
+    this.register(
       'rice_saleItemsCategories',
       subs.subscribe('rice_saleItemsCategories')
     );
