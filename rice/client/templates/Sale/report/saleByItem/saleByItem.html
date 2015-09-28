@@ -75,15 +75,33 @@
                     {{#each content}}
                         <tr>
                             <td>{{getItemName _id}}</td>
-                            <td align="center">{{numFormat cost '0,0'}}</td>
-                            <td align="center">{{numFormat averagePrice '0,0'}}</td>
-                            <td align="center">{{totalQty}}</td>
-                            <td align="center">{{totalDiscount}}%</td>
-                            <td align="center">{{numFormat totalCost '0,0'}}</td>
-                            <td align="center">{{numFormat totalAmount '0,0'}}</td>
-                            <td align="center">{{{getProfit totalAmount totalCost}}}</td>
+                            <td align="right">{{numFormat cost '0,0.00'}}</td>
+                            <td align="right">{{numFormat averagePrice '0,0.00'}}</td>
+                            <td align="right">{{totalQty}}</td>
+                            <td align="right">{{totalDiscount}}%</td>
+                            <td align="right">{{numFormat totalCost '0,0.00'}}</td>
+                            <td align="right">{{numFormat totalAmount '0,0.00'}}</td>
+                            <td align="right">{{{getProfit totalAmount totalCost}}}</td>
                         </tr>
                     {{/each}}
+                    <tr>
+                        <td colspan="5" align='right'>Total USD:</td>
+                        <td align='right'>{{numFormat footer.totalCost '0,0.00'}}</td>
+                        <td align='right'>{{numFormat footer.total '0,0.00'}}</td>
+                        <td align='right'>{{numFormat footer.totalProfit '0,0.00'}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" align='right'>KHR:</td>
+                        <td align='right'>{{numFormat footer.totalCostInKhmer '0,0'}}</td>
+                        <td align='right'>{{numFormat footer.totalInKhmer '0,0'}}</td>
+                        <td align='right'>{{numFormat footer.totalProfitInKhmer '0,0'}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" align='right'>THB:</td>
+                        <td align='right'>{{numFormat footer.totalCostInBath '0,0'}}</td>
+                        <td align='right'>{{numFormat footer.totalInBath '0,0'}}</td>
+                        <td align='right'>{{numFormat footer.totalProfitInBath '0,0'}}</td>
+                    </tr>
                     </tbody>
                 </table>
             {{/with}}

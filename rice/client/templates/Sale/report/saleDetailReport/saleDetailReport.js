@@ -85,6 +85,9 @@ Template.rice_saleDetailReportGen.helpers({
       return true;
     }
   },
+  getProfit: function(amount, lineCost) {
+    return numeral(amount - lineCost).format('0,0.00');
+  },
   getItemName: function(id) {
     return Rice.Collection.SaleItem.findOne(id).name;
   },

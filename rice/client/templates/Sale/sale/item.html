@@ -94,10 +94,10 @@
     <div class="row">
         <div class="col-sm-6"></div>
         <div class="col-sm-3">
-            {{> afQuickField name="subDiscount"}}
+            {{> afQuickField name="subTotal" type="text" value=subTotal readonly="true"}}
         </div>
         <div class="col-sm-3">
-            {{> afQuickField name="subTotal" type="text" value=subTotal readonly="true"}}
+            {{> afQuickField name="subDiscount"}}
         </div>
         {{> afQuickField name='profit' value=profit type='hidden'}}
     </div>
@@ -105,8 +105,8 @@
         <div class="col-sm-9"></div>
         <div class="col-sm-3">
             {{> afQuickField name="total" type="text" value=total readonly="true"}}
-            <input name="totalInDollar" type="text" value={{exchange}} readonly="true" class="form-control">
             {{> afQuickField name="outstandingAmount" value=total type='hidden'}}
+            <label for="">{{{exchange}}}</label>
         </div>
     </div>
 </template>

@@ -17,6 +17,23 @@ Rice.List = {
     });
     return list;
   },
+  unit: function() {
+    var list = [];
+    list.push({
+      label: '(Select One)',
+      value: ''
+    });
+    var units = Rice.Collection.Unit.find().fetch();
+    if (!_.isUndefined(units)) {
+      units.forEach(function(unit) {
+        list.push({
+          label: unit.name + ' | (' + unit.shortName + ')',
+          value: unit._id
+        });
+      });
+    }
+    return list;
+  },
   saleCategories: function() {
     var list = [];
     list.push({

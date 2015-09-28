@@ -35,10 +35,11 @@ Template.rice_quickPaymentInsertTemplate.helpers({
   sumPaidAmount: function() {
     var doc = this;
     var sumPaidAmount = ReactiveMethod.call('getSumPayment', doc._id);
+    console.log(sumPaidAmount);
     Session.set('sumPaidAmount', sumPaidAmount);
-    if(sumPaidAmount === 0){
+    if (sumPaidAmount === 0) {
       return doc.outstandingAmount;
-    }else{
+    } else {
       return sumPaidAmount + doc.outstandingAmount;
     }
   }
@@ -71,7 +72,7 @@ Template.rice_quickPaymentUpdateTemplate.events({
     }
   }
 });
-Template.rice_quickPaymentUpdateTemplate.onRendered(function(){
+Template.rice_quickPaymentUpdateTemplate.onRendered(function() {
   Session.set('oldPaidAmount', this.data.paidAmount);
   Session.set('oldSumPaidAmount', this.data.sumPaidAmount);
 });
