@@ -63,7 +63,7 @@ Rice.TabularTable.Purchase = new Tabular.Table({
     }, {
       data: '_paymentCount',
       title: 'Payment <i class="fa fa-arrow-up"></i>',
-      tmpl: Meteor.isClient && Template.rice_paymentList
+      tmpl: Meteor.isClient && Template.rice_purchasePayment
     },
 
   ],

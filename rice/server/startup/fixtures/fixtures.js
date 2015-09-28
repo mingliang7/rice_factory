@@ -18,6 +18,7 @@ Meteor.startup(function() {
         var data = {
           _id: customerId,
           name: faker.name.findName(),
+          type: 'local',
           gender: Fake.fromArray(['M', 'F']),
           addressId: addressId,
           telephone: faker.phone.phoneNumber(),
@@ -53,6 +54,7 @@ Meteor.startup(function() {
         var supplierData = {
           _id: supplierId,
           name: faker.name.findName(),
+          type: 'local',
           gender: Fake.fromArray(['M', 'F']),
           addressId: addressId,
           telephone: faker.phone.phoneNumber(),
