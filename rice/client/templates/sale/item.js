@@ -160,12 +160,19 @@ saleItemTpl.helpers({
       });
       totalVal = totalVal - subDiscount;
     }
-    totalInDollar = fx.convert(totalVal, {
-      from: 'KHR',
-      to: 'USD'
+    totalInKhmer = fx.convert(totalVal, {
+      from: 'USD',
+      to: 'KHR'
+    });
+    totalInBath = fx.convert(totalVal, {
+      from: 'USD',
+      to: 'THB'
     });
     if (totalVal !== 0) {
-      return math.round(totalInDollar, 2);
+      khmer = math.round(totalInKhmer, 2);
+      bath = math.round(totalInBath, 2);
+      return 'KHR: ' + numeral(khmer).format('0,0.00') + '<br>THB: ' +
+        numeral(bath).format('0,0');
     }
   },
   getItem: function(id) {
@@ -354,7 +361,7 @@ var saleItemsInputmask = function() {
   var subTotal = $('[name="subTotal"]');
   var totalInDollar = $('[name="totalInDollar"]');
   Inputmask.currency([tmpPrice, tmpAmount, price, amount, total, subTotal], {
-    prefix: 'R '
+    prefix: '$ '
   });
   Inputmask.currency([totalInDollar], {
     prefix: '$ '
@@ -365,12 +372,13 @@ var saleItemsInputmask = function() {
 
 var getCategoryName = function(id) {
   return Rice.Collection.SaleCategory.findOne(id).name;
-}
+};
 
 var getItem = function(arr, item) {
+  var unit = Rice.Collection.Unit.findOne(item.unit).shortName;
   arr.push({
     id: item._id,
-    text: item._id + ' | ' + item.name
+    text: item._id + ' | ' + item.name + ' (' + unit + ')'
   });
   return arr;
-}
+};

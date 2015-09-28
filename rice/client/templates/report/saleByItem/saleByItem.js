@@ -48,44 +48,26 @@ Template.rice_saleByItemReportGen.helpers({
       var categoryName = Rice.Collection.SaleCategory.findOne(id.slice(0,
           3))
         .name;
+      var unit = ReactiveMethod.call('getUnit', id);
       var itemName = Rice.Collection.SaleItem.findOne(id).name;
-      return id + ' | ' + categoryName + itemName;
+      return id + ' | ' + categoryName + itemName + ' (' + unit.shortName +
+        ')';
     }
     return 'No Result';
   },
+
   getProfit: function(totalAmount, totalCost) {
     if (totalAmount) {
-      return numeral(totalAmount - totalCost).format('0,0');
+      return numeral(totalAmount - totalCost).format('0,0.00');
     }
     return 0;
 
   },
   data: function() {
-      var params = FlowRouter.current().queryParams;
-      Fetcher.setDefault('data', false);
-      Fetcher.retrieve('data', 'rice_saleByItemReport', params);
-      return Fetcher.get('data');
-    }
-    // },
-    // saleItems: function() {
-    //   var val = this;
-    //   td = '';
-    //   console.log(val);
-    //   val.saleItems.forEach(function(item) {
-    //     obj = itemName(item.saleItemId);
-    //     td += '<td>' + obj + '</td>';
-    //   });
-    //   return td;
-    // }
-});
+    var params = FlowRouter.current().queryParams;
+    Fetcher.setDefault('data', false);
+    Fetcher.retrieve('data', 'rice_saleByItemReport', params);
+    return Fetcher.get('data');
+  }
 
-// var itemName = function(itemId) {
-//   var categoryId = itemId.slice(0, 3);
-//   console.log(categoryId);
-//   categoryName = Rice.Collection.SaleCategory.findOne(categoryId).name;
-//   saleItemName = Rice.Collection.SaleItem.findOne({
-//     _id: itemId,
-//     saleCategoryId: categoryId
-//   }).name;
-//   return categoryName + saleItemName;
-// };
+});

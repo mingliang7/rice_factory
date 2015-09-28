@@ -43,9 +43,10 @@ Template.rice_invoiceReportGen.helpers({
   },
   check: function(data) {},
 
-  itemName: function(id) {
+  itemName: function(id, unitId) {
     var saleItem = ReactiveMethod.call('getSaleItem', id);
-    return saleItem.name;
+    var unit = ReactiveMethod.call('getUnit', id);
+    return saleItem.name + ' (' + unit.shortName + ')';
   },
   itemDiscount: function(discount) {
     if (discount === undefined || discount === 0) {

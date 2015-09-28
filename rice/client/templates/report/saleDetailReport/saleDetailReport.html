@@ -3,6 +3,7 @@
     {{#autoForm schema=Rice.Schema.SaleDetail id="rice_saleDetailReport" action="saleDetailReportGen" target="_blank"}}
         <div class="row">
             <div class="col-md-6">
+                {{> afQuickField name="branch"}}
               <label >Customer: <span class="label label-primary">{{customerId.name}}</span></label>
               <div class="input-group  select2-bootstrap-append">
                     {{> afFieldInput name="customer" value=customerId._id readonly=true}}
@@ -20,7 +21,6 @@
                   </div>
                 <br>
                 {{> afQuickField name="date"}}
-                {{> afQuickField name="branch"}}
             </div>
             <div class="col-md-6">
                 {{> afQuickField name="exchange"}}
@@ -81,6 +81,7 @@
                         <th>discount</th>
                         <th>Amount</th>
                         <th>Line Cost</th>
+                        <th>Profit</th>
 
                     </tr>
                     </thead>
@@ -97,10 +98,10 @@
                               {{getItemName saleItemId}}
                             </td>
                             <td align='right'>
-                              {{numFormat cost '0,0'}}
+                              {{numFormat cost '0,0.00'}}
                             </td>
                             <td align='right'>
-                              {{numFormat price '0,0'}}
+                              {{numFormat price '0,0.00'}}
                             </td>
                             <td align='right'>
                               {{qty}}
@@ -111,15 +112,62 @@
                               {{/if}}
                             </td>
                             <td align='right'>
-                              {{ numFormat amount '0,0'}}
+                              {{ numFormat amount '0,0.00'}}
                             </td>
                             <td align='right'>
-                              {{numFormat lineCost '0,0'}}
+                              {{numFormat lineCost '0,0.00'}}
+                            </td>
+                            <td align='right'>
+                              {{getProfit amount lineCost}}
                             </td>
                           </tr>
                         {{/each}}
                     {{/each}}
-
+                    <tr >
+                      <td colspan='6' align='right'>Total USD:</td>
+                      <td align="right">
+                        {{numFormat footer.total '0,0.00'
+                        }}
+                      </td>
+                      <td align="right">
+                        {{numFormat footer.lineCost '0,0.00'
+                        }}
+                      </td>
+                      <td align="right">
+                        {{numFormat footer.profit '0,0.00'
+                        }}
+                      </td>
+                    </tr>
+                    <tr >
+                      <td colspan="6" align='right'>KHR:</td>
+                      <td align="right">
+                        {{numFormat footer.totalInKhmer '0,0'
+                        }}
+                      </td>
+                      <td align="right">
+                        {{numFormat footer.lineCostInKhmer '0,0'
+                        }}
+                      </td>
+                      <td align="right">
+                        {{numFormat footer.profitInKhmer '0,0'
+                        }}
+                      </td>
+                    </tr>
+                      <tr >
+                        <td colspan="6" align='right'>THB</td>
+                        <td align="right">
+                          {{numFormat footer.totalInBath '0,0'
+                          }}
+                        </td>
+                        <td align="right">
+                          {{numFormat footer.lineCostInBath '0,0'
+                          }}
+                        </td>
+                        <td align="right">
+                          {{numFormat footer.profitInBath '0,0'
+                          }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
 

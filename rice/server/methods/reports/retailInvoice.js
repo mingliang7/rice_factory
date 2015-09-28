@@ -34,19 +34,22 @@ Meteor.methods({
 			customerName: getOrder._customer.name,
 			date: date,
 			time: time,
-			exchange: '1R = ' + exchange.rates.USD +
-				'$ = ' + exchange.rates.THB + 'B'
+			exchange: exchange.rates.USD + '$ = ' +
+				exchange.rates.KHR + 'R =' + exchange.rates.THB + 'B'
 		};
 
 		/********* Content & Footer *********/
 		var content = [];
 		var itemsDetail = getOrder.saleItems;
+		var index = 1;
 		itemsDetail.forEach(function(item) {
+			item.index = index;
 			item.price = formatKH(item.price);
 			item.amount = formatDollar(item.amount);
 			item.discount = item.discount === undefined || item.discount === 0 ? '' :
 				item.discount + '%';
 			content.push(item);
+			index++;
 		});
 		content.push(itemsDetail);
 		if (content.length > 0) {
@@ -55,15 +58,15 @@ Meteor.methods({
 				subTotal: formatKH(getOrder.subTotal),
 				subDiscount: getOrder.subDiscount === undefined ? '' : getOrder.subDiscount,
 				total: formatKH(getOrder.total),
-				totalInDollar: formatDollar(
+				totalInKhmer: formatDollar(
 					fx.convert(getOrder.total, {
-						from: 'KHR',
-						to: 'USD'
+						from: 'USD',
+						to: 'KHR'
 					})
 				),
 				totalInBath: formatKH(
 					fx.convert(getOrder.total, {
-						from: 'KHR',
+						from: 'USD',
 						to: 'THB'
 					})
 				),

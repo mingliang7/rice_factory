@@ -70,20 +70,20 @@ Meteor.methods({
         discount: discount,
         total: total,
         profit: totalProfit,
-        profitInDollar: fx.convert(totalProfit, {
-          from: 'KHR',
-          to: 'USD'
+        profitInKhmer: fx.convert(totalProfit, {
+          from: 'USD',
+          to: 'KHR'
         }),
         profitInBath: fx.convert(totalProfit, {
-          from: 'KHR',
+          from: 'USD',
           to: 'THB'
         }),
-        totalInDollar: fx.convert(total, {
-          from: 'KHR',
-          to: 'USD'
+        totalInKhmer: fx.convert(total, {
+          from: 'USD',
+          to: 'KHR'
         }),
         totalInBath: fx.convert(total, {
-          from: 'KHR',
+          from: 'USD',
           to: 'THB'
         })
       };

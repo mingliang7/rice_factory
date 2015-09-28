@@ -78,11 +78,44 @@ Meteor.methods({
         _id: 1
       }
     }]);
+    var totalCost = 0;
     sales.forEach(function(sale) {
+      total += sale.totalAmount;
+      totalCost += sale.totalCost;
       content.push(sale);
     });
+    console.log(totalCost);
     if (content.length > 0) {
       data.content = content;
+      data.footer = {
+        total: total,
+        totalCost: totalCost,
+        totalProfit: total - totalCost,
+        totalProfitInKhmer: fx.convert((total - totalCost), {
+          from: 'USD',
+          to: 'KHR'
+        }),
+        totalProfitInBath: fx.convert((total - totalCost), {
+          from: 'USD',
+          to: 'THB'
+        }),
+        totalInKhmer: fx.convert(total, {
+          from: 'USD',
+          to: 'KHR'
+        }),
+        totalInBath: fx.convert(total, {
+          from: 'USD',
+          to: 'THB'
+        }),
+        totalCostInKhmer: fx.convert(totalCost, {
+          from: 'USD',
+          to: 'KHR'
+        }),
+        totalCostInBath: fx.convert(totalCost, {
+          from: 'USD',
+          to: 'THB'
+        })
+      };
     }
     return data;
   }

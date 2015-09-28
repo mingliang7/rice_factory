@@ -24,6 +24,30 @@ tpl.events({
 		var self = this;
 		alertify.saleItem(fa('pencil', 'Edit Item'), renderTemplate(Template.rice_saleItemUpdate,
 			self));
+	},
+	'click .show': function() {
+		var self = this;
+		alertify.saleItem(fa('eyes', 'Show'), renderTemplate(Template.rice_saleItemShow,
+			self));
+	},
+	"click .remove": function() {
+		var self = this;
+		alertify.confirm(fa('remove', 'Remove SaleItem'),
+			"Are you sure to delete #" + self._id,
+			function() {
+				Rice.Collection.SaleItem.remove(self._id, function(err) {
+					if (err == undefined) {
+						alertify.error(err.message);
+					} else {
+						alertify.success('Successfully remove');
+					}
+				});
+			}, null);
+	}
+});
+Template.rice_saleItemShow.helpers({
+	getUnit: function(id) {
+		return Rice.Collection.Unit.findOne(id).name;
 	}
 });
 

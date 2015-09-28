@@ -27,6 +27,7 @@
             <div class="col-md-12">
                 {{> afQuickField name='name'}}
                 {{> afQuickField name='shortName'}}
+                {{> afQuickField name='unit'}}
                 {{> afQuickField name='cost'}}
                 {{> afQuickField name='price'}}
                 {{> afQuickField name='saleCategoryId' type="hidden"}}
@@ -63,6 +64,8 @@
         <dd>{{name}}</dd>
         <dt>Short Name</dt>
         <dd>{{shortName}}</dd>
+        <dt>Unit</dt>
+        <dd>{{getUnit unit}}</dd>
         <dt>Cost</dt>
         <dd>{{cost}}</dd>
         <dt>Price</dt>
