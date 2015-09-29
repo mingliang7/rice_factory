@@ -18,6 +18,7 @@ Meteor.methods({
     fx.base = exchange.base;
     fx.rates = exchange.rates;
     var customerId = params.customer;
+    var type = params.type;
     /****** Title *****/
     data.title = Cpanel.Collection.Company.findOne();
 
@@ -31,24 +32,18 @@ Meteor.methods({
 
     /****** Content *****/
     var content = [];
-    var selector;
-    if (customerId == 'All' || customerId == '') {
-      selector = {
-        saleDate: {
-          $gte: fDate,
-          $lte: tDate
-        }
-      };
-    } else {
-      selector = {
-        customerId: customerId,
-        saleDate: {
-          $gte: fDate,
-          $lte: tDate
-        }
-      };
+    var selector = {};
+    selector.saleDate = {
+      $gte: fDate,
+      $lte: tDate
+    };
+    if (customerId != 'All') {
+      selector.customerId = customerId;
     }
-
+    if (type != '') {
+      selector.type = type;
+    }
+    console.log(selector);
     var index = 1;
     var totalProfit = 0;
     var sales = Rice.Collection.Sale.find(selector).fetch();

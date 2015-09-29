@@ -35,5 +35,21 @@ Rice.ListForReport = {
       });
     }
     return list;
+  },
+  type: function() {
+    var list = [];
+    list.push({
+      label: 'All',
+      value: ''
+    });
+    list.push({
+      label: 'Local',
+      value: 'local'
+    });
+    list.push({
+      label: 'Global',
+      value: 'global'
+    });
+    return list;
   }
 };
