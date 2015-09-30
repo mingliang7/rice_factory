@@ -7,14 +7,16 @@ Rice.Schema.PurchaseItem = new SimpleSchema(
 	shortName:
 		type: String
 
-	cost:
-		type: Number
-		decimal: true
-
 	price:
 		type: Number
 		decimal: true
 
+	unit:
+		type: String
+		autoform:
+			type: 'select2'
+			options: ->
+				Rice.List.unit()
 	purchaseCategoryId:
 		type: String
 )

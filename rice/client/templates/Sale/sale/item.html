@@ -92,19 +92,22 @@
     {{/each}}
 
     <div class="row">
-        <div class="col-sm-6"></div>
         <div class="col-sm-3">
-            {{> afQuickField name="subTotal" type="text" value=subTotal readonly="true"}}
         </div>
         <div class="col-sm-3">
+            {{> afQuickField name="subTotal" type="text" value=subTotal readonly="true"}}
+          </div>
+          <div class='col-sm-3'>
             {{> afQuickField name="subDiscount"}}
+          </div>
+          <div class="col-sm-3">
+            {{> afQuickField name="total" type="text" value=total readonly="true"}}
         </div>
         {{> afQuickField name='profit' value=profit type='hidden'}}
     </div>
     <div class="row">
         <div class="col-sm-9"></div>
         <div class="col-sm-3">
-            {{> afQuickField name="total" type="text" value=total readonly="true"}}
             {{> afQuickField name="outstandingAmount" value=total type='hidden'}}
             <label for="">{{{exchange}}}</label>
         </div>

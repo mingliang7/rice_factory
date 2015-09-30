@@ -76,7 +76,7 @@ saleItemTpl.helpers({
       var qty = StateItem.get('qty');
       var amount = math.round(price * qty, 2);
       tmpAmountVal = math.round(amount - ((price * qty) * discount / 100),
-        2)
+        2);
     }
     return tmpAmountVal;
   },
@@ -171,7 +171,7 @@ saleItemTpl.helpers({
     if (totalVal !== 0) {
       khmer = math.round(totalInKhmer, 2);
       bath = math.round(totalInBath, 2);
-      return 'KHR: ' + numeral(khmer).format('0,0.00') + '<br>THB: ' +
+      return 'KHR: ' + numeral(khmer).format('0,0') + '<br>THB: ' +
         numeral(bath).format('0,0');
     }
   },
@@ -215,8 +215,7 @@ saleItemTpl.events({
   'keyup [name="tmpDiscount"]': function(e) {
     var discount = $(e.currentTarget).val();
     discount = _.isEmpty(discount) ? 0 : parseFloat(discount);
-
-    StateItem.set('discount', discount)
+    StateItem.set('discount', discount);
   },
   'click .addSaleItem': function(e, t) {
     var index = 0;
@@ -225,15 +224,17 @@ saleItemTpl.events({
     saleItem.saleCategoryId = t.$('[name="tmpCate"]').val();
     saleItem.tmpName = t.$('[name="tmpName"]').select2('data').text;
     saleItem.qty = parseFloat(t.$('[name="tmpQty"]').val());
-    saleItem.cost = parseFloat(t.$('[name="tmpCost"]').val())
+    saleItem.cost = math.round(parseFloat(t.$('[name="tmpCost"]').val()),
+      2);
     saleItem.price = math.round(parseFloat(t.$('[name="tmpPrice"]').val()),
       2);
-    saleItem.amount = math.round(parseFloat(t.$('[name="tmpAmount"]').val()));
+    saleItem.amount = math.round(parseFloat(t.$('[name="tmpAmount"]').val()),
+      2);
     saleItem.lineCost = math.round(parseFloat(t.$(
         '[name="tmpLineCost"]')
-      .val()));
+      .val()), 2);
     var discount = t.$('[name="tmpDiscount"]').val();
-    var subDiscount = $('[name="subDiscount"]').val()
+    var subDiscount = $('[name="subDiscount"]').val();
     if (subDiscount != '') {
       subDiscount = parseFloat(subDiscount);
       StateItem.set('subDiscount', subDiscount);
@@ -286,7 +287,7 @@ saleItemTpl.events({
     } else {
       saleItemsState.remove(self.name);
     }
-    var subDiscount = $('[name="subDiscount"]').val()
+    var subDiscount = $('[name="subDiscount"]').val();
     if (subDiscount != '') {
       subDiscount = parseFloat(subDiscount);
       StateItem.set('subDiscount', subDiscount);
@@ -301,7 +302,7 @@ saleItemTpl.events({
     console.log(getSaleItem);
     var qty = parseInt(current.val());
     var amount = math.round(qty * getSaleItem.price, 2);
-    var lineCost = math.round(qty * getSaleItem.cost, 2)
+    var lineCost = math.round(qty * getSaleItem.cost, 2);
     saleItemsState.update(name, {
       qty: qty,
       amount: amount,
@@ -329,7 +330,7 @@ saleItemTpl.events({
 
     console.log(name);
     var discount = current.val();
-    var totalAmount = getSaleItem.qty * getSaleItem.price
+    var totalAmount = getSaleItem.qty * getSaleItem.price;
     discount = discount == '' ? 0 : parseFloat(discount);
     var amount = math.round(totalAmount - (totalAmount * discount / 100),
       2);

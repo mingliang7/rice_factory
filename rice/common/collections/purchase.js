@@ -43,14 +43,6 @@ Rice.Schema.Purchase = new SimpleSchema({
     decimal: true,
     label: 'Qty'
   },
-  'purchaseItems.$.cost': {
-    type: Number,
-    decimal: true
-  },
-  'purchaseItems.$.lineCost': {
-    type: Number,
-    decimal: true
-  },
   'purchaseItems.$.price': {
     type: Number,
     decimal: true,
@@ -74,10 +66,6 @@ Rice.Schema.Purchase = new SimpleSchema({
     type: String,
     label: "Description",
     optional: true
-  },
-  profit: {
-    type: Number,
-    decimal: true
   },
   subDiscount: {
     type: Number,

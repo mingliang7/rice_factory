@@ -20,5 +20,13 @@ Rice.Schema.SaleDetail = new SimpleSchema(
       options: ->
         Rice.ListForReport.branch()
 
+  type:
+    type: String
+    optional: true
+    autoform:
+      type: 'select2'
+      options: ->
+        Rice.ListForReport.type()
+
 
 )

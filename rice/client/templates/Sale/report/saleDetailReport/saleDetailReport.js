@@ -11,6 +11,18 @@ Template.rice_saleDetailReport.onRendered(function() {
   datePicker();
 });
 
+Template.tabularModal.helpers({
+  selector: function() {
+    var type = state.get('type');
+    if (type == '') {
+      return {};
+    } else {
+      return {
+        type: type
+      };
+    }
+  }
+});
 Template.tabularModal.events({
   "click tbody > tr": function(event, template) {
     var dataTable = $(event.target).closest('table').DataTable();
@@ -25,6 +37,14 @@ Template.rice_saleDetailReport.events({
   "click .select-customer": function(event, template) {
     // alertify.listCustomer(fa('list-alt', 'Customer'), renderTemplate(
     //   Template.tabularModal)).maximize();
+  },
+  'change [name="type"]': function(e) {
+    var currentValue = $(e.currentTarget).val();
+    state.set('type', currentValue);
+    state.set('customerId', {
+      _id: 'All',
+      name: 'All'
+    });
   }
 });
 

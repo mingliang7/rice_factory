@@ -8,7 +8,6 @@ StateItem = new ReactiveObj({
   price: 0,
   discount: 0,
   subDiscount: 0,
-  cost: 0,
   exchange: 0,
   cssClassForAddMore: 'disabled'
 });
@@ -26,8 +25,6 @@ purchaseItemTpl.onCreated(function() {
       obj.indexName = 'purchaseItems.' + key + '.purchaseItemId';
       obj.indexCate = 'purchaseItems.' + key + '.purchaseCategoryId';
       obj.indexQty = 'purchaseItems.' + key + '.qty';
-      obj.indexCost = 'purchaseItems.' + key + '.cost';
-      obj.indexLineCost = 'purchaseItems.' + key + '.lineCost';
       obj.indexPrice = 'purchaseItems.' + key + '.price';
       obj.indexAmount = 'purchaseItems.' + key + '.amount';
       obj.indexDiscount = 'purchaseItems.' + key + '.discount';
@@ -80,11 +77,6 @@ purchaseItemTpl.helpers({
     }
     return tmpAmountVal;
   },
-  tmpLineCost: function() {
-    var cost = StateItem.get('cost');
-    var qty = StateItem.get('qty');
-    return qty * cost;
-  },
   cssClassForAddMore: function() {
     var tmpAmountVal = math.round(StateItem.get('qty') * StateItem.get(
       'price'), 2);
@@ -124,25 +116,6 @@ purchaseItemTpl.helpers({
 
     return totalVal;
   },
-  profit: function() {
-    var totalLineCost = 0;
-    var totalVal = 0;
-    var subDiscount = StateItem.get('subDiscount');
-    if (subDiscount == 0) {
-      _.each(purchaseItemsState.fetch(), function(o) {
-        totalVal += o.amount;
-        totalLineCost += o.lineCost;
-      });
-      return totalVal - totalLineCost;
-    } else {
-      _.each(purchaseItemsState.fetch(), function(o) {
-        totalVal += o.amount;
-        totalLineCost += o.lineCost;
-      });
-      return (totalVal - totalLineCost) - subDiscount;
-    }
-
-  },
   exchange: function() {
     var exchangeObj = StateItem.get('exchange');
     fx.base = exchangeObj.base;
@@ -160,12 +133,18 @@ purchaseItemTpl.helpers({
       });
       totalVal = totalVal - subDiscount;
     }
-    totalInDollar = fx.convert(totalVal, {
-      from: 'KHR',
-      to: 'USD'
+    totalInKhmer = fx.convert(totalVal, {
+      from: 'USD',
+      to: 'KHR'
+    });
+    totalInBath = fx.convert(totalVal, {
+      from: 'USD',
+      to: 'THB'
     });
     if (totalVal !== 0) {
-      return math.round(totalInDollar, 2);
+      khmer = numeral(math.round(totalInKhmer, 2)).format('0,0');
+      bath = numeral(math.round(totalInBath, 2)).format('0,0');
+      return 'KHR: ' + khmer + '<br>' + 'THB: ' + bath;
     }
   },
   getItem: function(id) {
@@ -180,9 +159,7 @@ purchaseItemTpl.events({
     var item = Rice.Collection.PurchaseItem.findOne(id);
     $('[name="tmpCate"]').val(id.slice(0, 3));
     $('[name="tmpPrice"]').val(item.price);
-    $('[name="tmpCost"]').val(item.cost);
     StateItem.set('price', item.price);
-    StateItem.set('cost', item.cost);
     var exchange = Cpanel.Collection.Exchange.findOne({}, {
       sort: {
         dateTime: -1
@@ -218,10 +195,10 @@ purchaseItemTpl.events({
     purchaseItem.purchaseCategoryId = t.$('[name="tmpCate"]').val();
     purchaseItem.tmpName = t.$('[name="tmpName"]').select2('data').text;
     purchaseItem.qty = parseFloat(t.$('[name="tmpQty"]').val());
-    purchaseItem.cost = parseFloat(t.$('[name="tmpCost"]').val())
     purchaseItem.price = math.round(parseFloat(t.$('[name="tmpPrice"]').val()),
       2);
-    purchaseItem.amount = math.round(parseFloat(t.$('[name="tmpAmount"]').val()));
+    purchaseItem.amount = math.round(parseFloat(t.$('[name="tmpAmount"]')
+      .val()));
     purchaseItem.lineCost = math.round(parseFloat(t.$(
         '[name="tmpLineCost"]')
       .val()));
@@ -242,8 +219,9 @@ purchaseItemTpl.events({
       var duplicate = purchaseItemsState.get(purchaseItem.name);
       if (!_.isUndefined(duplicate)) {
         purchaseItem.qty = duplicate.qty + purchaseItem.qty;
-        purchaseItem.amount = math.round(purchaseItem.qty * purchaseItem.price, 2);
-        purchaseItem.lineCost = math.round(purchaseItem.qty * purchaseItem.cost, 2);
+        purchaseItem.amount = math.round(purchaseItem.qty * purchaseItem.price,
+          2);
+
         purchaseItemsState.update(purchaseItem.name, {
           qty: purchaseItem.qty,
           price: purchaseItem.price,
@@ -258,10 +236,10 @@ purchaseItemTpl.events({
     }
 
     purchaseItem.indexName = 'purchaseItems.' + index + '.purchaseItemId';
-    purchaseItem.indexCate = 'purchaseItems.' + index + '.purchaseCategoryId';
+    purchaseItem.indexCate = 'purchaseItems.' + index +
+      '.purchaseCategoryId';
     purchaseItem.indexQty = 'purchaseItems.' + index + '.qty';
     purchaseItem.indexPrice = 'purchaseItems.' + index + '.price';
-    purchaseItem.indexCost = 'purchaseItems.' + index + '.cost';
     purchaseItem.indexDiscount = 'purchaseItems.' + index + '.discount';
     purchaseItem.indexAmount = 'purchaseItems.' + index + '.amount';
     purchaseItem.indexLineCost = 'purchaseItems.' + index + '.lineCost';
@@ -294,7 +272,6 @@ purchaseItemTpl.events({
     console.log(getPurchaseItem);
     var qty = parseInt(current.val());
     var amount = math.round(qty * getPurchaseItem.price, 2);
-    var lineCost = math.round(qty * getPurchaseItem.cost, 2)
     purchaseItemsState.update(name, {
       qty: qty,
       amount: amount,
@@ -354,7 +331,7 @@ var purchaseItemsInputmask = function() {
   var subTotal = $('[name="subTotal"]');
   var totalInDollar = $('[name="totalInDollar"]');
   Inputmask.currency([tmpPrice, tmpAmount, price, amount, total, subTotal], {
-    prefix: 'R '
+    prefix: '$ '
   });
   Inputmask.currency([totalInDollar], {
     prefix: '$ '

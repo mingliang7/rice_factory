@@ -24,9 +24,6 @@ Rice.TabularTable.PurchaseItem = new Tabular.Table({
       data: "shortName",
       title: "Short Name"
     }, {
-      data: "cost",
-      title: "Cost"
-    }, {
       data: "price",
       title: "Price"
     }, {

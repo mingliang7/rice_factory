@@ -24,6 +24,7 @@ Meteor.methods({
 
     /****** Header *****/
     data.header = {
+      type: type == '' ? 'All' : type,
       customer: ReportInfo.customerName(params.customer),
       branch: ReportInfo.branchName(params.branch),
       date: params.date,
@@ -41,12 +42,16 @@ Meteor.methods({
       selector.customerId = customerId;
     }
     if (type != '') {
-      selector.type = type;
+      selector['_customer.type'] = type;
     }
     console.log(selector);
     var index = 1;
     var totalProfit = 0;
-    var sales = Rice.Collection.Sale.find(selector).fetch();
+    var sales = Rice.Collection.Sale.find(selector, {
+      sort: {
+        _id: 1
+      }
+    }).fetch();
     sales.forEach(function(sale) {
       sale.index = index;
       subTotal += sale.subTotal;
