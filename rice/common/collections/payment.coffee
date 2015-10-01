@@ -3,7 +3,8 @@ Rice.Collection.Payment = new Mongo.Collection "rice_payments"
 Rice.Schema.Payment = new SimpleSchema(
   paymentDate:
     type: Date
-
+    defaultValue: ->
+      moment().format('YYYY-MM-DD HH:mm:ss')
   dueAmount:
     type: Number
     decimal: true

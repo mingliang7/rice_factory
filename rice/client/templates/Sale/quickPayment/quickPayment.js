@@ -8,7 +8,7 @@ Template.rice_quickPaymentUpdateTemplate.onRendered(function() {
 Template.rice_quickPaymentInsertTemplate.events({
   'keyup [name="paidAmount"]': function() {
     var dueAmount, paidAmount;
-    dueAmount = parseInt($('[name="dueAmount"]').val());
+    dueAmount = parseFloat($('[name="dueAmount"]').val());
     var oldSumPaid = Session.get('sumPaidAmount');
     try {
       paidAmount = $('[name="paidAmount"]').val();
@@ -23,7 +23,8 @@ Template.rice_quickPaymentInsertTemplate.events({
       $('[name="outstandingAmount"]').val(dueAmount);
     } else {
       $('[name="sumPaidAmount"]').val(oldSumPaid + parseFloat(paidAmount));
-      $('[name="outstandingAmount"]').val(dueAmount - parseInt(paidAmount));
+      $('[name="outstandingAmount"]').val(dueAmount - parseFloat(
+        paidAmount));
     }
   }
 });
@@ -48,7 +49,7 @@ Template.rice_quickPaymentInsertTemplate.helpers({
 Template.rice_quickPaymentUpdateTemplate.events({
   'keyup [name="paidAmount"]': function() {
     var dueAmount, paidAmount;
-    dueAmount = parseInt($('[name="dueAmount"]').val());
+    dueAmount = parseFloat($('[name="dueAmount"]').val());
     try {
       oldPaidAmount = Session.get('oldPaidAmount');
       oldSumPaidAmount = Session.get('oldSumPaidAmount');
@@ -66,7 +67,8 @@ Template.rice_quickPaymentUpdateTemplate.events({
     } else if (paidAmount === '') {
       $('[name="outstandingAmount"]').val(dueAmount);
     } else {
-      $('[name="outstandingAmount"]').val(dueAmount - parseInt(paidAmount));
+      $('[name="outstandingAmount"]').val(dueAmount - parseFloat(
+        paidAmount));
       $('[name="sumPaidAmount"]').val(oldSumPaid + parseFloat(paidAmount));
 
     }

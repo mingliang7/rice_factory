@@ -101,5 +101,10 @@ Template.rice_paymentReportGen.helpers({
     Fetcher.setDefault('data', false);
     Fetcher.retrieve('data', 'rice_paymentReport', params);
     return Fetcher.get('data');
+  },
+  getStaff: function(id) {
+    var staff = Rice.Collection.Staffs.findOne(id);
+    return id + ' | ' + staff.name;
+
   }
 });

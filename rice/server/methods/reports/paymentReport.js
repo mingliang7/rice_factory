@@ -42,7 +42,7 @@ Meteor.methods({
       $lte: tDate
     };
     if (staff != '') {
-      selector['_staff.name'] = staff;
+      selector.staffId = staff;
     }
     if (customerId != 'All') {
       selector.customerId = customerId;

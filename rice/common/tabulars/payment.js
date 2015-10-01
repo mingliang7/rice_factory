@@ -80,5 +80,5 @@ var getItemName = function(id) {
 }
 
 var formatKh = function(val) {
-  return numeral(val).format('0,0')
+  return numeral(val).format('0,0.00')
 }
