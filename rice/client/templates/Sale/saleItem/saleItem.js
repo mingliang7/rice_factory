@@ -14,6 +14,11 @@ tpl.helpers({
 		return {
 			saleCategoryId: currentCategoryId
 		};
+	},
+	category: function() {
+		var categoryId = FlowRouter.getParam('saleCategoryId');
+		var category = ReactiveMethod.call('getSaleCategory', categoryId);
+		return category._id + ' | ' + category.name;
 	}
 });
 tpl.events({
