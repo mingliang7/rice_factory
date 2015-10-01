@@ -51,5 +51,22 @@ Rice.ListForReport = {
       value: 'global'
     });
     return list;
+  },
+  staff: function() {
+    var list, staff, userId;
+    list = [];
+    userId = Meteor.userId();
+    staffs = Rice.Collection.Staffs.find().fetch();
+    list.push({
+      label: "All",
+      value: ""
+    });
+    staffs.forEach(function(staff) {
+      list.push({
+        label: staff._id + ' | ' + staff.name,
+        value: staff._id
+      });
+    });
+    return list;
   }
 };

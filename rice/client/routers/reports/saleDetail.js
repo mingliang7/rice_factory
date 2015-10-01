@@ -5,7 +5,6 @@ riceRoutes.route('/saleDetailReport', {
     Layout.main('rice_saleDetailReport');
   },
   subscriptions: function() {
-    this.register('rice_exchange', subs.subscribe('cpanel_exchange'));
 
   },
   breadcrumb: {

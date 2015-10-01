@@ -1,22 +1,25 @@
 var subs = new SubsManager();
-riceRoutes.route('/saleReport', {
-  name: 'rice.saleReport',
+riceRoutes.route('/paymentReport', {
+  name: 'rice.paymentReport',
   action: function(params, queryParams) {
-    Layout.main('rice_saleReport');
+    Layout.main('rice_paymentReport');
+  },
+  subscriptions: function() {
+
   },
   breadcrumb: {
     //params: ['id'],
     //queryParams: ['show', 'color'],
-    title: 'Sale Report',
+    title: 'Payment Report',
     parent: 'rice.home'
   }
 });
 
 
-riceRoutes.route('/saleReportGen', {
-  name: 'rice.saleReportGen',
+riceRoutes.route('/paymentReportGen', {
+  name: 'rice.paymentReportGen',
   action: function(params, queryParams) {
-    Layout.report('rice_saleReportGen');
+    Layout.report('rice_paymentReportGen');
   },
   breadcrumb: {
     title: 'Sale Report',

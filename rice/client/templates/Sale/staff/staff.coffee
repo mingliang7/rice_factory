@@ -2,10 +2,8 @@ Template.rice_staff.onRendered ->
 	createNewAlertify('staff')
 Template.rice_staff.events
 	'click .show': ->
-		alertify.staff(renderTemplate(Template.rice_staffShowTemplate, this))
-            .set({
-                title: "<i class='fa fa-pencil'></i>Staff Info"
-            })
+		alertify.staff(fa('eyes', 'Show Staff'), renderTemplate(Template.rice_staffShowTemplate, this))
+
 	'click .remove': ->
 		id = this._id
 		available = checkAvailable(id);
@@ -28,18 +26,12 @@ Template.rice_staff.events
 		id = @_id
 		available = checkAvailable(id)
 		if available
-			alertify.staff(renderTemplate(Template.rice_staffUpdateTemplate, data))
-            .set({
-                title: "<i class='fa fa-pencil'></i> Edit Staff"
-            })
+			alertify.staff(fa('pencil', 'Edit Staff'), renderTemplate(Template.rice_staffUpdateTemplate, data))
             .maximize()
 		else
 	  	alertify.error "Staff ##{id} is in user map :("
 	'click .insert': ->
-		alertify.staff(renderTemplate(Template.rice_staffInsertTemplate))
-            .set({
-                title: "<i class='fa fa-plus'></i> Add New Staff"
-            })
+		alertify.staff(fa('plus', 'Add New'), renderTemplate(Template.rice_staffInsertTemplate))
             .maximize()
 
 AutoForm.hooks

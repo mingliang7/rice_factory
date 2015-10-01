@@ -6,16 +6,6 @@ riceRoutes.route('/supplier', {
     // Customer
     //this.register('rice_supplier', subs.subscribe('rice_supplier', Session.get('currentBranch')));
     // Address
-
-    this.register(
-      'rice_purchaseCategories',
-      subs.subscribe('rice_purchaseCategories')
-    );
-    this.register(
-      'rice_purchaseItems',
-      subs.subscribe('rice_purchaseItems')
-    );
-    this.register('rice_exchange', subs.subscribe('cpanel_exchange'));
   },
   action: function(params, queryParams) {
     Layout.main('rice_supplier');
