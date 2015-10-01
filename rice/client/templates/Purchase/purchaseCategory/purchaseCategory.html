@@ -1,0 +1,57 @@
+<!--Index-->
+<template name="rice_purchaseCategories">
+    <p>
+        <button type="button" class="btn btn-primary insert">{{fa "plus"}} Add New</button>
+    </p>
+        {{> tabular table=Rice.TabularTable.PurchaseCategory selector=selector class="table table-striped table-bpurchaseed table-condensed table-hover-dblclick"}}
+</template>
+
+<!--Action-->
+<template name="rice_purchaseCategoryAction">
+    {{#tabularAction}}
+        <li><a href="#" class="update">{{fa "pencil"}} Update</a></li>
+        <li><a href="#" class="remove">{{fa "remove"}} Remove</a></li>
+        <li><a href="#" class="show">{{fa "eye"}} Show</a></li>
+    {{/tabularAction}}
+</template>
+
+<!--Insert-->
+<template name="rice_purchaseCategoryInsert">
+    {{#autoForm collection=Rice.Collection.PurchaseCategory id="rice_purchaseCategoryInsert" type="insert"}}
+        <div class="row">
+            <div class="col-md-12">
+                {{> afQuickField name='name'}}
+                {{> afQuickField name='shortName'}}
+
+                <button type="submit" class="btn btn-primary">{{fa "floppy-o"}} Save</button>
+                <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+            </div>
+        </div>
+    {{/autoForm}}
+</template>
+
+<!--Update-->
+<template name="rice_purchaseCategoryUpdate">
+    {{#autoForm collection=Rice.Collection.PurchaseCategory id="rice_purchaseCategoryUpdate" doc=this type="update"}}
+        <div class="row">
+            <div class="col-md-12">
+                {{> afQuickField name='name'}}
+                {{> afQuickField name='shortName'}}
+                <button type="submit" class="btn btn-primary">{{fa "floppy-o"}} Save</button>
+                <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+            </div>
+        </div>
+    {{/autoForm}}
+</template>
+
+<!--Show-->
+<template name="rice_purchaseCategoryShow">
+    <dl class="dl-horizontal">
+        <dt>Id</dt>
+        <dd>{{_id}}</dd>
+        <dt>Name</dt>
+        <dd>{{name}}</dd>
+        <dt>Short Name</dt>
+        <dd>{{shortName}}</dd>
+    </dl>
+</template>

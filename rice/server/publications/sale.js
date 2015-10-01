@@ -6,8 +6,10 @@
 // });
 
 Meteor.publish("rice_saleList", function() {
-  Counts.publish(this, 'saleCount', Rice.Collection.Sale.find({
-    status: 'active'
-  }));
-  this.ready();
+  if (this.userId) {
+    Counts.publish(this, 'saleCount', Rice.Collection.Sale.find({
+      status: 'active'
+    }));
+    this.ready();
+  }
 });

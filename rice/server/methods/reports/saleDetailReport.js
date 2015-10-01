@@ -18,11 +18,13 @@ Meteor.methods({
     fx.base = exchange.base;
     fx.rates = exchange.rates;
     var customerId = params.customer;
+    var type = params.type;
     /****** Title *****/
     data.title = Cpanel.Collection.Company.findOne();
 
     /****** Header *****/
     data.header = {
+      type: type == '' ? 'All' : type,
       customer: ReportInfo.customerName(params.customer),
       branch: ReportInfo.branchName(params.branch),
       date: params.date,
@@ -31,29 +33,28 @@ Meteor.methods({
 
     /****** Content *****/
     var content = [];
-    var selector;
-    if (customerId == 'All' || customerId == '') {
-      selector = {
-        saleDate: {
-          $gte: fDate,
-          $lte: tDate
-        }
-      };
-    } else {
-      selector = {
-        customerId: customerId,
-        saleDate: {
-          $gte: fDate,
-          $lte: tDate
-        }
-      };
+    var selector = {};
+    selector.saleDate = {
+      $gte: fDate,
+      $lte: tDate
+    };
+    if (type != '') {
+      selector['_customer.type'] = type;
+    }
+    if (customerId != 'All') {
+      selector.customerId = customerIdk;
+
     }
 
 
     var index = 1;
     var totalProfit = 0;
     var lineCost = 0;
-    var sales = Rice.Collection.Sale.find(selector).fetch();
+    var sales = Rice.Collection.Sale.find(selector, {
+      sort: {
+        _id: 1
+      }
+    }).fetch();
     sales.forEach(function(sale) {
       index = 1;
       subTotal += sale.subTotal;

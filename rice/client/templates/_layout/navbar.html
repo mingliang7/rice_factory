@@ -8,11 +8,22 @@
             <span class="caret"></span>
         </a>
         <ul class="dropdown-menu" role="menu">
+           <li><a href="#"><b><i class="fa fa-money"></i>&nbsp; Sale</b></a></li>
+           <li class="divider"></li>
             <li class="{{isActiveRoute name='rice.customer'}}">
                 <a href="{{pathFor 'rice.customer'}}">Customer</a>
             </li>
             <li class="{{isActiveRoute name='rice.saleList'}}">
                 <a href="{{pathFor 'rice.saleList'}}">Sale List <span class="badge badge-warning">{{getPublishedCount 'saleCount'}}</span></a>
+            </li>
+           <li class="divider"></li>
+           <li><a href="#"><b><i class="fa fa-cart-arrow-down"></i>&nbsp; Purchase</b></a></li>
+           <li class="divider"></li>
+            <li class="{{isActiveRoute name='rice.supplier'}}">
+                <a href="{{pathFor 'rice.supplier'}}">Supplier</a>
+            </li>
+            <li class="{{isActiveRoute name='rice.purchaseList'}}">
+                <a href="{{pathFor 'rice.purchaseList'}}">Purchase List <span class="badge badge-warning">{{getPublishedCount 'saleCount'}}</span></a>
             </li>
             <!--<li class="{{isActiveRoute name='rice.sale'}}">-->
             <!--<a href="{{pathFor 'rice.sale'}}">Sale</a>-->
@@ -32,6 +43,9 @@
             </li>
             <li class="{{isActiveRoute name='rice.saleByItemReport'}}">
                 <a href="{{pathFor 'rice.saleByItemReport'}}">Sale By Item Report</a>
+            </li>
+            <li class="{{isActiveRoute name='rice.paymentReport'}}">
+                <a href="{{pathFor 'rice.paymentReport'}}">Payment Report</a>
             </li>
             <li class="{{isActiveRoute name='rice.customerReport'}}">
                 <a href="{{pathFor 'rice.customerReport'}}">Customer (Browser View)</a>
@@ -53,8 +67,11 @@
             <li class="{{isActiveRoute name='rice.unit'}}">
                 <a href="{{pathFor 'rice.unit'}}">Unit</a>
             </li>
+            <li class="{{isActiveRoute name='rice.purchaseCategories'}}">
+                <a href="{{pathFor 'rice.purchaseCategories'}}">Purchase Category</a>
+            </li>
             <li class="{{isActiveRoute name='rice.saleCategories'}}">
-                <a href="{{pathFor 'rice.saleCategories'}}">SaleCategory</a>
+                <a href="{{pathFor 'rice.saleCategories'}}">Sale Category</a>
             </li>
             <li class="{{isActiveRoute name='rice.staff'}}">
                 <a href="{{pathFor 'rice.staff'}}">Staff</a>

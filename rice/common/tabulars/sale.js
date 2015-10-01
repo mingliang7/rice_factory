@@ -79,12 +79,12 @@ var extract = function(items) {
       formatKh(item.amount) + '</li>';
   });
   return concate;
-}
+};
 
 var getItemName = function(id) {
   return Rice.Collection.SaleItem.findOne(id).name;
-}
+};
 
 var formatKh = function(val) {
-  return numeral(val).format('0,0')
-}
+  return numeral(val).format('0,0.00');
+};

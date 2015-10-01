@@ -205,6 +205,22 @@ Rice.List = {
     }
     console.log(list);
     return list;
+  },
+  type: function() {
+    var list = [];
+    list.push({
+      label: '(Select One)',
+      value: ''
+    });
+    list.push({
+      label: 'Local',
+      value: 'local'
+    });
+    list.push({
+      label: 'Global',
+      value: 'global'
+    });
+    return list;
   }
 };
 
