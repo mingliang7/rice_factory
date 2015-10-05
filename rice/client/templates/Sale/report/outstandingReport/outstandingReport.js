@@ -1,16 +1,16 @@
 var state = new ReactiveObj();
 
-Template.rice_paymentReport.onCreated(function() {
+Template.rice_outstandingReport.onCreated(function() {
   createNewAlertify('listCustomer', 'zoom');
 });
-Template.rice_paymentReport.onRendered(function() {
+Template.rice_outstandingReport.onRendered(function() {
   state.set('customerId', {
     _id: 'All',
     name: 'All'
   });
   datePicker();
 });
-Template.customerListModal.helpers({
+Template.outstandingCustomerList.helpers({
   selector: function() {
     var type = state.get('type');
     console.log(type);
@@ -23,17 +23,17 @@ Template.customerListModal.helpers({
     }
   }
 });
-Template.customerListModal.events({
+Template.outstandingCustomerList.events({
   "click tbody > tr": function(event, template) {
     var dataTable = $(event.target).closest('table').DataTable();
     var rowData = dataTable.row(event.currentTarget).data();
     state.set('customerId', rowData);
-    $('.customerListModal').modal('hide');
+    $('.outstandingCustomerList').modal('hide');
     // alertify.listCustomer().close();
   }
 });
 
-Template.rice_paymentReport.events({
+Template.rice_outstandingReport.events({
   "click .select-customer": function(event, template) {
     // alertify.listCustomer(fa('list-alt', 'Customer'), renderTemplate(
     //   Template.collapseTabular)).maximize();
@@ -48,13 +48,13 @@ Template.rice_paymentReport.events({
   }
 });
 
-Template.rice_paymentReport.helpers({
+Template.rice_outstandingReport.helpers({
   customerId: function() {
     return state.get('customerId');
   }
 
 });
-Template.rice_paymentReport.events({
+Template.rice_outstandingReport.events({
   "click .reset": function(event, template) {
     state.set('customerId', {
       _id: 'All',
@@ -75,17 +75,17 @@ Template.rice_paymentReport.events({
     });
   }
 });
-Template.rice_paymentReport.onDestroyed(function() {
+Template.rice_outstandingReport.onDestroyed(function() {
   state.set([], {});
 });
 var datePicker = function() {
   var date = $('[name="date"]');
-  DateTimePicker.dateTimeRange(date);
+  DateTimePicker.dateTime(date);
 };
 
 
 
-Template.rice_paymentReportGen.helpers({
+Template.rice_outstandingReportGen.helpers({
   options: function() {
     // font size = null (default), bg
     // paper = a4, a5, mini
@@ -99,7 +99,7 @@ Template.rice_paymentReportGen.helpers({
   data: function() {
     var params = FlowRouter.current().queryParams;
     Fetcher.setDefault('data', false);
-    Fetcher.retrieve('data', 'rice_paymentReport', params);
+    Fetcher.retrieve('data', 'rice_outstandingReport', params);
     return Fetcher.get('data');
   },
   getStaff: function(id) {
@@ -110,5 +110,10 @@ Template.rice_paymentReportGen.helpers({
       return id;
     }
 
+  },
+  footer: function() {
+    var sales = this.content;
+    var totalInFooter = ReactiveMethod.call('extractContent', sales);
+    return totalInFooter;
   }
 });
