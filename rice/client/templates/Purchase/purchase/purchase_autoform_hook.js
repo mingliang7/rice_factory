@@ -61,7 +61,8 @@ var excutePayment = function(title, id) {
     if (err) {
       alertify.error(err);
     } else {
-      QuickPayment.fireQuickPayment('purchaseQuickPayment', title, doc);
+      QuickPayment.firePurchaseQuickPayment('purchaseQuickPayment', title,
+        doc);
     }
   });
 

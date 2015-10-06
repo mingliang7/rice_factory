@@ -5,6 +5,7 @@ Meteor.methods({
       paidAmount = 0,
       sumPaidAmount = 0;
     sales.forEach(function(sale) {
+      console.log(sale);
       outstandingAmount += sale._payment.outstandingAmount;
       paidAmount += sale._payment.paidAmount;
       sumPaidAmount += sale._payment.sumPaidAmount;

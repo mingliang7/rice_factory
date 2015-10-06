@@ -67,7 +67,7 @@ Rice.TabularTable.Purchase = new Tabular.Table({
     },
 
   ],
-  extraFields: ['customerId', 'totalInDollar']
+  extraFields: ['supplierId', 'totalInDollar']
 });
 var extract = function(items) {
   var concate = '';
