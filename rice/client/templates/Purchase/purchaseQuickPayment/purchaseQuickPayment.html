@@ -1,0 +1,53 @@
+<template name="rice_purchaseQuickPayment">
+	{{> rice_purchaseQuickPaymentInsertTemplate}}
+</template>
+
+<template name="rice_purchaseQuickPaymentInsertTemplate">
+	{{#autoForm collection=Rice.Collection.PurchasePayment id="rice_purchaseQuickPaymentInsertTemplate" type="insert"}}
+	<div class="row">
+		<div class="col-md-12">
+					<strong>Supplier:</strong>
+					<label class="supplierName">{{supplierId}} | {{getSupplier supplierId}}</label>
+					{{> afQuickField name="supplierId" type="hidden" value=supplierId }}
+					<br>
+					<strong>Purchase ID:</strong>
+					<label class="saleId">{{_id}}</label>
+					{{> afQuickField name="purchaseId" type="hidden" value=_id}}
+					{{> afQuickField name="paymentDate" type="text"}}
+					{{> afQuickField name="dueAmount" readonly='true' value=outstandingAmount}}
+					{{> afQuickField name="paidAmount" value=outstandingAmount}}
+					{{> afQuickField name="outstandingAmount" readonly='true' value=0}}
+					{{> afQuickField name='sumPaidAmount' readonly=true value=sumPaidAmount }}
+					{{> afQuickField name='staffId'}}
+					<!-- {{> afQuickField name="staffId"}} -->
+		<button type="submit" class="btn btn-primary">{{fa "floppy-o"}} Save</button>
+		<button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+		</div>
+	</div>
+	{{/autoForm}}
+</template>
+
+<template name="rice_purchaseQuickPaymentUpdateTemplate">
+	{{#autoForm collection=Rice.Collection.PurchasePayment id="rice_purchaseQuickPaymentUpdateTemplate" doc = this type="update"}}
+	<div class="row">
+		<div class="col-md-12">
+					<strong>Supplier:</strong>
+					<label class="supplierName">{{supplierId}} | {{getSupplier supplierId}}</label>
+					{{> afQuickField name="supplierId" type="hidden"}}
+					<br>
+					<strong>Purchase ID:</strong>
+					<label class="saleId">{{_id}}</label>
+					{{> afQuickField name="purchaseId" type="hidden"}}
+					{{> afQuickField name="paymentDate" type="text"}}
+					{{> afQuickField name="dueAmount" readonly='true'}}
+					{{> afQuickField name="paidAmount"}}
+					{{> afQuickField name="outstandingAmount" readonly='true' }}
+					{{> afQuickField name='sumPaidAmount' readonly=true}}
+					{{> afQuickField name='staffId'}}
+					<!-- {{> afQuickField name="staffId"}} -->
+		<button type="submit" class="btn btn-primary">{{fa "floppy-o"}} Save</button>
+		<button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+		</div>
+	</div>
+	{{/autoForm}}
+</template>

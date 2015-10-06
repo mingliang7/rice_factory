@@ -6,5 +6,5 @@ Rice.Collection.Purchase.cacheDoc('supplier', Rice.Collection.Supplier, ['name',
 Rice.Collection.Purchase.cacheDoc('staff', Rice.Collection.Staffs, ['name',
   'gender'
 ]);
-Rice.Collection.Purchase.cacheCount('paymentCount', Rice.Collection.Payment,
-  'saleId');
+Rice.Collection.Purchase.cacheCount('paymentCount', Rice.Collection.PurchasePayment,
+  'purchaseId');

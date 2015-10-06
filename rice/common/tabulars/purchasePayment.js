@@ -1,49 +1,46 @@
-// Purchase
-Rice.TabularTable.Purchase = new Tabular.Table({
-  name: "rice_purchaseList",
-  collection: Rice.Collection.Purchase,
+// Sale
+Rice.TabularTable.PurchasePayment = new Tabular.Table({
+  name: "rice_purchasePaymentList",
+  collection: Rice.Collection.PurchasePayment,
   pagingType: "full_numbers",
   autoWidth: false,
   columnDefs: [{
     "width": "12px",
     "targets": 0
   }],
-  purchase: [
+  sale: [
     ['1', 'desc']
   ],
   columns: [{
       title: '<i class="fa fa-bars"></i>',
-      tmpl: Meteor.isClient && Template.rice_purchaseAction
+      tmpl: Meteor.isClient && Template.rice_purchasePaymentTableAction
     }, {
       data: "_id",
       title: "ID"
     }, {
-      data: "purchaseDate",
+      data: "paymentDate",
       title: "Date",
       render: function(val) {
         return moment(val).format('YYYY-MM-DD HH:mm:ss');
       }
     }, {
-      data: "subDiscount",
-      title: "Discount",
+      data: "purchaseId",
+      title: "Purchase ID",
+    }, {
+      data: 'dueAmount',
+      title: 'Due-Amount',
       render: function(val) {
         return formatKh(val);
       }
     }, {
       data: 'paidAmount',
-      title: 'Paid',
+      title: 'Paid-Amount',
       render: function(val) {
         return formatKh(val);
       }
     }, {
       data: 'outstandingAmount',
       title: 'Outstanding',
-      render: function(val) {
-        return formatKh(val);
-      }
-    }, {
-      data: "total",
-      title: "Total",
       render: function(val) {
         return formatKh(val);
       }
@@ -60,19 +57,18 @@ Rice.TabularTable.Purchase = new Tabular.Table({
 
         }
       }
-    }, {
-      data: '_paymentCount',
-      title: 'Payment <i class="fa fa-arrow-up"></i>',
-      tmpl: Meteor.isClient && Template.rice_purchasePayment
-    },
+    }
+
 
   ],
-  extraFields: ['supplierId', 'totalInDollar']
+  extraFields: ['sumPaidAmount', 'fadeIn', '_supplier', '_staff',
+    'supplierId'
+  ]
 });
 var extract = function(items) {
   var concate = '';
   items.forEach(function(item) {
-    concate += '<li>' + 'Item: ' + getItemName(item.purchaseItemId) +
+    concate += '<li>' + 'Item: ' + getItemName(item.saleItemId) +
       ', Qty: ' + formatKh(item.qty) +
       ', Price: ' + formatKh(item.price) +
       ', Discount: ' + item.discount + ', Amount: ' +

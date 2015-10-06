@@ -48,7 +48,7 @@ indexTpl.events({
     Report.purchaseInvoice(this._id);
   },
   'click #payment': function() {
-    FlowRouter.go('rice.payment', {
+    FlowRouter.go('rice.purchasePayment', {
       supplierId: this.supplierId,
       purchaseId: this._id
     });
@@ -105,7 +105,8 @@ indexTpl.events({
         console.log("error", error);
       }
       if (result) {
-        alertify.purchase(fa("eye", "Purchase"), renderTemplate(showTpl,
+        alertify.purchase(fa("eye", "Purchase"), renderTemplate(
+          showTpl,
           result));
       }
     });
@@ -114,9 +115,11 @@ indexTpl.events({
     var dataTable = $(event.target).closest('table').DataTable();
     var rowData = dataTable.row(event.currentTarget).data();
     if (rowData.outstandingAmount === 0) {
-      alertify.warning('Sorry purchase #' + rowData._id + ' has been paid!');
+      alertify.warning('Sorry purchase #' + rowData._id +
+        ' has been paid!');
     } else {
-      QuickPayment.fireQuickPayment('purchaseQuickPayment', 'Quick Pay',
+      QuickPayment.firePurchaseQuickPayment('purchaseQuickPayment',
+        'Quick Pay',
         rowData);
     }
   }
@@ -246,8 +249,8 @@ var getCurrentSupplier = function(id) {
 
 var getItemName = function(id) {
   return Rice.Collection.PurchaseItem.findOne(id).name;
-}
+};
 
 var formatKh = function(val) {
   return numeral(val).format('0,0');
-}
+};

@@ -2,9 +2,13 @@ Meteor.methods
   getSaleIdWithPayment: (id) ->
     payment = StatePayment.get(id);
     console.log(payment);
-    payment.saleId;
+    payment.saleId
+
   removePayment: (id) ->
     Rice.Collection.Payment.remove(id)
+
+  removePurchasePayment: (id) ->
+    Rice.Collection.PurchasePayment.remove(id)
 
   getCustomerName: (id)->
     Rice.Collection.Customer.findOne(id).name
@@ -15,10 +19,26 @@ Meteor.methods
         payment.sumPaidAmount
       else
         0
+  getSumPurchasePayment: (id) ->
+      payment = Rice.Collection.PurchasePayment.findOne({purchaseId: id})
+      if(payment)
+        payment.sumPaidAmount
+      else
+        0
   checkAvailable: (id, saleId) ->
     payment = Rice.Collection.Payment.findOne(
       {
       saleId: saleId
+      }, {sort: {paymentDate: -1}}
+    )
+    if(payment._id == id)
+      true
+    else
+      false
+  checkAvailablePurchasePayment: (id, purchaseId) ->
+    payment = Rice.Collection.PurchasePayment.findOne(
+      {
+      purchaseId: purchaseId
       }, {sort: {paymentDate: -1}}
     )
     if(payment._id == id)

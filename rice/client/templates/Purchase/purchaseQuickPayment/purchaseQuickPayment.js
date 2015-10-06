@@ -1,11 +1,11 @@
 var datePicker, fillInDetail, selectCustomer, selectInvoice;
-Template.rice_quickPaymentInsertTemplate.onRendered(function() {
+Template.rice_purchaseQuickPaymentInsertTemplate.onRendered(function() {
   datePicker(this.data._id);
 });
-Template.rice_quickPaymentUpdateTemplate.onRendered(function() {
+Template.rice_purchaseQuickPaymentUpdateTemplate.onRendered(function() {
   datePicker(this.data._id);
 });
-Template.rice_quickPaymentInsertTemplate.events({
+Template.rice_purchaseQuickPaymentInsertTemplate.events({
   'keyup [name="paidAmount"]': function() {
     var dueAmount, paidAmount;
     dueAmount = parseFloat($('[name="dueAmount"]').val());
@@ -28,14 +28,14 @@ Template.rice_quickPaymentInsertTemplate.events({
     }
   }
 });
-Template.rice_quickPaymentInsertTemplate.helpers({
-  getCustomer: function(id) {
-    var customer = ReactiveMethod.call('getCustomerName', id);
-    return customer;
+Template.rice_purchaseQuickPaymentInsertTemplate.helpers({
+  getSupplier: function(id) {
+    var supplier = ReactiveMethod.call('getSupplier', id);
+    return supplier.name;
   },
   sumPaidAmount: function() {
     var doc = this;
-    var sumPaidAmount = ReactiveMethod.call('getSumPayment', doc._id);
+    var sumPaidAmount = ReactiveMethod.call('getSumPurchasePayment', doc._id);
     console.log(sumPaidAmount);
     Session.set('sumPaidAmount', sumPaidAmount);
     if (sumPaidAmount === 0) {
@@ -46,7 +46,7 @@ Template.rice_quickPaymentInsertTemplate.helpers({
   }
 });
 
-Template.rice_quickPaymentUpdateTemplate.events({
+Template.rice_purchaseQuickPaymentUpdateTemplate.events({
   'keyup [name="paidAmount"]': function() {
     var dueAmount, paidAmount;
     dueAmount = parseFloat($('[name="dueAmount"]').val());
@@ -74,25 +74,25 @@ Template.rice_quickPaymentUpdateTemplate.events({
     }
   }
 });
-Template.rice_quickPaymentUpdateTemplate.onRendered(function() {
+Template.rice_purchaseQuickPaymentUpdateTemplate.onRendered(function() {
   Session.set('oldPaidAmount', this.data.paidAmount);
   Session.set('oldSumPaidAmount', this.data.sumPaidAmount);
 });
-Template.rice_quickPaymentUpdateTemplate.helpers({
-  getCustomer: function(id) {
-    var customer = ReactiveMethod.call('getCustomerName', id);
-    return customer;
+Template.rice_purchaseQuickPaymentUpdateTemplate.helpers({
+  getSupplier: function(id) {
+    var supplier = ReactiveMethod.call('getSupplier', id);
+    return supplier.name;
   },
 });
 datePicker = function(currentInvoiceId) {
   paymentDate = $('[name="paymentDate"]');
   return DateTimePicker.dateTime(paymentDate);
 };
-Template.rice_quickPaymentUpdateTemplate.onDestroyed(function() {
+Template.rice_purchaseQuickPaymentUpdateTemplate.onDestroyed(function() {
   Session.set('oldSumPaidAmount', 0);
   Session.set('sumPaidAmount', 0);
 });
-Template.rice_quickPaymentInsertTemplate.onDestroyed(function() {
+Template.rice_purchaseQuickPaymentInsertTemplate.onDestroyed(function() {
   Session.set('oldSumPaidAmount', 0);
   Session.set('sumPaidAmount', 0);
 });
