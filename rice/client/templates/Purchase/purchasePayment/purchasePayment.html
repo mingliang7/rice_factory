@@ -1,0 +1,52 @@
+<!--Index-->
+<template name="rice_purchasePaymentTable">
+  <div class="animated fadeIn">
+    <span>
+        <p class="pull-right" >
+          <button class="btn btn-info"><i class="fa fa-info-circle"></i>&nbsp;Detail</button>
+        </p>
+        <p>
+            <button type="button" class="btn btn-primary insert">{{fa "plus"}} Add New</button>
+        </p>
+    </span>
+       {{> tabular table=Rice.TabularTable.PurchasePayment selector=selector class="table table-striped table-bsaleed table-condensed table-hover-dblclick"}}
+    <!--{{#if isSubReady "rice_purchasePayment"}}-->
+
+    <!--{{else}}-->
+        <!--{{> loading}}-->
+    <!--{{/if}}-->
+  </div>
+</template>
+
+<!--Action-->
+<template name="rice_purchasePaymentTableAction">
+    {{#tabularAction}}
+        <li><a class="update">{{fa "pencil"}} Update</a></li>
+        <li><a class="remove">{{fa "remove"}} Remove</a></li>
+        <li><a class="show">{{fa "eye"}} Show</a></li>
+
+        <!--<li role="separator" class="divider"></li>-->
+        <!--<li><a href="#" class="sale">{{fa "shopping-cart"}} Sale</a></li>-->
+    {{/tabularAction}}
+</template>
+
+<template name="rice_purchasePaymentTableShow">
+    <dl class="dl-horizontal">
+        <dt>Id</dt>
+        <dd>{{_id}}</dd>
+        <dt>Date</dt>
+        <dd>{{paymentDate}}</dd>
+        <dt>Due-Amount</dt>
+        <dd>{{numFormat dueAmount '0,0'}}</dd>
+        <dt>Paid-Amount</dt>
+        <dd>{{numFormat paidAmount '0,0'}}</dd>
+        <dt>Outstanding-Amount</dt>
+        <dd>{{numFormat outstandingAmount '0,0'}}</dd>
+        <dt>Purchase ID</dt>
+        <dd>{{purchaseId}}</dd>
+        <dt>Supplier</dt>
+        <dd>{{_supplier.name}}</dd>
+        <dt>Staff</dt>
+        <dd>{{_staff.name}}</dd>
+    </dl>
+</template>

@@ -48,7 +48,7 @@ indexTpl.events({
     Report.purchaseInvoice(this._id);
   },
   'click #payment': function() {
-    FlowRouter.go('rice.payment', {
+    FlowRouter.go('rice.purchasePayment', {
       supplierId: this.supplierId,
       purchaseId: this._id
     });
@@ -249,8 +249,8 @@ var getCurrentSupplier = function(id) {
 
 var getItemName = function(id) {
   return Rice.Collection.PurchaseItem.findOne(id).name;
-}
+};
 
 var formatKh = function(val) {
   return numeral(val).format('0,0');
-}
+};

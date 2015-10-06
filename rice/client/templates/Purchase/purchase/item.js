@@ -199,9 +199,6 @@ purchaseItemTpl.events({
       2);
     purchaseItem.amount = math.round(parseFloat(t.$('[name="tmpAmount"]')
       .val()));
-    purchaseItem.lineCost = math.round(parseFloat(t.$(
-        '[name="tmpLineCost"]')
-      .val()));
     var discount = t.$('[name="tmpDiscount"]').val();
     var subDiscount = $('[name="subDiscount"]').val()
     if (subDiscount != '') {
@@ -226,7 +223,6 @@ purchaseItemTpl.events({
           qty: purchaseItem.qty,
           price: purchaseItem.price,
           amount: purchaseItem.amount,
-          lineCost: purchaseItem.lineCost
         });
 
         return false;
@@ -242,7 +238,6 @@ purchaseItemTpl.events({
     purchaseItem.indexPrice = 'purchaseItems.' + index + '.price';
     purchaseItem.indexDiscount = 'purchaseItems.' + index + '.discount';
     purchaseItem.indexAmount = 'purchaseItems.' + index + '.amount';
-    purchaseItem.indexLineCost = 'purchaseItems.' + index + '.lineCost';
 
 
     purchaseItemsState.insert(purchaseItem.name, purchaseItem);
@@ -275,7 +270,6 @@ purchaseItemTpl.events({
     purchaseItemsState.update(name, {
       qty: qty,
       amount: amount,
-      lineCost: lineCost
     });
   },
   'keyup .price': function(e, t) {

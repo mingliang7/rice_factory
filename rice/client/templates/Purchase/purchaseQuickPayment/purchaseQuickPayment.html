@@ -31,9 +31,9 @@
 	{{#autoForm collection=Rice.Collection.PurchasePayment id="rice_purchaseQuickPaymentUpdateTemplate" doc = this type="update"}}
 	<div class="row">
 		<div class="col-md-12">
-					<strong>Customer:</strong>
-					<label class="supplierName">{{supplierId}} | {{getCustomer supplierId}}</label>
-					{{> afQuickField name="supplierId" type="hidden" }}
+					<strong>Supplier:</strong>
+					<label class="supplierName">{{supplierId}} | {{getSupplier supplierId}}</label>
+					{{> afQuickField name="supplierId" type="hidden"}}
 					<br>
 					<strong>Purchase ID:</strong>
 					<label class="saleId">{{_id}}</label>

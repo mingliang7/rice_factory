@@ -88,3 +88,11 @@ datePicker = function(currentInvoiceId) {
   paymentDate = $('[name="paymentDate"]');
   return DateTimePicker.dateTime(paymentDate);
 };
+Template.rice_quickPaymentUpdateTemplate.onDestroyed(function() {
+  Session.set('oldSumPaidAmount', 0);
+  Session.set('sumPaidAmount', 0);
+});
+Template.rice_quickPaymentInsertTemplate.onDestroyed(function() {
+  Session.set('oldSumPaidAmount', 0);
+  Session.set('sumPaidAmount', 0);
+});

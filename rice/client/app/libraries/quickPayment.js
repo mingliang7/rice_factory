@@ -23,7 +23,8 @@ QuickPayment = {
   fireUpdatePurchaseQuickPayment: function(alertifyName, title, doc) {
     Session.set('alertifyName', alertifyName);
     setTimeout(function() {
-      alertify[alertifyName](fa('plus', title), renderTemplate(Template
+      alertify[alertifyName](fa('pencil', title), renderTemplate(
+        Template
         .rice_purchaseQuickPaymentUpdateTemplate, doc));
     }, 200);
   }
