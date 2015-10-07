@@ -131,9 +131,9 @@ showTpl.helpers({
       concate += '<li>' + 'Item: ' + getItemName(item.purchaseItemId) +
         ', Qty: ' + formatKh(item.qty) +
         ', Price: ' + formatKh(item.price) +
-        ', Cost: ' + formatKh(item.cost) + ', Discount: ' + item.discount +
+        ', Discount: ' + item.discount +
         ', Amount: ' +
-        formatKh(item.amount) + ', Line-Cost: ' + formatKh(item.lineCost) +
+        formatKh(item.amount) +
         '</li>';
     });
     return concate;

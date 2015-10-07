@@ -1,16 +1,16 @@
-<template name="rice_sellingList">
+<template name="rice_purchasedList">
   <div class="animated fadeIn">
     <p class="pull-right" style="color: #999; font-family: 'khmer os fasthand';">
       <i class="fa fa-arrow-right"></i>ចុចពីរដងទៅលើ Record ណាមួយដើម្បីធ្វើការទូរទាត់លុយ
     </p>
     <br>
-    {{> tabular table=Rice.TabularTable.SaleList  class="table table-striped table-bsaleed table-condensed table-hover-dblclick"}}
+    {{> tabular table=Rice.TabularTable.PurchasedList  class="table table-striped table-bsaleed table-condensed table-hover-dblclick"}}
   </div>
 </template>
 
-<template name="rice_sellingListAction">
+<template name="rice_purchasedListAction">
     {{#tabularAction}}
-        <li><a class="customerSale">{{fa "user"}} Customer Sale List</a></li>
+        <li><a class="supplier-purchase">{{fa "user"}} Supplier Purchase List</a></li>
         <li><a class="remove">{{fa "remove"}} Remove</a></li>
         <li><a class="show">{{fa "eye"}} Show</a></li>
     {{/tabularAction}}
