@@ -72,4 +72,3 @@ checkAvailable = (id) ->
 	else
 		flag = true
 	flag
-DateTimePicker
