@@ -1,5 +1,5 @@
 Meteor.methods({
-  generateCategory: function() {
+  generateSaleCategory: function() {
     var arr = [{
       name: 'អង្ករ',
       shortName: 'អក'
@@ -12,17 +12,27 @@ Meteor.methods({
       Rice.Collection.SaleCategory.insert(arr[i]);
     }
   },
+  generateUnit: function() {
+    var unit = {
+      name: 'តោន',
+      shortName: 'T'
+    };
+    Rice.Collection.Unit.insert(unit);
+  },
   generateSaleItem: function() {
+    var unit = Rice.Collection.Unit.findOne();
     var items = [{
       name: 'នាងខុន',
       shortName: 'នខ',
-      price: 50000,
-      cost: 45000,
+      unit: unit._id,
+      price: 600,
+      cost: 550,
     }, {
       name: 'នាងមិញ',
       shortName: 'នម',
-      price: 40000,
-      cost: 30000,
+      unit: unit._id,
+      price: 700,
+      cost: 600,
     }];
     var categories = Rice.Collection.SaleCategory.find({}).fetch();
     categories.forEach(function(category) {

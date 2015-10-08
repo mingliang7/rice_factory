@@ -7,6 +7,14 @@
         return customer._id + ' | ' + customer.name;
       }
     },
+    supplierName: function(id) {
+      if (id == 'All' || id == '') {
+        return 'All';
+      } else {
+        var supplier = Rice.Collection.Supplier.findOne(id);
+        return supplier._id + ' | ' + supplier.name;
+      }
+    },
     branchName: function(id) {
       var branch = Cpanel.Collection.Branch.findOne(id);
       return branch;

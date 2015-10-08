@@ -8,8 +8,7 @@
             <span class="caret"></span>
         </a>
         <ul class="dropdown-menu" role="menu">
-           <li><a href="#"><b><i class="fa fa-money"></i>&nbsp; Sale</b></a></li>
-           <li class="divider"></li>
+           <li class="dropdown-header"><i class="fa fa-money"></i>&nbsp; Sale</li>
             <li class="{{isActiveRoute name='rice.customer'}}">
                 <a href="{{pathFor 'rice.customer'}}">Customer</a>
             </li>
@@ -17,8 +16,7 @@
                 <a href="{{pathFor 'rice.saleList'}}">Sale List <span class="badge badge-warning">{{getPublishedCount 'saleCount'}}</span></a>
             </li>
            <li class="divider"></li>
-           <li><a href="#"><b><i class="fa fa-cart-arrow-down"></i>&nbsp; Purchase</b></a></li>
-           <li class="divider"></li>
+           <li class="dropdown-header"><i class="fa fa-cart-arrow-down"></i>&nbsp; Purchase</li>
             <li class="{{isActiveRoute name='rice.supplier'}}">
                 <a href="{{pathFor 'rice.supplier'}}">Supplier</a>
             </li>
@@ -35,6 +33,7 @@
             Reports <span class="caret"></span>
         </a>
         <ul class="dropdown-menu" role="menu">
+          <li class="dropdown-header"><i class="fa fa-money"></i>&nbsp; Sale</li>
             <li class="{{isActiveRoute name='rice.saleReport'}}">
                 <a href="{{pathFor 'rice.saleReport'}}">Sale Report</a>
             </li>
@@ -50,12 +49,12 @@
             <li class="{{isActiveRoute name='rice.outstandingReport'}}">
                 <a href="{{pathFor 'rice.outstandingReport'}}">Outstanding Report</a>
             </li>
-            <li class="{{isActiveRoute name='rice.customerReport'}}">
-                <a href="{{pathFor 'rice.customerReport'}}">Customer (Browser View)</a>
+            <li class="divider"></li>
+            <li class="dropdown-header"><i class="fa fa-cart-arrow-down"></i>&nbsp; Purchase</li>
+            <li class="{{isActiveRoute name='rice.purchaseReport'}}">
+                <a href="{{pathFor 'rice.purchaseReport'}}">Purchase Report</a>
             </li>
-            <li class="{{isActiveRoute name='rice.customerExcelReport'}}">
-                <a href="{{pathFor 'rice.customerExcelReport'}}">Customer (Excel)</a>
-            </li>
+
 
         </ul>
     </li>
