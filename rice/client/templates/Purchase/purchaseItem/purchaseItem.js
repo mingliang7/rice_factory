@@ -14,6 +14,11 @@ tpl.helpers({
 		return {
 			purchaseCategoryId: currentCategoryId
 		};
+	},
+	category: function() {
+		var categoryId = FlowRouter.getParam('purchaseCategoryId');
+		var category = ReactiveMethod.call('getPurchaseCategory', categoryId);
+		return category._id + ' | ' + category.name;
 	}
 });
 tpl.events({
@@ -33,7 +38,8 @@ AutoForm.hooks({
 		before: {
 			insert: function(doc) {
 				var prefix = doc.purchaseCategoryId + '';
-				doc._id = idGenerator.genWithPrefix(Rice.Collection.PurchaseItem, prefix, 3);
+				doc._id = idGenerator.genWithPrefix(Rice.Collection.PurchaseItem, prefix,
+					3);
 				return doc;
 			}
 		},

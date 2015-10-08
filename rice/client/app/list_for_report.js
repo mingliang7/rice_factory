@@ -36,6 +36,27 @@ Rice.ListForReport = {
     }
     return list;
   },
+  itemByPurchaseCategory: function() {
+    var categoryId = Rice.ListState.get('purchaseCategoryId');
+    var list = [];
+    list.push({
+      label: "All",
+      value: ""
+    });
+    console.log(categoryId);
+    if (categoryId) {
+      var items = Rice.Collection.PurchaseItem.find({
+        purchaseCategoryId: categoryId
+      });
+      items.forEach(function(item) {
+        list.push({
+          label: item._id + ' | ' + item.name,
+          value: item._id
+        });
+      });
+    }
+    return list;
+  },
   type: function() {
     var list = [];
     list.push({
