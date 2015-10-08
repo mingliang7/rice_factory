@@ -3,6 +3,9 @@
     <p>
         <button type="button" class="btn btn-primary insert">{{fa "plus"}} Add New</button>
     </p>
+    <p class="pull-right" style="background: rgb(237, 45, 45);color: #fff;">
+      <i class="fa fa-caret-right"></i>&nbsp;{{category}}&nbsp;
+    </p>
         {{> tabular table=Rice.TabularTable.PurchaseItem selector=selector class="table table-striped table-bpurchaseed table-condensed table-dblclick"}}
 </template>
 

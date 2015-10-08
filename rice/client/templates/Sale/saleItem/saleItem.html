@@ -7,11 +7,7 @@
       <i class="fa fa-caret-right"></i>&nbsp;{{category}}&nbsp;
     </p>
 
-    {{#if isSubReady "rice_saleItems"}}
         {{> tabular table=Rice.TabularTable.SaleItem selector=selector class="table table-striped table-bsaleed table-condensed table-dblclick"}}
-    {{else}}
-        {{> loading}}
-    {{/if}}
 </template>
 
 <!--Action-->

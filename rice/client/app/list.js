@@ -49,6 +49,21 @@ Rice.List = {
     });
     return list;
   },
+  purchaseCategories: function() {
+    var list = [];
+    list.push({
+      label: "All",
+      value: ""
+    });
+    var categories = Rice.Collection.PurchaseCategory.find().fetch();
+    categories.forEach(function(category) {
+      list.push({
+        label: category._id + ' | ' + category.name,
+        value: category._id
+      });
+    });
+    return list;
+  },
   customer: function() {
     var list = [];
     list.push({

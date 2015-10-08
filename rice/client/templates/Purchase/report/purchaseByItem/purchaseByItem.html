@@ -1,0 +1,108 @@
+<!--Form-->
+<template name="rice_purchaseByItemReport">
+    {{#autoForm schema=Rice.Schema.PurchaseByItem id="rice_purchaseByItemReport" action="purchaseByItemReportGen" target="_blank"}}
+        <div class="row">
+            <div class="col-md-6">
+                {{> afQuickField name="branch"}}
+                {{> afQuickField name="category"}}
+                {{> afQuickField name="item"}}
+            <button type="submit" class="btn btn-primary">{{fa "file-text"}} Generate</button>
+            <button type="reset" class="btn btn-default reset">{{fa "refresh"}} Reset</button>
+            </div>
+            <div class="col-md-6">
+                {{> afQuickField name="date"}}
+                {{> afQuickField name="exchange"}}
+            </div>
+        </div>
+        {{> collapseTabular }}
+    {{/autoForm}}
+</template>
+
+<!--Generate-->
+<template name="rice_purchaseByItemReportGen">
+    <!--Is ready-->
+    {{#if data}}
+        {{#reportTpl options}}
+
+            {{#with data}}
+
+                <!--Title-->
+                {{#with title}}
+                    <div class="title">
+                        <div class="title-1x-kh-muol">{{khName}}</div>
+                        <div class="title-1x">{{enName}}</div>
+                        <div><u>Purchase By Item Report</u></div>
+                        <div class="title-2x">{{enAddress}}</div>
+                    </div>
+                {{/with}}
+
+                <!--Header-->
+                {{#with header}}
+                    <div style="width: 100%">
+                        <div style="width: 50%; float: left">
+                            <ul class="list-unstyled">
+                                <li><strong>Branch:</strong> {{branch._id}} | {{branch.khName}}({{branch.khName}})</li>
+                                <li><strong>Category:</strong> {{category}}</li>
+                                <li><strong>Item:</strong> {{item}}</li>
+                            </ul>
+                        </div>
+
+                        <div style="width: 50%; float: right">
+                            <ul class="list-unstyled">
+                                <li><strong>Date:</strong> {{date}}</li>
+                                <li><strong>Exchange:</strong> {{exchange}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                {{/with}}
+
+                <!--Content-->
+                <table class="report-content">
+                    <thead class="content-header">
+                    <tr>
+                        <th>Item</th>
+                        <th>Avg-Price</th>
+                        <th>Qty</th>
+                        <th>Avg-Discount</th>
+                        <th>Total</th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="content-body">
+                    {{#each content}}
+                        <tr>
+                            <td>{{getItemName _id}}</td>
+                            <td align="right">{{numFormat averagePrice '0,0.00'}}</td>
+                            <td align="right">{{totalQty}}</td>
+                            <td align="right">{{totalDiscount}}%</td>
+                            <td align="right">{{numFormat totalAmount '0,0.00'}}</td>
+                        </tr>
+                    {{/each}}
+                    <tr>
+                        <td colspan="4" align='right'>Total USD:</td>
+                        <td align='right'>{{numFormat footer.total '0,0.00'}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" align='right'>KHR:</td>
+                        <td align='right'>{{numFormat footer.totalInKhmer '0,0'}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" align='right'>THB:</td>
+                        <td align='right'>{{numFormat footer.totalInBath '0,0'}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            {{/with}}
+
+            <!--Sign-->
+            {{> signFooter}}
+
+        {{/reportTpl}}
+
+        <!--Auto print-->
+        <!-- {{autoprint close="true"}} -->
+
+    {{else}}
+        {{> loading}}
+    {{/if}}
+</template>
