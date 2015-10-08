@@ -1,5 +1,5 @@
 // Customer
-Rice.TabularTable.SupplierLIst = new Tabular.Table({
+Rice.TabularTable.SupplierList = new Tabular.Table({
   name: "rice_supplierList",
   collection: Rice.Collection.Supplier,
   pagingType: "full_numbers",
