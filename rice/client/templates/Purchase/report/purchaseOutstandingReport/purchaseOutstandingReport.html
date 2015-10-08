@@ -1,0 +1,177 @@
+<!--Form-->
+<template name="rice_purchaseOutstandingReport">
+    {{#autoForm schema=Rice.Schema.PurchaseOutstanding id="rice_purchaseOutstandingReport" action="purchaseOutstandingReportGen" target="_blank"}}
+        <div class="row">
+            <div class="col-md-6">
+              {{> afQuickField name="branch"}}
+              {{> afQuickField name="staff"}}
+              {{> afQuickField name="type"}}
+              <label >Supplier: <span class="label label-primary">{{supplierId.name}}</span></label>
+              <div class="input-group  select2-bootstrap-append">
+                    {{> afFieldInput name="supplier" value=supplierId._id readonly=true}}
+                    <span class="input-group-addon">
+                      <a  href="#" class="clear-supplier" >
+                          {{fa "eraser"}}
+                      </a>
+                    </span>
+                    <span class="input-group-addon">
+
+                        <a  href="#"  data-toggle="modal" data-target=".purchaseOutstandingSupplierList">
+                            {{fa "list-alt"}}
+                        </a>
+                    </span>
+                  </div>
+                <br>
+            </div>
+            <div class="col-md-6">
+                {{> afQuickField name="date"}}
+                {{> afQuickField name="exchange"}}
+            <button type="submit" class="btn btn-primary">{{fa "file-text"}} Generate</button>
+            <button type="reset" class="btn btn-default reset">{{fa "refresh"}} Reset</button>
+            </div>
+        </div>
+        {{> purchaseOutstandingSupplierList }}
+    {{/autoForm}}
+</template>
+
+<!--Generate-->
+<template name="rice_purchaseOutstandingReportGen">
+    <!--Is ready-->
+    {{#if data}}
+        {{#reportTpl options}}
+
+            {{#with data}}
+
+                <!--Title-->
+                {{#with title}}
+                    <div class="title">
+                        <div class="title-1x-kh-muol">{{khName}}</div>
+                        <div class="title-1x">{{enName}}</div>
+                        <div><u>PurchaseOutStanding Report</u></div>
+                        <div class="title-2x">{{enAddress}}</div>
+                    </div>
+                {{/with}}
+
+                <!--Header-->
+                {{#with header}}
+                    <div style="width: 100%">
+                        <div style="width: 50%; float: left">
+                            <ul class="list-unstyled">
+                                <li><strong>Branch:</strong> {{branch._id}} | {{branch.khName}}({{branch.khName}})</li>
+                                <li><strong>Staff:</strong> {{getStaff staff}}</li>
+                                <li><strong>Type:</strong> {{type}}</li>
+                                <li><strong>Supplier:</strong> {{supplier}}</li>
+                            </ul>
+                        </div>
+
+                        <div style="width: 50%; float: right">
+                            <ul class="list-unstyled">
+                                <li><strong>Date:</strong> {{date}}</li>
+                                <li><strong>Exchange:</strong> {{exchange}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                {{/with}}
+
+                <!--Content-->
+                <table class="report-content">
+                    <thead class="content-header">
+                    <tr>
+                        <th>No</th>
+                        <th>Purchase ID</th>
+                        <th>Supplier</th>
+                        <th>Telephone</th>
+                        <th>Purchase Date</th>
+                        <th>Due-Amount</th>
+                        <th>Paid-Amount</th>
+                        <th>Outstainding-Amount</th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="content-body">
+                    {{#each content}}
+                        <tr>
+                            <td>{{index}}</td>
+                            <td>{{_id}}</td>
+                            <td>{{_supplier.name}}</td>
+                            <td>{{_supplier.telephone}}</td>
+                            <td>{{moFormat purchaseDate 'YYYY-MM-DD HH:mm:ss'}}</td>
+                            <td align='right'>{{numFormat _payment.dueAmount '0,0.00'}}</td>
+                            <td align='right'>{{numFormat _payment.paidAmount '0,0.00'}}</td>
+                            <td align='right'>{{numFormat _payment.outstandingAmount '0,0.00'}}</td>
+                        </tr>
+                    {{/each}}
+                    {{#with footer}}
+                        <tr align='right'>
+                          <td colspan="5">
+                          Total USD:
+                          </td>
+                          <td align='right'>
+                               {{numFormat dueAmount '0,0.00'}}
+                          </td>
+                          <td align='right'>{{numFormat paidAmount '0,0.00'}}</td>
+                          <td align='right'>{{numFormat outstandingAmount '0,0.00'}}</td>
+                        </tr>
+                        <tr align='right'>
+                          <td colspan="5">
+                          KHR:
+                          </td>
+                          <td align='right'>
+                               {{numFormat dueAmountInKhmer '0,0'}}
+                          </td>
+                          <td align='right'>{{numFormat paidAmountInKhmer '0,0'}}</td>
+                          <td align='right'>{{numFormat outstandingAmountInKhmer '0,0'}}</td>
+
+                        </tr>
+
+                        <tr align='right'>
+                          <td colspan="5">
+                          THB:
+                          </td>
+                          <td align='right'>
+                               {{numFormat dueAmountInBath '0,0'}}
+                          </td>
+                          <td align='right'> {{numFormat paidAmountInBath '0,0'}}</td>
+                          <td align='right'> {{numFormat outstandingAmountInBath '0,0'}}</td>
+                        </tr>
+                    {{/with}}
+                    </tbody>
+                </table>
+
+
+            {{/with}}
+
+            <!--Sign-->
+            {{> signFooter}}
+
+        {{/reportTpl}}
+
+        <!--Auto print-->
+        <!-- {{autoprint close="true"}} -->
+
+    {{else}}
+        {{> loading}}
+    {{/if}}
+</template>
+
+<template name="purchaseOutstandingSupplierList">
+    <div class="container">
+
+    <div class="row">
+      <div class="modal fade purchaseOutstandingSupplierList" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title" id="myModalLabel"><i class="fa fa-list-alt"></i> Supplier</h4>
+            </div>
+            <div class="modal-body">
+              {{> tabular table=Rice.TabularTable.SupplierList selector=selector  class="table table-striped table-bsaleed table-condensed table-hover-dblclick"}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</template>
