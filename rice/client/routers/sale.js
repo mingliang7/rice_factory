@@ -9,7 +9,7 @@ riceRoutes.route('/sale/:customerId', {
   breadcrumb: {
     params: ['customerId'],
     //queryParams: ['show', 'color'],
-    title: 'purchase',
+    title: 'sale',
     parent: 'rice.customer'
   }
 });
