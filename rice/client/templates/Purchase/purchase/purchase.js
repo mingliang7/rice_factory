@@ -24,7 +24,13 @@ indexTpl.onCreated(function() {
 indexTpl.onRendered(function() {
   //
 });
-
+Template.rice_purchaseInsert.events({
+  "change [name='exchange']": function(e) {
+    var val = $(e.currentTarget).val();
+    var exchange = Cpanel.Collection.Exchange.findOne(val);
+    StateItem.set('exchange', exchange);
+  }
+});
 indexTpl.helpers({
   tabularSelector: function() {
     return {

@@ -98,6 +98,7 @@ indexTpl.events({
       );
     }
   },
+
   'click .show': function(e, t) {
     var id = this._id;
     Meteor.call("saleItem", id, function(error, result) {
@@ -119,6 +120,13 @@ indexTpl.events({
       QuickPayment.fireQuickPayment('saleQuickPayment', 'Quick Pay',
         rowData);
     }
+  }
+});
+Template.rice_saleInsert.events({
+  'change [name="exchange"]': function(e) {
+    var val = $(e.currentTarget).val();
+    var exchange = Cpanel.Collection.Exchange.findOne(val);
+    StateItem.set('exchange', exchange);
   }
 });
 showTpl.helpers({
