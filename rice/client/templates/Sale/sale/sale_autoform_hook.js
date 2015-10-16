@@ -14,6 +14,11 @@ AutoForm.hooks({
       alertify.sale().close();
       var saveNpay = Session.get('saveNpay');
       var payNprint = Session.get('payNprint');
+      var saveNprint = Session.get('saveNprint');
+      if (saveNprint) {
+        printInvoice(_id);
+        Session.set('saveNprint', undefined);
+      }
       if (!_.isUndefined(saveNpay) || !_.isUndefined(payNprint)) {
         excutePayment('Payment', _id);
         Session.set('saveNpay', undefined);
@@ -65,4 +70,14 @@ var excutePayment = function(title, id) {
     }
   });
 
+};
+
+var printInvoice = function(id) {
+  Meteor.call('getSaleReactiveId', id, function(err, doc) {
+    if (err) {
+      alertify.error(err);
+    } else {
+      Report.quickInvoice(doc._id);
+    }
+  });
 };

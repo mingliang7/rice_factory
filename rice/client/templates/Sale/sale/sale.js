@@ -122,13 +122,6 @@ indexTpl.events({
     }
   }
 });
-Template.rice_saleInsert.events({
-  'change [name="exchange"]': function(e) {
-    var val = $(e.currentTarget).val();
-    var exchange = Cpanel.Collection.Exchange.findOne(val);
-    StateItem.set('exchange', exchange);
-  }
-});
 showTpl.helpers({
   extract: function(items) {
     var concate = '';
@@ -197,6 +190,14 @@ insertTpl.events({
   // Test search list change
   'change [name="customerId"]': function() {
     $('[name="des"]').val('Customer is changed');
+  },
+  'click .saveNprint': function() {
+    Session.set('saveNprint', true);
+  },
+  'change [name="exchange"]': function(e) {
+    var val = $(e.currentTarget).val();
+    var exchange = Cpanel.Collection.Exchange.findOne(val);
+    StateItem.set('exchange', exchange);
   }
 });
 
