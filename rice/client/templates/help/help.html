@@ -1,103 +1,99 @@
-<template name="rice_help">
-  <body id="top">
-   <div class="row MainContent">
-       <!--Main Content -->
-       <div class="col-xs-9">
-           <section id="welcome" class="group scrollto">
-               {{> welcome}}
-           </section>
-           <section id="login" class="group scrollto">
-               {{> loginHelp}}
-           </section>
-           <section id="home" class="group scrollto">
-               {{> selectModule}}
-               {{> selectBranch}}
-           </section>
+<template name="acc_help">
+    <body id="top">
+    <div class="row MainContent">
 
-           <section id="setting" class="group scrollto">
-               {{> settingHelp}}
-           </section>
-
-       </div>
-
-
-       <!--Side Nav Bar -->
-       <nav class="col-xs-3 bs-docs-sidebar header-scroll" style="position: relative !important;">
-           <ul id="sidebar" class="nav nav-stacked fixed">
-               <li>
-                   <a href="#welcome">Welcome</a>
-               </li>
-               <li>
-                   <a href="#login">Login</a>
-               </li>
-               <li>
-                   <a href="#home">Home</a>
-               </li>
-               <li>
-                   <a href="#setting">Setting</a>
-                   <ul class="nav nav-stacked">
-                       <li><a href="#setting1">Exchange</a></li>
-                       <li><a href="#setting2">Unit</a></li>
-                       <li><a href="#setting3">Purchase Category</a></li>
+        <!--Main Content -->
+        <div class="col-xs-9">
+            <section id="welcome" class="group scrollto">
+                {{> acc_welcomeHelp}}
+            </section>
+            <section id="login" class="group scrollto">
+                {{> acc_loginHelp}}
+            </section>
+            <section id="home" class="group scrollto">
+                {{> acc_homeHelp}}
+            </section>
+            <section id="setting" class="group scrollto">
+                {{> acc_settingHelp}}
+            </section>
+            <section id="journal" class="group scrollto">
+                {{> acc_journalEntryHelp}}
+            </section>
+            <section id="accountant" class="group scrollto">
+                {{> acc_accountantHelp}}
+            </section>
+            <section id="report" class="group scrollto">
+                {{> acc_reportHelp}}
+            </section>
+            <section id="tool" class="group scrollto">
+                {{> acc_toolHelp}}
+            </section>
+        </div>
 
 
-                   </ul>
-               </li>
+        <!--Side Nav Bar -->
+        <nav class="col-xs-3 bs-docs-sidebar header-scroll" style="position: relative !important;">
+            <ul id="sidebar" class="nav nav-stacked fixed">
+                <li>
+                    <a href="#welcome">Welcome</a>
+                </li>
+                <li>
+                    <a href="#login">Login</a>
+                </li>
+                <li>
+                    <a href="#home">Home</a>
+                </li>
+                <li>
+                    <a href="#setting">Setting</a>
+                    <ul class="nav nav-stacked">
+                        <li><a href="#setting1">Chart Account</a></li>
+                        <li><a href="#setting2">Exchange</a></li>
+                        <li><a href="#setting3">Exchange NBC</a></li>
+                        <li><a href="#setting4">End Of Process</a></li>
+                        <li><a href="#setting5">Config Closing</a></li>
+                        <li><a href="#setting6">Map Chart Account</a></li>
 
-               <li><a href="#top">Back To Top</a>
-               </li>
-           </ul>
-       </nav>
-   </div>
-   </body>
+                        <li><a href="#setting6Sub1">&nbsp;&nbsp;&nbsp; Income and Expenditure</a></li>
+                        <li><a href="#setting6Sub2">&nbsp;&nbsp;&nbsp; Balance Sheet</a></li>
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="#journal">Journal Entries</a>
+                </li>
+                <li>
+                    <a href="#accountant">Accountant</a>
+                    <ul class="nav nav-stacked">
+                        <li><a href="#accountant1">Journal</a></li>
+                        <li><a href="#accountant2">General Ledger</a></li>
+                        <li><a href="#accountant3">Trial Balance</a></li>
+                        <li><a href="#accountant4">Currency Closing</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#report">Reports</a>
+                    <ul class="nav nav-stacked">
+                        <li><a href="#report1">Profit & Lost</a></li>
+                        <li><a href="#report2">Balance Sheet</a></li>
+                        <li><a href="#report3">NBC</a></li>
+
+                        <li><a href="#report3Sub1">&nbsp;&nbsp;&nbsp;Income and Expenditure</a></li>
+                        <li><a href="#report3Sub2">&nbsp;&nbsp;&nbsp;Balance Sheet</a></li>
+
+                    </ul>
+                </li>
+                <li><a href="#tool">Tool</a>
+                    <ul class="nav nav-stacked">
+                        <li><a href="#tool1"> Backup and Restore</a></li>
+                        <li><a href="#tool2"> View Help</a></li>
+                    </ul>
+                </li>
+                <li><a href="#top">Back To Top</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    </body>
 </template>
 
-<template name="welcome">
-  <div style="page-header" >
-  <p align='center' style="font-weight: bold;font-size: 20px; font-family: 'Khmer OS Fasthand'">ប្រព័ន្ធគ្រប់គ្រងរោងម៉ាស៊ីនកិនស្រូវ</p>
-    <p style="font-size: 16px; font-family: 'khmer os battambang'">
-      ប្រពន្ធ័គ្រប់គ្រងរោងម៉ាស៊ីនកិនស្រូវ គឺជាកម្មវីធីមួយដែលត្រូវបានបង្កើតឡើងដែលមានលក្ខណៈជា Web Base ដើម្បីធ្វើការគ្រប់គ្រងលើចំនុចមួយចំនួនដូចជា៖ ការលក់ទិញនូវអង្ករ, ស្រូវ, និង ការធ្វើរបាយការណ៍លក់ទិញរកចំណេញខាត ។
-    </p>
-  </div>
-  <div class="col-md-8">
-    <img src="/welcome.png" width="800px"/>
-  </div>
-</template>
 
-<template name="loginHelp">
-  <div class="col-md-8" style="font-family: khmer os battambang">
-    <h4>1. Login</h4>
-    <ul>
-      <li>បើក browser(chrome, firefox)</li>
-      <li>វាយអាស័យដ្ឋានដែលបានកំណត់ (Ex: 192.168.1.111:3000)</li>
-    </ul>
-  </div>
-  <div class="col-md-8">
-    <img src="/login.png" width="800px"/>
-  </div>
-</template>
-
-<template name="selectModule">
-  <div class="col-md-11" style="font-family: khmer os battambang">
-    <h4>2. Select Module</h4>
-    <ul>
-      <li>ជ្រើសរើសយក Module 'Rice System'(សំរាប់ចូលទៅកាន់ប្រព័ន្ធគ្រប់គ្រងម៉ាស៊ីនកិនស្រូវ)</li>
-      <li>ជ្រើសរើសយក Module 'Cpanel System'(សំរាប់ចូលទៅកែប្រែ Setting ផ្សេងៗដូចជា User, Base Currency, Exchange..)</li>
-    </ul>
-  </div>
-  <div class="col-md-8">
-    <img src="/module.png" width="800px"/>
-  </div>
-</template>
-
-<template name="selectBranch">
-  <div class="col-md-11" style="font-family: khmer os battambang">
-    <h4>3. Select Branch</h4>
-    <ul>
-      <li>ជ្រើសរើសយក Branch ដែលអ្នកនឹងប្រើប្រាស់ System ដូចជា​(Battambang, Porsat, PoiPet)</li>
-    </ul>
-  </div>
-  <div class="col-md-8">
-    <img src="/branch.png" width="800px"/>
-  </div>
-</template>

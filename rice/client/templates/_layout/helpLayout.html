@@ -1,0 +1,24 @@
+<head>
+    <link rel="icon" href="/favicon.ico">
+    <title>Rabbit Project</title>
+</head>
+
+<template name="helpLayout">
+    <body>
+    <!-- Begin page content -->
+    <div class="container">
+        <!--Content-->
+        {{> Template.dynamic template=content}}
+
+    </div>
+    <!-- /Container -->
+
+    <!-- Footer -->
+    <!--{{> footerLayout}}-->
+
+    <!-- Status -->
+    {{> meteorStatus}}
+
+    </body>
+</template>
+
