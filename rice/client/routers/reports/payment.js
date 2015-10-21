@@ -10,7 +10,7 @@ riceRoutes.route('/paymentReport', {
   breadcrumb: {
     //params: ['id'],
     //queryParams: ['show', 'color'],
-    title: 'Payment Report',
+    title: 'Sale Payment Report',
     parent: 'rice.home'
   }
 });

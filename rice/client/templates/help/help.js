@@ -1,4 +1,4 @@
-var indexTpl = Template.acc_help;
+var indexTpl = Template.rice_help;
 
 indexTpl.onRendered(function () {
     $('body').scrollspy({
