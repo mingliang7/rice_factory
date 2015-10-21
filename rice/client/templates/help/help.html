@@ -1,0 +1,87 @@
+<template name="rice_help">
+
+  <body id="top">
+    <div class="row MainContent">
+
+      <!--Main Content -->
+      <div class="col-xs-9">
+        <section id="welcome" class="group scrollto">
+          {{> rice_welcomeHelp}}
+        </section>
+        <section id="login" class="group scrollto">
+          {{> rice_loginHelp}}
+        </section>
+        <section id="home" class="group scrollto">
+          {{> rice_homeHelp}}
+        </section>
+        <section id="setting" class="group scrollto">
+          {{> rice_settingHelp}}
+        </section>
+        <section id="riceountant" class="group scrollto">
+          {{> rice_riceountantHelp}}
+        </section>
+        <section id="report" class="group scrollto">
+          {{> rice_reportHelp}}
+        </section>
+      </div>
+
+
+      <!--Side Nav Bar -->
+      <nav class="col-xs-3 bs-docs-sidebar header-scroll" style="position: relative !important;">
+        <ul id="sidebar" class="nav nav-stacked fixed">
+          <li>
+            <a href="#welcome">Welcome</a>
+          </li>
+          <li>
+            <a href="#login">1. Login</a>
+          </li>
+          <li>
+            <a href="#home">2. Home</a>
+          </li>
+          <li>
+            <a href="#setting">3. Setting</a>
+            <ul class="nav nav-stacked">
+              <li><a href="#setting1">3.1. Exchange</a></li>
+              <li><a href="#setting2">3.2. Unit</a></li>
+              <li><a href="#setting3">3.3. Purchase Category</a></li>
+              <li><a href="#setting4">3.4. Sale Category</a></li>
+              <li><a href="#setting5">3.5. Staff</a></li>
+              <li><a href="#setting6">3.6. User Staff</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#riceountant">4. Data</a>
+            <ul class="nav nav-stacked">
+              <li><a href="#riceountant1">4.1. Customer</a></li>
+              <li><a href="#riceountant2">4.2. Sale</a></li>
+              <li><a href="#riceountant3">4.3. Sale Form</a></li>
+              <li><a href="#riceountant4">4.4. Payment Form</a></li>
+              <li><a href="#riceountant5">4.5. Payment</a></li>
+              <li><a href="#riceountant6">4.6. Sale List</a></li>
+              <li><a href="#riceountant7">4.7. Supplier</a></li>
+              <li><a href="#riceountant8">4.8. Purchase</a></li>
+              <li><a href="#riceountant9">4.9. Purchase List</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#report">5. Reports</a>
+            <ul class="nav nav-stacked">
+              <li><a href="#report1">5.1. Sale Report</a></li>
+              <li><a href="#report2">5.2. Sale Detail Report</a></li>
+              <li><a href="#report3">5.3. Sale By Item Report</a></li>
+              <li><a href="#report4">5.4. Sale Payment Report</a></li>
+              <li><a href="#report5">5.5. Sale Outstanding Report</a></li>
+              <li><a href="#report6">5.6. Purchase Report</a></li>
+              <li><a href="#report7">5.7. Purchase Detail Report</a></li>
+              <li><a href="#report8">5.8. Purchase By Item Report</a></li>
+              <li><a href="#report9">5.9. Purchase Payment Report</a></li>
+              <li><a href="#report10">6.0. Purchase Outstanding Report</a></li>
+
+
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </body>
+</template>
