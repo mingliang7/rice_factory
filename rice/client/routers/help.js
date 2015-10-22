@@ -1,5 +1,5 @@
 riceRoutes.route('/help', {
-  name: 'acc.help',
+  name: 'rice.help',
   action: function(params, queryParams) {
     /*Layout.main('acc_help');*/
     BlazeLayout.render('helpLayout', {
