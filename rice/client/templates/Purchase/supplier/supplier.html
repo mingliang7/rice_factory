@@ -64,36 +64,22 @@
 <template name="rice_supplierUpdate">
     {{#autoForm collection=Rice.Collection.Supplier id="rice_supplierUpdate" doc=this type="update"}}
         <div class="row">
-            <div class="col-md-6">
-                {{> afQuickField name='name'}}
-                {{> afQuickField name='gender'}}
-                {{> afQuickField name='dob'}}
+          <div class="row">
+              <div class="col-md-6">
+                  {{> afQuickField name='name'}}
+                  {{> afQuickField name='gender'}}
+                  {{> afQuickField name='status'}}
+                  {{> afQuickField name='telephone'}}
+              </div>
+              <div class="col-md-6">
+                  {{> afQuickField name='address'}}
+                  {{> afQuickField name='email'}}
+                  {{> afQuickField name='photo'}}
 
-                <div class="form-group{{#if afFieldIsInvalid name='addressId'}} has-error{{/if}}" data-required="true">
-                    <label class="control-label" for="addressId">Address</label>
-
-                    <div class="input-group  select2-bootstrap-append">
-                        {{> afFieldInput name='addressId'}}
-                        <span class="input-group-addon">
-                            <a href="#" class="addressAddon">
-                                {{fa "plus"}}
-                            </a>
-                        </span>
-                    </div>
-                    {{#if afFieldIsInvalid name='addressId'}}
-                        <span class="help-block">{{afFieldMessage name='addressId'}}</span>
-                    {{/if}}
-                </div>
-
-            </div>
-            <div class="col-md-6">
-                {{> afQuickField name='telephone'}}
-                {{> afQuickField name='email'}}
-                {{> afQuickField name='photo'}}
-
-                <button type="submit" class="btn btn-primary">{{fa "floppy-o"}} Save</button>
-                <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
-            </div>
+                  <button type="submit" class="btn btn-primary">{{fa "floppy-o"}} Save</button>
+                  <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+              </div>
+          </div>
         </div>
     {{/autoForm}}
 </template>
