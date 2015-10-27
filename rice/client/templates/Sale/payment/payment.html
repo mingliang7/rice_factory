@@ -1,15 +1,17 @@
 <!--Index-->
 <template name="rice_payment">
+  {{> detailModal}}
   <div class="animated fadeIn">
     <span>
         <p class="pull-right" >
-          <button class="btn btn-info"><i class="fa fa-info-circle"></i>&nbsp;Detail</button>
+          <button class="btn btn-info" data-toggle="modal" data-target="#myModal"><i class="fa fa-info-circle"></i>&nbsp;Detail</button>
         </p>
         <p>
             <button type="button" class="btn btn-primary insert">{{fa "plus"}} Add New</button>
         </p>
     </span>
        {{> tabular table=Rice.TabularTable.Payment selector=selector class="table table-striped table-bsaleed table-condensed table-hover-dblclick"}}
+
     <!--{{#if isSubReady "rice_payment"}}-->
 
     <!--{{else}}-->
@@ -108,4 +110,43 @@
         <dt>Staff</dt>
         <dd>{{_staff.name}}</dd>
     </dl>
+</template>
+<template name="detailModal">
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Sale Detail</h4>
+        </div>
+        <div class="modal-body">
+          <ul>
+            {{#with data}}
+              <li>Customer: <label class='label label-primary' style="font-size: 12px;">{{_customer.name}}</label></li>
+              <li>Sale ID: <b><u>{{_id}}</u></b></li>
+              <li>Item
+                {{#each saleItems}}
+                  <ul>
+                    <li>Name: <b>{{getItemName saleCategoryId saleItemId}}</b></li>
+                    <li>Price: <b>${{price}}</b></li>
+                    <li>Qty: <b>{{qty}}</b></li>
+                    <li>Discount: <b>%{{discount}}</b></li>
+                    <li>Amount: <b>${{amount}}</b></li>
+                    <hr>
+                  </ul>
+                {{/each}}
+              </li>
+              <li>Sale Date: <b>{{moFormat saleDate 'YYYY-MM-DD HH:mm:ss'}}</b></li>
+              <li>Subdiscount: <b>${{subDiscount}}</b></li>
+              <li>Subtotal: <b>${{subTotal}}</b></li>
+              <li>Total: <b>${{total}}</b></li>
+            {{/with}}
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>

@@ -59,3 +59,9 @@ Meteor.methods
         maxDate
     console.log maxDate
     maxDate
+
+  paymentDetail: (saleId, customerId) ->
+    Rice.Collection.Sale.findOne(saleId)
+
+  purchasePaymentDetail: (purchaseId, supplierId) ->
+    Rice.Collection.Purchase.findOne(purchaseId)

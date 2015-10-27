@@ -8,7 +8,7 @@ Rice.TabularTable.PurchasePayment = new Tabular.Table({
     "width": "12px",
     "targets": 0
   }],
-  sale: [
+  purchase: [
     ['1', 'desc']
   ],
   columns: [{
@@ -68,7 +68,7 @@ Rice.TabularTable.PurchasePayment = new Tabular.Table({
 var extract = function(items) {
   var concate = '';
   items.forEach(function(item) {
-    concate += '<li>' + 'Item: ' + getItemName(item.saleItemId) +
+    concate += '<li>' + 'Item: ' + getItemName(item.purchaseItemId) +
       ', Qty: ' + formatKh(item.qty) +
       ', Price: ' + formatKh(item.price) +
       ', Discount: ' + item.discount + ', Amount: ' +

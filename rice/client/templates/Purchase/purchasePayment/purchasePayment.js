@@ -86,3 +86,18 @@ Template.rice_purchasePaymentTable.events({
         data));
   }
 });
+Template.purchasPaymentDetail.helpers({
+  data: function() {
+    var purchaseId = FlowRouter.getParam('purchaseId');
+    var supplierId = FlowRouter.getParam('supplierId');
+    purchase = ReactiveMethod.call('purchasePaymentDetail',
+      purchaseId,
+      supplierId);
+    return purchase;
+  },
+  getItemName: function(categoryId, purchaseId) {
+    categoryName = Rice.Collection.PurchaseCategory.findOne(categoryId).name;
+    itemName = Rice.Collection.PurchaseItem.findOne(purchaseId).name;
+    return categoryName + itemName;
+  }
+});

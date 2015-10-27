@@ -21,7 +21,6 @@ ejson
 # Community
 ######
 # Layout
-twbs:bootstrap
 fortawesome:fontawesome
 
 # User
@@ -161,3 +160,5 @@ theara:reactive-list
 theara:numeral-helpers
 theara:factory
 johnantoni:meteor-stickynav2
+fourseven:scss
+fezvrasta:bootstrap-material-design

@@ -9,17 +9,9 @@ Template.rice_payment.helpers({
       customerId: customerId,
       saleId: saleId
     };
-  },
-  saleId: function() {
-    var saleId = FlowRouter.getParam('saleId');
-    return saleId;
-  },
-  customer: function() {
-    var saleId = FlowRouter.getParam('saleId');
-    var sale = ReactiveMethod.call('saleItem', saleId);
-    return sale.customerId + ' | ' + sale._customer.name;
   }
 });
+
 Template.rice_payment.events({
   "click .insert": function(event, template) {
     var saleId = FlowRouter.getParam('saleId');
@@ -77,5 +69,19 @@ Template.rice_payment.events({
     var data = this;
     alertify.saleQuickPayment(fa("eye", "Sale"), renderTemplate(Template.rice_paymentShow,
       data));
+  }
+});
+Template.detailModal.helpers({
+  data: function() {
+    var saleId = FlowRouter.getParam('saleId');
+    var customer = FlowRouter.getParam('customerId');
+    sale = ReactiveMethod.call('paymentDetail', saleId, customer);
+    console.log(sale);
+    return sale;
+  },
+  getItemName: function(categoryId, saleId) {
+    categoryName = Rice.Collection.SaleCategory.findOne(categoryId).name;
+    itemName = Rice.Collection.SaleItem.findOne(saleId).name;
+    return categoryName + itemName;
   }
 });
