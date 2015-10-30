@@ -29,6 +29,31 @@ tpl.events({
 		var self = this;
 		alertify.purchaseItem(fa('pencil', 'Edit Item'), renderTemplate(Template.rice_purchaseItemUpdate,
 			self));
+	},
+	'click .remove': function() {
+		var self = this;
+		Meteor.call("checkAvailableItemInPurchase", self._id, function(error,
+			result) {
+			if (error) {
+				console.log("error", error);
+			}
+			if (result.flag) {
+				alertify.confirm(fa('remove', 'Remove PurchaseItem'),
+					"Are you sure to delete #" + self._id,
+					function() {
+						Rice.Collection.PurchaseItem.remove(self._id, function(err) {
+							if (err == undefined) {
+								alertify.error(err.message);
+							} else {
+								alertify.success('Successfully remove');
+							}
+						});
+					}, null);
+			} else {
+				alertify.warning('Sorry item #' + self._id +
+					'has been using in purchase!');
+			}
+		});
 	}
 });
 

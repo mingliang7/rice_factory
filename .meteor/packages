@@ -41,7 +41,7 @@ cottz:flow-router-auth
 arillo:flow-router-helpers
 zimme:active-route
 tomwasd:flow-router-seo
-tomwasd:flow-router-autoscroll
+#tomwasd:flow-router-autoscroll
 meteorhacks:subs-manager
 meteorhacks:fast-render
 
@@ -159,6 +159,6 @@ theara:autoprint
 theara:reactive-list
 theara:numeral-helpers
 theara:factory
-johnantoni:meteor-stickynav2
+#johnantoni:meteor-stickynav2
 fourseven:scss
 fezvrasta:bootstrap-material-design

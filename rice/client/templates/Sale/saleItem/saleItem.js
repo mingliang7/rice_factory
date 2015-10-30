@@ -37,17 +37,27 @@ tpl.events({
 	},
 	"click .remove": function() {
 		var self = this;
-		alertify.confirm(fa('remove', 'Remove SaleItem'),
-			"Are you sure to delete #" + self._id,
-			function() {
-				Rice.Collection.SaleItem.remove(self._id, function(err) {
-					if (err == undefined) {
-						alertify.error(err.message);
-					} else {
-						alertify.success('Successfully remove');
-					}
-				});
-			}, null);
+		Meteor.call("checkAvailableItemInSale", self._id, function(error, result) {
+			if (error) {
+				console.log("error", error);
+			}
+			if (result.flag) {
+				alertify.confirm(fa('remove', 'Remove SaleItem'),
+					"Are you sure to delete #" + self._id,
+					function() {
+						Rice.Collection.SaleItem.remove(self._id, function(err) {
+							if (err == undefined) {
+								alertify.error(err.message);
+							} else {
+								alertify.success('Successfully remove');
+							}
+						});
+					}, null);
+			} else {
+				alertify.warning('Sorry item #' + self._id +
+					' has been using in sale!');
+			}
+		});
 	}
 });
 Template.rice_saleItemShow.helpers({
@@ -82,4 +92,4 @@ AutoForm.hooks({
 			alertify.error(err.message);
 		}
 	}
-})
+});

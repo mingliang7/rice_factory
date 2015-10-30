@@ -11,17 +11,27 @@ Template.rice_unitTabular.events({
   },
   "click .remove": function() {
     var self = this;
-    alertify.confirm(fa('remove', 'Remove staff'),
-      "Are you sure to delete #" + self._id,
-      function() {
-        Rice.Collection.Unit.remove(self._id, function(err) {
-          if (err == undefined) {
-            alertify.error(err.message);
-          } else {
-            alertify.success('Successfully remove');
-          }
-        });
-      }, null);
+    var flag = checkUnit(self);
+    if (flag) {
+      alertify.confirm(fa('remove', 'Remove Unit'),
+        "Are you sure to delete #" + self._id,
+        function() {
+          Rice.Collection.Unit.remove(self._id, function(err) {
+            if (err == undefined) {
+              alertify.error(err.message);
+            } else {
+              alertify.success('Successfully remove');
+            }
+          });
+        }, null);
+    } else {
+      alertify.warning('Sorry  this unit is in use');
+    }
+  },
+  "click .show": function() {
+    var self = this;
+    alertify.unit(fa('eye', 'show'), renderTemplate(Template.rice_unitShowTemplate,
+      self));
   }
 });
 AutoForm.hooks({
@@ -42,9 +52,25 @@ AutoForm.hooks({
   rice_unitUpdateTemplate: {
     onSuccess: function(formType, result) {
       alertify.success('Successfully updated');
+      alertify.unit().close();
     },
     onError: function(formType, err) {
       alertify.error(err.message);
     }
   }
 });
+
+var checkUnit = function(unit) {
+  var saleItem = Rice.Collection.SaleItem.findOne({
+    unit: unit._id
+  });
+  var purchaseItem = Rice.Collection.PurchaseItem.findOne({
+    unit: unit._id
+  });
+
+  if (!_.isUndefined(saleItem) || !_.isUndefined(purchaseItem)) {
+    return false;
+  }
+  return true;
+
+};

@@ -59,9 +59,9 @@
 }
 
 /* hide inactive nested list */
-/*.bs-docs-sidebar .nav ul.nav {*/
-    /*display: none;*/
-/*}*/
+.bs-docs-sidebar .nav ul.nav {
+    display: none;
+}
 /* show active nested list */
 .bs-docs-sidebar .nav>.active>ul.nav {
     display: block;
@@ -91,4 +91,3 @@
     -ms-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
 }
-

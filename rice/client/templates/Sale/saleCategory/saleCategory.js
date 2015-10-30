@@ -29,24 +29,29 @@ tpl.events({
   },
   'click .remove': function() {
     var self = this;
-    alertify.confirm(fa("remove", "SaleCategory"),
-      "Are you sure to delete [" + self._id + "]?",
-      function() {
-        Rice.Collection.SaleCategory.remove(self._id, function(error) {
-          if (error) {
-            alertify.error(error.message);
-          } else {
-            alertify.success("Success");
-          }
-        });
-      }, null);
+    var flag = checkSaleItems(self);
+    if (flag) {
+      alertify.confirm(fa("remove", "SaleCategory"),
+        "Are you sure to delete [" + self._id + "]?",
+        function() {
+          Rice.Collection.SaleCategory.remove(self._id, function(error) {
+            if (error) {
+              alertify.error(error.message);
+            } else {
+              alertify.success("Success");
+            }
+          });
+        }, null);
+    } else {
+      alertify.warning('Sorry this category has items!');
+    }
   }
 });
 AutoForm.hooks({
   rice_saleCategoryInsert: {
     before: {
       insert: function(doc) {
-        doc._id = idGenerator.gen(Rice.Collection.SaleCategory, 3)
+        doc._id = idGenerator.gen(Rice.Collection.SaleCategory, 3);
         return doc;
       }
     },
@@ -66,4 +71,14 @@ AutoForm.hooks({
       alertify.error(err.message);
     }
   }
-})
+});
+var checkSaleItems = function(self) {
+  var saleItems = Rice.Collection.SaleItem.find({
+    saleCategoryId: self._id
+  }).fetch();
+  console.log(saleItems);
+  if (saleItems.length > 0) {
+    return false;
+  }
+  return true;
+};

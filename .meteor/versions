@@ -77,7 +77,6 @@ iron:location@1.0.9
 iron:middleware-stack@1.0.9
 iron:router@1.0.9
 iron:url@1.0.9
-johnantoni:meteor-stickynav2@0.0.2
 jquery@1.11.3_2
 json@1.0.3
 juliancwirko:s-alert@3.1.0
@@ -172,7 +171,6 @@ theara:reactive-list@0.2.8
 theara:relation-exist@0.0.1
 theara:round-khr@0.0.1
 tmeasday:publish-counts@0.7.2
-tomwasd:flow-router-autoscroll@0.0.2
 tomwasd:flow-router-seo@0.0.3
 tracker@1.0.7
 tsega:bootstrap3-datetimepicker@4.14.30_4

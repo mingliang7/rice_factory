@@ -172,7 +172,7 @@ purchaseItemTpl.events({
   },
   'keyup [name="tmpQty"]': function(e, t) {
     var qty = t.$('[name="tmpQty"]').val();
-    qty = _.isEmpty(qty) ? 0 : parseInt(qty);
+    qty = _.isEmpty(qty) ? 0 : parseFloat(qty);
 
     StateItem.set('qty', qty);
   },
@@ -265,7 +265,7 @@ purchaseItemTpl.events({
 
     console.log(name);
     console.log(getPurchaseItem);
-    var qty = parseInt(current.val());
+    var qty = parseFloat(current.val());
     var amount = math.round(qty * getPurchaseItem.price, 2);
     purchaseItemsState.update(name, {
       qty: qty,

@@ -20,7 +20,7 @@ Template.rice_staff.events
 	      null
 	    )
 		else
-			alertify.error "Staff ##{id} is in user map :("
+			alertify.error "Staff ##{id} is in user staff :("
 	'click .update': ->
 		data = Rice.Collection.Staffs.findOne(@_id)
 		id = @_id
@@ -29,7 +29,7 @@ Template.rice_staff.events
 			alertify.staff(fa('pencil', 'Edit Staff'), renderTemplate(Template.rice_staffUpdateTemplate, data))
             .maximize()
 		else
-	  	alertify.error "Staff ##{id} is in user map :("
+	  	alertify.error "Staff ##{id} is in user staff :("
 	'click .insert': ->
 		alertify.staff(fa('plus', 'Add New'), renderTemplate(Template.rice_staffInsertTemplate))
             .maximize()
