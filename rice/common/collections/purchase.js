@@ -51,6 +51,7 @@ Rice.Schema.Purchase = new SimpleSchema({
   'purchaseItems.$.discount': {
     type: Number,
     decimal: true,
+    optional: true,
     label: 'Discount'
   },
   'purchaseItems.$.amount': {

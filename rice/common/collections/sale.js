@@ -59,6 +59,7 @@ Rice.Schema.Sale = new SimpleSchema({
   'saleItems.$.discount': {
     type: Number,
     decimal: true,
+    optional: true,
     label: 'Discount'
   },
   'saleItems.$.amount': {
