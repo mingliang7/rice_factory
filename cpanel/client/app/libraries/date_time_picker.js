@@ -1,5 +1,5 @@
 DateTimePicker = {
-    // dateTimePicker
+    /*** dateTimePicker Package ***/
     date: function (elements, options) {
         elements = _.isArray(elements) ? elements : [elements];
         options = _.isObject(options) ? options : {};
@@ -36,15 +36,15 @@ DateTimePicker = {
             element.datetimepicker(options);
         });
     },
-    // datePicker
+    /*** datePicker Package ***/
     date2: function (elements, options) {
         elements = _.isArray(elements) ? elements : [elements];
         options = _.isObject(options) ? options : {};
 
         _.defaults(options, {
             format: 'yyyy-mm-dd',
-            //clearBtn: true,
-            //todayBtn: "linked",
+            clearBtn: true,
+            todayBtn: true,
             todayHighlight: true,
             autoclose: true
         });
@@ -53,7 +53,7 @@ DateTimePicker = {
             element.datepicker(options);
         });
     },
-    // dateRange
+    /*** dateRange Package***/
     dateRange: function (elements, options) {
         elements = _.isArray(elements) ? elements : [elements];
         options = _.isObject(options) ? options : {};
@@ -82,6 +82,49 @@ DateTimePicker = {
 
         _.forEach(elements, function (element) {
             element.daterangepicker(options);
+        });
+    },
+    /*** bootstrapMaterialDatePicker Package ***/
+    mdDate: function (elements, options) {
+        elements = _.isArray(elements) ? elements : [elements];
+        options = _.isObject(options) ? options : {};
+
+        _.defaults(options, {
+            format: 'YYYY-MM-DD',
+            date: true,
+            time: false
+        });
+
+        _.forEach(elements, function (element) {
+            element.bootstrapMaterialDatePicker(options);
+        });
+    },
+    mdDateTime: function (elements, options) {
+        elements = _.isArray(elements) ? elements : [elements];
+        options = _.isObject(options) ? options : {};
+
+        _.defaults(options, {
+            format: 'YYYY-MM-DD HH:mm:ss',
+            date: true,
+            time: true
+        });
+
+        _.forEach(elements, function (element) {
+            element.bootstrapMaterialDatePicker(options);
+        });
+    },
+    mdTime: function (elements, options) {
+        elements = _.isArray(elements) ? elements : [elements];
+        options = _.isObject(options) ? options : {};
+
+        _.defaults(options, {
+            format: 'HH:mm:ss',
+            date: false,
+            time: true
+        });
+
+        _.forEach(elements, function (element) {
+            element.bootstrapMaterialDatePicker(options);
         });
     }
 };

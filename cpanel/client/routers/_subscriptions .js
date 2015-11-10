@@ -10,5 +10,6 @@ FlowRouter.subscriptions = function () {
     // Branch
     this.register('cpanel_branch', Meteor.subscribe('cpanel_branch'));
     // Files upload
+    this.register('files', Meteor.subscribe('files'));
     Meteor.subscribe('files');
 };

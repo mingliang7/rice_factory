@@ -15,18 +15,16 @@ indexTpl.onCreated(function () {
 
 indexTpl.onRendered(function () {
     // Create new  alertify
-    createNewAlertify("branch");
+    createNewAlertify("branch", {size: 'lg'});
 });
 
 indexTpl.events({
     'click .insert': function (e, t) {
-        alertify.branch(fa("plus", "Branch"), renderTemplate(insertTpl))
-            .maximize();
+        alertify.branch(fa("plus", "Branch"), renderTemplate(insertTpl));
     },
     'click .update': function (e, t) {
         var data = Cpanel.Collection.Branch.findOne(this._id);
-        alertify.branch(fa("pencil", "Branch"), renderTemplate(updateTpl, data))
-            .maximize();
+        alertify.branch(fa("pencil", "Branch"), renderTemplate(updateTpl, data));
     },
     'click .remove': function (e, t) {
         var id = this._id;
@@ -47,7 +45,7 @@ indexTpl.events({
     },
     'click .show': function (e, t) {
         var data = Cpanel.Collection.Branch.findOne(this._id);
-        alertify.alert(fa("eye", "Branch"), renderTemplate(showTpl, data));
+        alertify.alert(fa("eye", "Branch"), renderTemplate(showTpl, data).html);
     }
 });
 

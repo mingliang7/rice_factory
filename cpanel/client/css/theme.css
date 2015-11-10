@@ -5,7 +5,7 @@ html {
     min-height: 100%;
 }
 
-body {
+.main-body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
 }
@@ -147,15 +147,5 @@ legend {
 .table-hover-pointer > tbody > tr:hover {
     cursor: pointer;
     /*color: #337ab7;*/
-    background-color: #eaeaea;
-}
-
-.table-hover-dblclick > tbody > tr{
-  transition: all .5s ease-in-out;
-  -webkit-transition: all .5s ease-in-out;
-  -moz-transition: all .5s ease-in-out;
-}
-.table-hover-dblclick > tbody > tr:hover{
-    cursor: pointer;
     background-color: #eaeaea;
 }

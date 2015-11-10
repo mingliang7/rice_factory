@@ -70,5 +70,62 @@ Cpanel.List = {
         }
 
         return list;
+    },
+    moduleForBackupRestore: function () {
+        var userId = Meteor.userId(),
+            currentModule = Session.get('currentModule'),
+            list = [];
+        list.push({label: "(Select One)", value: ""});
+
+        if (currentModule == 'Cpanel') {
+            list.push({label: "- All -", value: "all"});
+            Roles.getGroupsForUser(userId)
+                .forEach(function (group) {
+                    var label = Module[group].name;
+                    list.push({label: label, value: group});
+                });
+        } else {
+            var label = Module[currentModule].name;
+            list.push({label: label, value: currentModule});
+        }
+
+        return list;
+    },
+    typeForBackupRestore: function (module) {
+        let list = [];
+
+        if (!_.isEmpty(module)) {
+            if (module == 'all' || module == 'Cpanel') {
+                list.push({label: '- All -', value: 'all'});
+            } else {
+                //list.push({label: '- All -', value: 'all'});
+                _.each(Module[module].dump, function (val, key) {
+                    list.push({label: key, value: key});
+                });
+            }
+        }
+        list.unshift({label: '(Select One)', value: ''});
+
+        return list;
+    },
+    branchForBackupRestore: function (type) {
+        let currentModule = Session.get('currentModule'),
+            currentBranch = Session.get('currentBranch'),
+            list = [];
+
+        if (!_.isEmpty(type)) {
+            // Check current module
+            if (type == 'all' || type == 'setting') {
+                list.push({label: '- All -', value: 'all'});
+            } else {
+                _.each(Meteor.user().rolesBranch, function (branch) {
+                    let getBranch = Cpanel.Collection.Branch.findOne(branch);
+                    list.push({label: getBranch.enName, value: getBranch._id});
+                });
+            }
+        }
+        list.unshift({label: '(Select One)', value: ''});
+
+        return list;
     }
 };

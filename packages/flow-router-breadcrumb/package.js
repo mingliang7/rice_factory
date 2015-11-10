@@ -1,6 +1,6 @@
 Package.describe({
     name: 'theara:flow-router-breadcrumb',
-    version: '0.2.7',
+    version: '0.2.8',
     // Brief, one-line summary of the package.
     summary: 'Breadcrumb For Flow Router',
     // URL to the Git repository containing the source code for this package.
@@ -11,12 +11,13 @@ Package.describe({
 });
 
 Package.onUse(function (api) {
-    api.versionsFrom('1.1.0.3');
+    api.versionsFrom('1.2.0.2');
+    api.use('ecmascript');
 
     api.use([
         'templating',
         'underscore',
-        'kadira:flow-router@2.2.0'
+        'kadira:flow-router@2.7.0'
     ], 'client');
 
     api.addFiles('flow-router-breadcrumb.js', 'client');
@@ -24,6 +25,7 @@ Package.onUse(function (api) {
 });
 
 Package.onTest(function (api) {
+    api.use('ecmascript');
     api.use('tinytest');
     api.use('theara:flow-router-breadcrumb');
     api.addFiles('flow-router-breadcrumb-tests.js');

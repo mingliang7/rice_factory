@@ -1,6 +1,6 @@
 Package.describe({
     name: 'theara:collection-cache',
-    version: '0.8.3',
+    version: '0.8.5',
     // Brief, one-line summary of the package.
     summary: 'Cache Mongo Collections',
     // URL to the Git repository containing the source code for this package.
@@ -11,18 +11,20 @@ Package.describe({
 });
 
 Package.onUse(function (api) {
-    api.versionsFrom('1.1.0.2');
+    api.versionsFrom('1.2.0.2');
+    api.use('ecmascript');
 
     //Required core packages
     api.use([
+        'check',
         'mongo',
         'underscore'
     ], 'server');
 
     //Required 3rd party packages
     api.use([
-        'matb33:collection-hooks@0.7.13',
-        'zimme:collection-softremovable@1.0.4'
+        'matb33:collection-hooks@0.8.1',
+        'zimme:collection-softremovable@1.0.5'
     ], 'server');
 
     api.addFiles('methods/cacheTimestamp.js', 'server');
@@ -36,6 +38,7 @@ Package.onUse(function (api) {
 });
 
 Package.onTest(function (api) {
+    api.use('ecmascript');
     api.use('tinytest');
     api.use('theara:collection-cache');
     api.addFiles('collection-cache-tests.js');

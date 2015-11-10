@@ -1,5 +1,6 @@
+//FlowRouter.wait();
 Meteor.startup(function () {
-
+    /*** Alertify ***/
     alertify.defaults = {
         // dialogs defaults
         modal: true,
@@ -48,4 +49,5 @@ Meteor.startup(function () {
         }
     };
 
+    //FlowRouter.initialize();
 });
