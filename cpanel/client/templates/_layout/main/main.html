@@ -4,7 +4,7 @@
 </head>
 
 <template name="mainLayout">
-    <body>
+    <body class="main-body">
 
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -41,8 +41,7 @@
 
                     <!--Breadcrumb-->
                     <!--{{> breadcrumb}}-->
-                    <ol class="breadcrumb pull-right"
-                        style="display: inline; font-size: 12px; font-weight: bold; padding: 10px 0px; margin-bottom: 0px">
+                    <ol class="breadcrumb pull-right" style="display: inline; font-size: 12px; font-weight: bold; padding: 10px 0px; margin-bottom: 0px">
                         {{#each breadcrumb}}
                             {{#if activeClass}}
                                 <li class="{{activeClass}}">{{title}}</li>

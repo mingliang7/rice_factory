@@ -15,13 +15,12 @@ indexTpl.onCreated(function () {
 
 indexTpl.onRendered(function () {
     // Create new  alertify
-    createNewAlertify("user");
+    createNewAlertify("user", {size: 'lg'});
 });
 
 indexTpl.events({
     'click .insert': function (e, t) {
-        alertify.user(fa("plus", "User"), renderTemplate(insertTpl))
-            .maximize();
+        alertify.user(fa("plus", "User"), renderTemplate(insertTpl));
     },
     'click .update': function (e, t) {
         var id = this._id;
@@ -45,8 +44,7 @@ indexTpl.events({
 
         data.roles = roles;
 
-        alertify.user(fa("pencil", "User"), renderTemplate(updateTpl, data))
-            .maximize();
+        alertify.user(fa("pencil", "User"), renderTemplate(updateTpl, data));
     },
     'click .remove': function (e, t) {
         var id = this._id;
@@ -66,7 +64,6 @@ indexTpl.events({
             null);
     },
     'click .show': function (e, t) {
-
         // Check email
         if (typeof this.emails !== 'undefined') {
             this.emails = this.emails[0].address;
@@ -88,7 +85,7 @@ indexTpl.events({
             this.roles = "";
         }
 
-        alertify.alert(fa("eye", "User"), renderTemplate(showTpl, this));
+        alertify.alert(fa("eye", "User"), renderTemplate(showTpl, this).html);
     }
 });
 

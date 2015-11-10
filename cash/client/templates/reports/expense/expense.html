@@ -1,0 +1,111 @@
+<template name="cash_expenseReport">
+    {{#autoForm schema=Cash.Schema.ExpenseReport id="cash_ExpenseReport" action="ExpenseReportGen" target="_blank"}}
+        <div class="row">
+
+            <div class="col-md-6">
+                {{> afQuickField name='branchId'}}
+            </div>
+            <div class="col-md-6">
+                {{> afQuickField name='currencyId'}}
+            </div>
+            <div class="col-md-6">
+                {{> afQuickField name='chartAccount'}}
+            </div>
+            <div class="col-md-6">
+                {{> afQuickField name='exchangeDate'}}
+            </div>
+            <div class="col-md-6">
+                {{> afQuickField name='date'}}
+            </div>
+
+
+        </div>
+        <button type="submit" class="btn btn-primary">{{fa "file-text"}} Generate</button>
+        <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+    {{/autoForm}}
+
+</template>
+
+
+<!--Generate-->
+<template name="cash_expenseReportGen">
+
+  <!--Is ready-->
+  {{#if data}}
+      {{#reportTpl options}}
+
+          {{#with data}}
+
+              <!--Title-->
+              {{#with title}}
+                  <div class="title">
+                      <div class="title-1x-kh-muol">{{khName}}</div>
+                      <div class="title-1x">{{enName}}</div>
+                      <div><u>Customer Report</u></div>
+                      <div class="title-2x">{{enAddress}}</div>
+                  </div>
+              {{/with}}
+
+              <!--Header-->
+              {{#with header}}
+                  <div style="width: 100%">
+                      <div style="width: 50%; float: left">
+                          <ul class="list-unstyled">
+                              <li><strong>Branch:</strong> {{branchId}}</li>
+                          </ul>
+                      </div>
+
+                      <div style="width: 50%; float: right">
+                          <ul class="list-unstyled">
+                              <li class="pull-right"><strong>Date:</strong> {{date}}</li>
+                          </ul>
+                      </div>
+                  </div>
+              {{/with}}
+
+              <!--Content-->
+              <table class="report-content">
+                  <thead class="content-header">
+                  <tr>
+
+                      <th>Account Name</th>
+                      <th>Amount</th>
+                  </tr>
+                  </thead>
+                  <tbody class="content-body">
+                  {{#each result}}
+                      <tr>
+                          <td>
+                             {{code}}:{{name}}
+                          </td>
+                          <td align="right">
+                              {{getCurrency currency}}{{formatMoney result}}
+                          </td>
+                      </tr>
+
+
+                  {{/each}}
+                  <tr>
+                      <td align="right"><b>Total</b></td>
+                      <td align="right">
+                          {{getCurrency currencySelect}}{{formatMoney grandTotal}}
+                      </td>
+                  </tr>
+                  </tbody>
+              </table>
+
+          {{/with}}
+
+          <!--Sign-->
+          {{> signFooter}}
+
+      {{/reportTpl}}
+
+      <!--Auto print-->
+      <!--{{autoprint close="true"}}-->
+
+  {{else}}
+      {{> loading}}
+  {{/if}}
+
+</template>

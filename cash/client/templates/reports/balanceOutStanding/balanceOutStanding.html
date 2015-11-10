@@ -1,0 +1,127 @@
+<template name="cash_balanceOutStandingReport">
+    {{#autoForm schema=Cash.Schema.BalanceOutStanding id="cash_balanceOutStandingReport" action="BalanceOutStandingReportGen" target="_blank"}}
+        <div class="row">
+
+            <div class="col-md-6">
+                {{> afQuickField name='branchId'}}
+            </div>
+            <div class="col-md-6">
+                {{> afQuickField name='date'}}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">{{fa "file-text"}} Generate</button>
+        <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+    {{/autoForm}}
+
+</template>
+
+
+<!--Generate-->
+<template name="cash_balanceOutStandingReportGen">
+    <!--Is ready-->
+   {{#if data}}
+       {{#reportTpl options}}
+
+           {{#with data}}
+
+               <!--Title-->
+               {{#with title}}
+                   <div class="title">
+                       <div class="title-1x-kh-muol">{{khName}}</div>
+                       <div class="title-1x">{{enName}}</div>
+                       <div><u>Journal Report</u></div>
+                       <div class="title-2x">{{enAddress}}</div>
+                   </div>
+               {{/with}}
+
+               <!--Header-->
+               {{#with header}}
+                   <div style="width: 100%">
+                       <div style="width: 50%; float: left">
+                           <ul class="list-unstyled">
+                               <li><strong>Branch:</strong> {{branchId}}</li>
+                           </ul>
+                       </div>
+
+                       <div style="width: 50%; float: right">
+                           <ul class="list-unstyled">
+                               <li class="pull-right"><strong>Date:</strong> {{date}}</li>
+                           </ul>
+                       </div>
+                   </div>
+               {{/with}}
+
+               <!--Content-->
+               <table class="report-content">
+                   <thead class="content-header">
+                   <tr>
+
+                       <th></th>
+                       <th>KHR</th>
+                       <th>USD</th>
+                       <th>THB</th>
+                   </tr>
+                   </thead>
+                   <tbody class="content-body">
+
+                   <tr>
+                       <td>
+                           <b>Opening Balance ({{openingBalanceDate}})</b>
+                       </td>
+                       <td align="right">
+                           {{formatMoney openingBalanceKHR}}
+                       </td>
+                       <td align="right">
+                           {{formatMoney openingBalanceUSD}}
+                       </td>
+                       <td align="right">
+                           {{formatMoney openingBalanceTHB}}
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>
+                           <b>Profit & Lost</b>
+                       </td>
+                       <td align="right">
+                           {{formatMoney profitKHR}}
+
+                       </td>
+                       <td align="right">
+                           {{formatMoney profitUSD}}
+
+                       </td>
+                       <td align="right">
+                           {{formatMoney profitTHB}}
+
+                       </td>
+                   </tr>
+
+                   <tr>
+                       <td align="right"><b>Balance</b></td>
+                       <td align="right">
+                           {{formatMoney BalanceKHR}}
+
+                       </td>
+                       <td align="right">
+                           {{formatMoney BalanceUSD}}
+
+                       </td>
+                       <td align="right">
+                           {{formatMoney BalanceTHB}}
+
+                       </td>
+                   </tr>
+                   </tbody>
+               </table>
+               <!--Footer-->
+           {{/with}}
+
+           <!--Sign-->
+           {{> signFooter}}
+
+       {{/reportTpl}}
+   {{else}}
+       {{> loading}}
+   {{/if}}
+
+</template>

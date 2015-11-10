@@ -15,18 +15,17 @@ indexTpl.onCreated(function () {
 
 indexTpl.onRendered(function () {
     // Create new  alertify
-    createNewAlertify("exchange");
+    createNewAlertify("exchange", {size: 'lg'});
 });
 
 indexTpl.events({
     'click .insert': function (e, t) {
-        alertify.exchange(fa("plus", "Exchange"), renderTemplate(insertTpl))
-            .maximize();
+        alertify.exchange(fa("plus", "Exchange"), renderTemplate(insertTpl));
     },
     'click .update': function (e, t) {
         var data = Cpanel.Collection.Exchange.findOne(this._id);
-        alertify.exchange(fa("pencil", "Exchange"), renderTemplate(updateTpl, data))
-            .maximize();
+        data.exDate = moment(data.exDate).format('YYYY-MM-DD');
+        alertify.exchange(fa("pencil", "Exchange"), renderTemplate(updateTpl, data));
     },
     'click .remove': function (e, t) {
         var id = this._id;
@@ -48,12 +47,12 @@ indexTpl.events({
     },
     'click .show': function (e, t) {
         this.ratesVal = JSON.stringify(this.rates);
-        alertify.alert(fa("eye", "Exchange"), renderTemplate(showTpl, this));
+        alertify.alert(fa("eye", "Exchange"), renderTemplate(showTpl, this).html);
     }
 });
 
 // Insert
-Template.cpanel_exchangeInsert.onRendered(function () {
+insertTpl.onRendered(function () {
     configDate();
 });
 
@@ -103,5 +102,12 @@ AutoForm.hooks({
 // Config on rendered
 var configDate = function () {
     var exDate = $('[name="exDate"]');
-    DateTimePicker.date(exDate);
+    var khr = $('[name="rates.KHR"]');
+    var usd = $('[name="rates.USD"]');
+    var thb = $('[name="rates.THB"]');
+
+    DateTimePicker.date2(exDate);
+    Inputmask.currency(khr, {prefix: 'R '});
+    Inputmask.currency(usd, {prefix: '$ '});
+    Inputmask.currency(thb, {prefix: 'B '});
 };

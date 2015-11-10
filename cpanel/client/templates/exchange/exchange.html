@@ -25,10 +25,10 @@
     {{#autoForm collection=Cpanel.Collection.Exchange id="cpanel_exchangeInsert" type="insert"}}
         <div class="row">
             <div class="col-md-6">
-                {{> afQuickField name='exDate' type="text"}}
+                {{> afQuickField name="exDate" type="text"}}
             </div>
             <div class="col-md-6">
-                {{> afQuickField name='base' value=doc.base readonly="true"}}
+                {{> afQuickField name="base" value=doc.base readonly="true"}}
             </div>
         </div>
 
@@ -37,13 +37,13 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-4">
-                        {{> afQuickField name='rates.KHR' value=doc.khr}}
+                        {{> afQuickField name="rates.KHR" type="text" value=doc.khr}}
                     </div>
                     <div class="col-md-4">
-                        {{> afQuickField name='rates.USD' value=doc.usd}}
+                        {{> afQuickField name="rates.USD" type="text" value=doc.usd}}
                     </div>
                     <div class="col-md-4">
-                        {{> afQuickField name='rates.THB' value=doc.thb}}
+                        {{> afQuickField name="rates.THB" type="text" value=doc.thb}}
                     </div>
                 </div>
             </div>
@@ -59,22 +59,22 @@
     {{#autoForm collection=Cpanel.Collection.Exchange id="cpanel_exchangeUpdate" doc=this type="update"}}
         <div class="row">
             <div class="col-md-6">
-                {{> afQuickField name='exDate' type="text"}}
+                {{> afQuickField name="exDate" type="text"}}
             </div>
             <div class="col-md-6">
-                {{> afQuickField name='base' readonly="true"}}
+                {{> afQuickField name="base" readonly="true"}}
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-4">
-                {{> afQuickField name='rates.KHR'}}
+                {{> afQuickField name="rates.KHR"}}
             </div>
             <div class="col-md-4">
-                {{> afQuickField name='rates.USD'}}
+                {{> afQuickField name="rates.USD"}}
             </div>
             <div class="col-md-4">
-                {{> afQuickField name='rates.THB'}}
+                {{> afQuickField name="rates.THB"}}
             </div>
         </div>
 

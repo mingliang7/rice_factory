@@ -13,7 +13,7 @@ indexTpl.onCreated(function () {
 
 indexTpl.onRendered(function () {
     // Create new  alertify
-    createNewAlertify("company");
+    createNewAlertify("company", {size: 'lg'});
 });
 
 indexTpl.helpers({
@@ -26,8 +26,7 @@ indexTpl.events({
     'click .update': function (e, t) {
         var data = Cpanel.Collection.Company.findOne();
 
-        alertify.company(fa("pencil", "Company"), renderTemplate(updateTpl, data))
-            .maximize();
+        alertify.company(fa("pencil", "Company"), renderTemplate(updateTpl, data));
     }
 });
 

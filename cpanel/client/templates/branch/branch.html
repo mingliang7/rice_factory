@@ -1,7 +1,9 @@
 <!--Index-->
 <template name="cpanel_branch">
     <p>
-        <button type="button" class="btn btn-primary insert">{{fa "plus"}} Add New</button>
+        {{#if isInRole 'super' 'Cpanel'}}
+            <button type="button" class="btn btn-primary insert">{{fa "plus"}} Add New</button>
+        {{/if}}
     </p>
     {{#if isSubReady "cpanel_branch"}}
         {{> tabular table=Cpanel.TabularTable.Branch class="table table-striped table-bordered table-condensed table-hover"}}

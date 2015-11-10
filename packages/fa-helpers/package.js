@@ -1,6 +1,6 @@
 Package.describe({
     name: 'theara:fa-helpers',
-    version: '0.0.3',
+    version: '0.0.4',
     // Brief, one-line summary of the package.
     summary: 'Font Awesome helper',
     // URL to the Git repository containing the source code for this package.
@@ -11,7 +11,8 @@ Package.describe({
 });
 
 Package.onUse(function (api) {
-    api.versionsFrom('1.1.0.2');
+    api.versionsFrom('1.2.0.2');
+    api.use('ecmascript');
 
     api.use([
         'underscore',
@@ -24,6 +25,7 @@ Package.onUse(function (api) {
 });
 
 Package.onTest(function (api) {
+    api.use('ecmascript');
     api.use('tinytest');
     api.use('theara:fa-helpers');
     api.addFiles('fa-helpers-tests.js');

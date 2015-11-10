@@ -1,6 +1,6 @@
 Package.describe({
     name: 'theara:autoprint',
-    version: '0.0.6',
+    version: '0.0.7',
     // Brief, one-line summary of the package.
     summary: '',
     // URL to the Git repository containing the source code for this package.
@@ -11,7 +11,8 @@ Package.describe({
 });
 
 Package.onUse(function (api) {
-    api.versionsFrom('1.1.0.3');
+    api.versionsFrom('1.2.0.2');
+    api.use('ecmascript');
 
     api.use([
         'underscore',
@@ -22,6 +23,7 @@ Package.onUse(function (api) {
 });
 
 Package.onTest(function (api) {
+    api.use('ecmascript');
     api.use('tinytest');
     api.use('theara:autoprint');
     api.addFiles('autoprint-tests.js');

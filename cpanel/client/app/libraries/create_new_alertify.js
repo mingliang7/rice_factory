@@ -1,12 +1,15 @@
 /**
  * Create new alertify
  */
-createNewAlertify = function (names, transition) {
+createNewAlertify = function (names, options) {
     var alerts = _.isArray(names) ? names : [names];
-    transition = _.isUndefined(transition) ? 'fade' : transition;
+    options = _.isUndefined(options) ? {} : options;
 
+    // Set default options
+    _.defaults(options, {transition: 'fade', size: 'df'});
+
+    // Create
     _.each(alerts, function (element) {
-
         var name = element;
 
         if (!alertify[name]) {
@@ -27,7 +30,9 @@ createNewAlertify = function (names, transition) {
                                 maximizable: true,
                                 closableByDimmer: false,
                                 resizable: false,
-                                transition: transition
+                                transition: options.transition,
+                                /*disable autoReset, to prevent the dialog from resetting it's size on window resize*/
+                                autoReset: false
                             }
                         };
                     },
@@ -36,6 +41,12 @@ createNewAlertify = function (names, transition) {
                         this.elements.footer.style.visibility = "hidden";
                     },
                     hooks: {
+                        onshow: function () {
+                            if (options.size == 'lg') {
+                                this.elements.dialog.style.maxWidth = 'none';
+                                this.elements.dialog.style.width = '85%';
+                            }
+                        },
                         onclose: function () {
                             if (this.instance) {
                                 Blaze.remove(this.instance);

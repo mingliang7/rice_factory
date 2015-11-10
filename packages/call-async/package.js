@@ -1,6 +1,6 @@
 Package.describe({
     name: 'theara:call-async',
-    version: '0.1.8',
+    version: '0.1.9',
     // Brief, one-line summary of the package.
     summary: 'Asynchronous Meteor Calls',
     // URL to the Git repository containing the source code for this package.
@@ -11,7 +11,8 @@ Package.describe({
 });
 
 Package.onUse(function (api) {
-    api.versionsFrom('1.1.0.3');
+    api.versionsFrom('1.2.0.2');
+    api.use('ecmascript');
 
     api.use('reactive-var');
 
@@ -19,6 +20,7 @@ Package.onUse(function (api) {
 });
 
 Package.onTest(function (api) {
+    api.use('ecmascript');
     api.use('tinytest');
     api.use('theara:call-async');
     api.addFiles('call-async-tests.js');
