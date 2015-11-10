@@ -1,0 +1,36 @@
+<!--Index-->
+<template name="rice_mapClosing">
+    <p>
+        <button type="button" class="btn btn-primary insert">{{fa "plus"}} Add New</button>
+    </p>
+    {{> tabular table=Rice.TabularTable.MapClosing class="table table-striped table-bordered table-condensed table-hover"}}
+</template>
+<template name="rice_mapClosingAction">
+    <a href="#" class="btn btn-primary update"> {{fa "pencil"}}</a>
+</template>
+
+<!--Update-->
+<template name="rice_mapClosingInsert">
+
+    {{#autoForm collection=Rice.Collection.MapClosing id="rice_mapClosingInsert" doc=this type="insert"}}
+        <div class="row">
+          {{> afQuickField name='chartAccountCompare'}}
+          {{> afQuickField name='chartAccount'}}
+        </div>
+        <button type="submit" class="btn btn-primary preventDef">{{fa "floppy-o"}} Save</button>
+        <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+    {{/autoForm}}
+</template>
+
+<!--Update-->
+<template name="rice_mapClosingUpdate">
+
+    {{#autoForm collection=Rice.Collection.MapClosing id="rice_mapClosingUpdate" doc=this type="update"}}
+        <div class="row">
+          {{> afQuickField name='chartAccountCompare' readonly=true}}
+          {{> afQuickField name='chartAccount'}}
+        </div>
+        <button type="submit" class="btn btn-primary preventDef">{{fa "floppy-o"}} Save</button>
+        <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+    {{/autoForm}}
+</template>
