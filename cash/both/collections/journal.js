@@ -4,133 +4,98 @@ Cash.Collection.Journal = new Mongo.Collection('cash_journal');
  */
 Cash.Schema.Journal = new SimpleSchema({
 
-    journalDate: {
-        type: String,
-        label: "Date",
-        defaultValue: function () {
-            var currentDate = moment(ReactiveMethod.call("currentDate"), 'YYYY-MM-DD').format('YYYY-MM-DD');
-            return currentDate;
-        }
-    },
-    voucherId: {
-        type: String,
-        label: "Voucher"
-        /*    unique: true,*/
-        /*   custom: function () {
-
-         if (this.isInsert) {
-         var data = Cash.Collection.Journal.find({
-         voucherId: this.value
-         });
-         if (data.count() > 0) {
-         return "uniqueVoucher";
-         }
-         }
-
-         }*/
-
-    },
-    staff: {
-        type: String,
-        label: "Staff",
-        autoform: {
-            type: "select2",
-            options: function () {
-                return Cash.List.staff(false);
-            }
-        }
-    },
-    currencyId: {
-        type: String,
-        label: "Currency",
-        autoform: {
-            type: "select2",
-            options: function () {
-                return Cash.List.currency(false);
-            }
-        }
-    },
-
-    branchId: {
-        type: String,
-        label: "Branch"
-    },
-    memo: {
-        type: String,
-        label: "Description",
-        autoform: {
-            type: "textarea"
-        }
-    },
-    transaction: {
-        type: Array,
-        minCount: 1
-    },
-    'transaction.$': {
-        type: Object
-    },
-    'transaction.$.account': {
-        type: String,
-        max: 200,
-        label: "Account",
-        autoform: {
-            type: 'selectize',
-            options: function () {
-                return Cash.List.chartAccountId();
-
-            }
-        }
-    },
-
-    'transaction.$.amount': {
-        type: Number,
-        decimal: true,
-        optional: true
-    },
-    total: {
-        type: Number,
-        decimal: true,
-        optional: true
-    },
-    createdAt: {
-        type: Date,
-        label: "Create Date",
-        autoValue: function () {
-            if (this.isInsert) {
-                return new Date();
-            }
-        },
-        denyUpdate: true
-    },
-    updatedAt: {
-        type: Date,
-        label: "Updated Date",
-        autoValue: function () {
-            return new Date();
-        }
-    },
-    createdUserId: {
-        type: String,
-        max: 200,
-        label: "Created UserId",
-        autoValue: function () {
-            if (this.isInsert) {
-                return Meteor.user()._id;
-            }
-        },
-        denyUpdate: true
-    },
-    updatedUserId: {
-        type: String,
-        max: 200,
-        label: "Updated UserId",
-        autoValue: function () {
-            return Meteor.user()._id;
-        }
+  journalDate: {
+    type: String,
+    label: "Date",
+    defaultValue: function () {
+      var currentDate = moment(ReactiveMethod.call("currentDate"),
+        'YYYY-MM-DD').format('YYYY-MM-DD');
+      return currentDate;
     }
+  },
+  voucherId: {
+    type: String,
+    label: "Voucher"
+      /*    unique: true,*/
+      /*   custom: function () {
+
+       if (this.isInsert) {
+       var data = Cash.Collection.Journal.find({
+       voucherId: this.value
+       });
+       if (data.count() > 0) {
+       return "uniqueVoucher";
+       }
+       }
+
+       }*/
+
+  },
+  staff: {
+    type: String,
+    label: "Staff",
+    autoform: {
+      type: "select2",
+      options: function () {
+        return Cash.List.staff(false);
+      }
+    }
+  },
+  currencyId: {
+    type: String,
+    label: "Currency",
+    autoform: {
+      type: "select2",
+      options: function () {
+        return Cash.List.currency(false);
+      }
+    }
+  },
+
+  branchId: {
+    type: String,
+    label: "Branch"
+  },
+  memo: {
+    type: String,
+    label: "Description",
+    autoform: {
+      type: "textarea"
+    }
+  },
+  transaction: {
+    type: Array,
+    minCount: 1
+  },
+  'transaction.$': {
+    type: Object
+  },
+  'transaction.$.account': {
+    type: String,
+    max: 200,
+    label: "Account",
+    autoform: {
+      type: 'selectize',
+      options: function () {
+        return Cash.List.chartAccountId();
+
+      }
+    }
+  },
+
+  'transaction.$.amount': {
+    type: Number,
+    decimal: true,
+    optional: true
+  },
+  total: {
+    type: Number,
+    decimal: true,
+    optional: true
+  }
 
 });
 Cash.Collection.Journal.attachSchema(Cash.Schema.Journal);
 SimpleSchema.messages({
-    "uniqueVoucher": "Voucher must be unique."
+  "uniqueVoucher": "Voucher must be unique."
 });
