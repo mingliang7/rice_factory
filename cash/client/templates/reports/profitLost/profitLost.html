@@ -1,0 +1,142 @@
+<template name="cash_ProfitLostReport">
+    {{#autoForm schema=Cash.Schema.ProfitLostReport id="cash_ProfitLostReport" action="ProfitLostReportGen" target="_blank"}}
+        <div class="row">
+            <div class="col-md-6">
+                {{> afQuickField name='branchId'}}
+            </div>
+
+            <div class="col-md-6">
+                {{> afQuickField name='currencyId'}}
+            </div>
+            <div class="col-md-6">
+                {{> afQuickField name='date'}}
+            </div>
+
+            <div class="col-md-6">
+                {{> afQuickField name='exchangeDate'}}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">{{fa "file-text"}} Generate</button>
+        <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+    {{/autoForm}}
+
+</template>
+
+
+<!--Generate-->
+<template name="cash_ProfitLostReportGen">
+  <!--Is ready-->
+  {{#if data}}
+      {{#reportTpl options}}
+
+          {{#with data}}
+
+              <!--Title-->
+              {{#with title}}
+                  <div class="title">
+                      <div class="title-1x-kh-muol">{{khName}}</div>
+                      <div class="title-1x">{{enName}}</div>
+                      <div><u>Customer Report</u></div>
+                      <div class="title-2x">{{enAddress}}</div>
+                  </div>
+              {{/with}}
+
+              <!--Header-->
+              {{#with header}}
+                  <div style="width: 100%">
+                      <div style="width: 100%">
+                          <div style="width: 50%; float: left">
+                              <ul class="list-unstyled">
+                                  <li><strong>Branch:</strong> {{branchId}}</li>
+                              </ul>
+                          </div>
+
+                          <div style="width: 50%; float: right">
+                              <ul class="list-unstyled">
+                                  <li class="pull-right"><strong>Date:</strong> {{date}}</li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              {{/with}}
+
+              <!--Content-->
+              <!--Content-->
+              <table class="report-content">
+                  <thead class="content-header">
+                  <tr>
+
+                      <th>Account Name</th>
+                      <th>Amount</th>
+                  </tr>
+                  </thead>
+                  <tbody class="content-body">
+                  <tr>
+                      <td> <b>Income</b></td>
+                      <td></td>
+                  </tr>
+                  {{#each resultIncome}}
+                      <tr>
+                          <td>
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{code}}:{{name}}
+                          </td>
+                          <td align="right">
+                              {{getCurrency currency}}{{formatMoney amount}}
+                          </td>
+                      </tr>
+
+
+                  {{/each}}
+                  <tr>
+                      <td align="right"><b>Total Income</b></td>
+                      <td align="right" style="text-decoration: overline">
+                          <b>  {{getCurrency currencySelect}} {{formatMoney grandTotalIncome}}</b>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td> <b>Expense</b></td>
+                      <td></td>
+                  </tr>
+                  {{#each resultExpense}}
+                      <tr>
+                          <td>
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{code}}:{{name}}
+                          </td>
+                          <td align="right">
+                              {{getCurrency currency}}{{formatMoney amount}}
+                          </td>
+                      </tr>
+
+
+                  {{/each}}
+                  <tr>
+                      <td align="right"><b>Total Expense</b></td>
+                      <td align="right" style="text-decoration: overline">
+                          <b>{{getCurrency currencySelect}} {{formatMoney grandTotalExpense}}</b>
+                      </td>
+                  </tr>
+
+                  <tr>
+                      <td align="right"><b>Profit and Lose</b></td>
+                      <td align="right" style="text-decoration: overline">
+                          <b>   {{getCurrency currencySelect}} {{formatMoney profit}}</b>
+                      </td>
+                  </tr>
+
+                  </tbody>
+              </table>
+
+          {{/with}}
+
+          <!--Sign-->
+          {{> signFooter}}
+
+      {{/reportTpl}}
+
+      <!--Auto print-->
+      <!--{{autoprint close="true"}}-->
+
+  {{else}}
+      {{> loading}}
+  {{/if}}
+</template>

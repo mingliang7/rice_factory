@@ -1,0 +1,235 @@
+<!--Index-->
+<template name="cash_journal" xmlns="http://www.w3.org/1999/html">
+    <p>
+        <button type="button" class="btn btn-primary insert">{{fa "plus"}} Add New</button>
+    </p>
+
+    {{> tabular table=Cash.TabularTable.Journal class="table table-striped table-bordered table-condensed table-hover"}}
+</template>
+
+<!--Action-->
+<template name="cash_journalAction">
+    {{#tabularAction}}
+        <li><a href="#" class="update">{{fa "pencil"}} Update</a></li>
+        <li><a href="#" class="remove">{{fa "remove"}} Remove</a></li>
+        <li><a href="#" class="show">{{fa "eye"}} Show</a></li>
+    {{/tabularAction}}
+</template>
+
+<!--Insert-->
+<template name="cash_journalInsert">
+    {{#autoForm collection=Cash.Collection.Journal id="cash_journalInsert" type="insert"}}
+        <div class="panel-group">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            {{> afQuickField name='journalDate' id='journalDate' }}
+
+                           <!-- {{> afQuickField name='staff' id='staff'}}-->
+                            <div class="form-group{{#if afFieldIsInvalid name='staff'}} has-error{{/if}}"
+                                 data-required="true">
+                                <label class="control-label" for="staff">Staff</label>
+
+                                <div class="input-group select2-bootstrap-append">
+                                    {{> afFieldInput name='staff'}}
+                                    <span class="input-group-addon">
+                                     <a href="#" class="staffAddon">
+                                         {{fa "plus"}}
+                                     </a>
+                                     </span>
+                                </div>
+                                {{#if afFieldIsInvalid name='staff'}}
+                                    <span class="help-block">{{afFieldMessage name='staff'}}</span>
+                                {{/if}}
+                            </div>
+
+                            {{> afQuickField name='currencyId' id='currencyId'}}
+                            {{> afQuickField name='voucherId' id='voucherId'}}
+                            {{> afQuickField name='memo' id='memo'}}
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            {{> afArrayField name="transaction" id="transaction" template="customArray" subtemplate="transaction"}}
+                            <button type="submit" class="btn btn-primary save-journal">{{fa "floppy-o"}} Save</button>
+                            <!--<button type="button" class="btn btn-primary insertMethod">{{fa "floppy-o"}} Save Test</button>-->
+                            <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    {{/autoForm}}
+</template>
+<!--Update-->
+<template name="cash_journalUpdate">
+    {{#autoForm collection=Cash.Collection.Journal id="cash_journalUpdate" doc=this type="update"}}
+        <div class="panel-group">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            {{> afQuickField name='journalDate' id='journalDate' }}
+
+                            <!--  {{> afQuickField name='staff' id='staff'}}-->
+
+                            <div class="form-group{{#if afFieldIsInvalid name='staff'}} has-error{{/if}}"
+                                 data-required="true">
+                                <label class="control-label" for="staff">Staff</label>
+
+                                <div class="input-group select2-bootstrap-append">
+                                    {{> afFieldInput name='staff'}}
+                                    <span class="input-group-addon">
+                                     <a href="#" class="staffAddon">
+                                         {{fa "plus"}}
+                                     </a>
+                                     </span>
+                                </div>
+                                {{#if afFieldIsInvalid name='staff'}}
+                                    <span class="help-block">{{afFieldMessage name='staff'}}</span>
+                                {{/if}}
+                            </div>
+
+
+                            {{> afQuickField name='currencyId' id='currencyId'}}
+                            {{> afQuickField name='voucherId' id='voucherId'}}
+                            {{> afQuickField name='memo' id='memo'}}
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            {{> afArrayField name="transaction" id="transaction" template="customArray" subtemplate="transaction"}}
+                            <button type="submit" class="btn btn-primary save-journal">{{fa "floppy-o"}} Save</button>
+                            <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    {{/autoForm}}
+
+</template>
+
+<!--Show-->
+<template name="cash_journalShow">
+    <dl class="dl-horizontal">
+        <dt>Id</dt>
+        <dd>{{_id}}</dd>
+        <dt>JournalDate</dt>
+        <dd>{{journalDate}}</dd>
+        <dt>VoucherId</dt>
+        <dd>{{voucherId}}</dd>
+        <dt>Staff</dt>
+        <dd>{{staff}}</dd>
+        <dt>Memo</dt>
+        <dd>{{memo}}</dd>
+        <dt>Transaction</dt>
+        <dd>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Account</th>
+                    <th>Amount</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {{#each transaction}}
+                    <tr>
+                        <td>{{getChartAccount account}}</td>
+                        <td>{{formatMoney amount}}</td>
+
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </dd>
+        <dt>Currency</dt>
+        <dd>{{currencyId}}</dd>
+    </dl>
+</template>
+
+<template name="afArrayField_customArray">
+    <!-- <div class="panel panel-default"> -->
+    <div>
+        <div class="panel-group">
+            <div class="panel panel-default">
+
+                <div class="panel-body">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Chart of Account</th>
+                            <th>Amount</th>
+
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="transaction-list">
+                        {{#afEachArrayItem name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+                            <!-- <tr class="list-group-item autoform-array-item"> -->
+                            <tr>
+                                {{> UI.dynamic template=../atts.subtemplate}}
+                                <!-- <td class="autoform-remove-item-wrap"></td>-->
+                                <td>
+                                    {{#if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=../atts.minCount maxCount=../atts.maxCount}}
+                                        <button type="button" class="btn btn-sm btn-danger autoform-remove-item del">
+                                            <span class="glyphicon glyphicon-minus"></span>
+                                        </button>
+                                    {{/if}}
+                                </td>
+
+                            </tr>
+
+                        {{/afEachArrayItem}}
+                        </tbody>
+                        <tbody>
+                        {{#if afArrayFieldHasLessThanMaximum name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+                            <!-- <li class="list-group-item"> -->
+                            <tr>
+                                <td style="text-align: right;"><b>Total :</b></td>
+                                <td>
+                                    <input type="text" readonly id="total-amount" class="form-control input-sm">
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn btn-primary autoform-add-item btn-sm"
+                                            data-autoform-field="{{this.atts.name}}"
+                                            data-autoform-minCount="{{this.atts.minCount}}"
+                                            data-autoform-maxCount="{{this.atts.maxCount}}"><span
+                                            class="glyphicon glyphicon-plus"></span></button>
+                                </td>
+                            </tr>
+                        {{/if}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+<template name="transaction">
+    <td class="col-sm-9">
+        <div id="height-field">
+            {{> afQuickField name=current.account label=false class="input-sum" template="bootstrap3"}}
+        </div>
+    </td>
+    <td class="col-sm-3">
+        <div id="height-field">
+
+            {{> afQuickField name=current.amount label=false class="input-sum transaction-amount" template="bootstrap3"}}
+        </div>
+    </td>
+</template>
+

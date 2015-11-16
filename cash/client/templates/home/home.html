@@ -1,0 +1,114 @@
+<template name="cash_home">
+    <br><br>
+
+    <div class="col-md-12" style="height: 250px">
+        <div class="col-md-6" style="height: 250px">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><img src="/data.ico" width="25px"
+                                                 height="25px"> Data Entry</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-4 textcenter">
+                        <a href="{{pathFor 'cash.journal'}}">
+                            <img class="img" src="/My-Daily-Journal_icon.png" title="Journal Entry">
+                            <span style="font-size:xx-small;">Transaction</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" style="height: 250px">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><img src="/nbcreport.ico" width="25px"
+                                                 height="25px"> Data</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <div class="col-md-4 textcenter">
+                            <a href="{{pathFor 'cash.staff'}}"><img class="img"
+                                                                    src="/staff.jpg"><span
+                                    style="font-size:xx-small">Staff</span></a>
+                        </div>
+                        <div class="col-md-4 textcenter">
+                            <a href="{{pathFor 'cash.closingBalance'}}">
+                            <span style="font-size:xx-small;text-align: center">
+                            <img class="img" src="/closeBal.jpg">
+                           Opening&Closing Balance</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br><br>
+
+    <div class="col-md-12" style="height: 250px">
+        <div class="col-md-6" style="height: 250px">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><img src="/report.ico" width="25px"
+                                                 height="25px"> Report</h3>
+                </div>
+                <div class="panel-body">
+                    <div>
+
+
+                        <div class="col-md-4 textcenter">
+                            <a href="{{pathFor 'cash.journalReport'}}">
+                                <img class="img" src="/Services_BalanceSheet.png"><span
+                                    style="font-size:xx-small">Journal</span></a>
+                        </div>
+                        <div class="col-md-4 textcenter">
+                            <a href="{{pathFor 'cash.incomeReport'}}">
+                                <img class="img" src="/income.jpg"><span
+                                    style="font-size:xx-small">Income</span></a>
+                        </div>
+                        <div class="col-md-4 textcenter">
+                            <a href="{{pathFor 'cash.expenseReport'}}">
+                                <img class="img" src="/expense.jpg"><span
+                                    style="font-size:xx-small">Expense</span></a>
+                        </div>
+                    </div>
+                    <br>
+                    <div style="margin-top: 15%">
+                        <div class="col-md-4 textcenter">
+                            <a href="{{pathFor 'cash.ProfitLostReport'}}"><img class="img"
+                                                                               src="/profit_and_loss_report_icon_1.png"><span
+                                    style="font-size:xx-small">Profit&Lost</span></a>
+                        </div>
+                        <div class="col-md-4 textcenter">
+                            <a href="{{pathFor 'cash.balanceOutStandingReport'}}"><img class="img"
+                                                                                       src="/bal.jpg"><span
+                                    style="font-size:xx-small">Balance OutStanding</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6" style="height: 250px">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><img src="/setting.ico" width="25px"
+                                                 height="25px"> Setting</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-4 textcenter">
+                        <a href="{{pathFor 'cpanel.exchange'}}"><img class="img" src="/exchange.jpg"><span
+                                style="font-size:xx-small">Exchange</span></a>
+                    </div>
+                    <div class="col-md-4 textcenter">
+                        <a href="{{pathFor 'cash.chartAccount'}}"><img class="img" src="/chartAccount.png"><span
+                                style="font-size:xx-small">ChartAccount</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+

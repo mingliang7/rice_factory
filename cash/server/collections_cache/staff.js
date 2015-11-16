@@ -1,0 +1,1 @@
+Cash.Collection.Staff.cacheTimestamp();

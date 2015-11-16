@@ -1,0 +1,79 @@
+<!--Index-->
+<template name="cash_chartAccount">
+    <p>
+        <button type="button" class="btn btn-primary insert">{{fa "plus"}} Add New</button>
+    </p>
+
+    {{> tabular table=Cash.TabularTable.ChartAccount class="table table-striped table-bordered table-condensed table-hover"}}
+</template>
+<!--Action-->
+<template name="cash_chartAccountAction">
+    {{#tabularAction}}
+        <li><a href="#" class="update">{{fa "pencil"}} Update</a></li>
+        <li><a href="#" class="remove">{{fa "remove"}} Remove</a></li>
+        <li><a href="#" class="show">{{fa "eye"}} Show</a></li>
+    {{/tabularAction}}
+</template>
+
+<!--Insert-->
+<template name="cash_chartAccountInsert">
+    {{#autoForm collection=Cash.Collection.ChartAccount id="cash_chartAccountInsert" type="insert"}}
+        <div class="row">
+            <div class="col-md-6">
+                {{> afQuickField name='parentId' id='parentId'}}
+                {{> afQuickField name='accountTypeId' id='accountTypeId' options=accountTypeOpt value=accountTypeValue}}
+            </div>
+            <div class="col-md-6">
+                {{> afQuickField name='code' id='code'}}
+                {{> afQuickField name='name'}}
+            </div>
+            <!--<div class="col-md-6">
+                {{> afQuickField name='type' id='type'}}
+            </div>-->
+        </div>
+
+        <button type="submit" class="btn btn-primary">{{fa "floppy-o"}} Save</button>
+        <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+    {{/autoForm}}
+</template>
+<!--Update-->
+<template name="cash_chartAccountUpdate">
+
+    {{#autoForm collection=Cash.Collection.ChartAccount id="cash_chartAccountUpdate" doc=this type="update"}}
+        <div class="row">
+            <div class="col-md-6">
+                {{> afQuickField name='parentId' id='parentId'}}
+                {{> afQuickField name='accountTypeId' id='accountTypeId' options=accountTypeOpt  }}
+            </div>
+            <div class="col-md-6">
+                {{> afQuickField name='code' id='code'}}
+                {{> afQuickField name='name'}}
+            </div>
+            <!--<div class="col-md-6">
+                {{> afQuickField name='type' id='type'}}
+
+            </div>-->
+        </div>
+
+        <button type="submit" class="btn btn-primary">{{fa "floppy-o"}} Save</button>
+        <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+    {{/autoForm}}
+
+</template>
+
+<!--Show-->
+<template name="cash_chartAccountShow">
+    <dl class="dl-horizontal">
+        <dt>Id</dt>
+        <dd>{{_id}}</dd>
+        <dt>Code</dt>
+        <dd>{{code}}</dd>
+        <dt>Name</dt>
+        <dd>{{name}}</dd>
+        <dt>Parent</dt>
+        <dd>{{parentId}}</dd>
+        <dt>Account Type</dt>
+        <dd>{{accountTypeId}}</dd>
+
+    </dl>
+</template>

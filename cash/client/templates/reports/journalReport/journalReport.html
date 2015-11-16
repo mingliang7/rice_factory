@@ -1,0 +1,118 @@
+<template name="cash_journalReport">
+    {{#autoForm schema=Cash.Schema.JournalReport id="cash_journalReport" action="journalReportGen" target="_blank"}}
+        <div class="row">
+            <div class="col-md-6">
+                {{> afQuickField name='branchId'}}
+            </div>
+
+            <div class="col-md-6">
+                {{> afQuickField name='currencyId'}}
+            </div>
+            <div class="col-md-6">
+                {{> afQuickField name='date'}}
+            </div>
+
+        </div>
+        <button type="submit" class="btn btn-primary">{{fa "file-text"}} Generate</button>
+        <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
+    {{/autoForm}}
+
+</template>
+
+
+<!--Generate-->
+<template name="cash_journalReportGen">
+
+  <!--Is ready-->
+  {{#if data}}
+      {{#reportTpl options}}
+
+          {{#with data}}
+
+              <!--Title-->
+              {{#with title}}
+                  <div class="title">
+                      <div class="title-1x-kh-muol">{{khName}}</div>
+                      <div class="title-1x">{{enName}}</div>
+                      <div><u>Customer Report</u></div>
+                      <div class="title-2x">{{enAddress}}</div>
+                  </div>
+              {{/with}}
+
+              <!--Header-->
+              {{#with header}}
+                  <div style="width: 100%">
+                      <div style="width: 50%; float: left">
+                          <ul class="list-unstyled">
+                              <li><strong>Branch:</strong> {{branchId}}</li>
+                          </ul>
+                      </div>
+
+                      <div style="width: 50%; float: right">
+                          <ul class="list-unstyled">
+                              <li class="pull-right"><strong>Date:</strong> {{date}}</li>
+                          </ul>
+                      </div>
+                  </div>
+              {{/with}}
+
+              <!--Content-->
+              <table class="report-content">
+                  <thead class="content-header">
+                  <tr>
+                      <th>No</th>
+                      <th>Date</th>
+                      <th>VoucherId</th>
+                      <th>Description</th>
+                      <th>
+                          <table width="100%">
+                              <th style="border: none">Account Name</th>
+                              <th style="border: none">Amount</th>
+                          </table>
+                      </th>
+                      <th>Currency</th>
+                  </tr>
+                  </thead>
+                  <tbody class="content-body">
+                  {{#each content}}
+                      <tr>
+                          <td width="30" align="center">{{order}}</td>
+                          <td width="70" align="center">{{formatDate journalDate}}</td>
+                          <td width="70" align="center">{{substrVoucher voucherId}}</td>
+                          <td>{{memo}}</td>
+                          <td>
+                              <table width="100%">
+                                  {{#each transaction}}
+                                      <tr>
+                                          <td style="border: none">{{accountDoc.code}}:{{accountDoc.name}}</td>
+                                          <td align="right" style="border: none">{{formatMoney amount}}</td>
+                                      </tr>
+                                  {{/each}}
+                              </table>
+                          </td>
+                          <td width="30" align="center">
+                              {{getCurrency currencyId}}
+                          </td>
+
+                      </tr>
+
+
+                  {{/each}}
+
+                  </tbody>
+              </table>
+
+          {{/with}}
+
+          <!--Sign-->
+          {{> signFooter}}
+
+      {{/reportTpl}}
+
+      <!--Auto print-->
+      <!--{{autoprint close="true"}}-->
+
+  {{else}}
+      {{> loading}}
+  {{/if}}
+</template>
