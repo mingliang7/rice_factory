@@ -1,6 +1,6 @@
-var indexTpl = Template.rice_mapClosing,
-  updateTpl = Template.rice_mapClosingUpdate,
-  insertTpl = Template.rice_mapClosingInsert;
+var indexTpl = Template.rice_mapAccount,
+  updateTpl = Template.rice_mapAccountUpdate,
+  insertTpl = Template.rice_mapAccountInsert;
 
 /**
  * Index
@@ -8,7 +8,7 @@ var indexTpl = Template.rice_mapClosing,
 
 indexTpl.onRendered(function () {
   /* Create new alertify */
-  createNewAlertify("mapClosing");
+  createNewAlertify("mapAccount");
   // SEO
   SEO.set({
     title: 'Map Closing',
@@ -18,11 +18,11 @@ indexTpl.onRendered(function () {
 
 indexTpl.events({
   'click .insert' () {
-    alertify.mapClosing(fa('eyes', 'New Chart'), renderTemplate(insertTpl));
+    alertify.mapAccount(fa('eyes', 'New Chart'), renderTemplate(insertTpl));
   },
   'click .update': function (e, t) {
     var data = Rice.Collection.MapClosing.findOne(this._id);
-    alertify.mapClosing(renderTemplate(updateTpl, data))
+    alertify.mapAccount(renderTemplate(updateTpl, data))
       .set({
         title: fa("pencil", "Map Closing")
       });
@@ -47,10 +47,19 @@ updateTpl.events({
  * Hook
  */
 AutoForm.hooks({
-  acc_mapClosingUpdate: {
+  rice_mapAccountInsert: {
     onSuccess: function (formType, result) {
-      alertify.mapClosing().close();
+      alertify.success('Successfully Insert');
+    },
+    onError: function (formType, err) {
+      alertify.error(err.message);
+    }
+  },
+  rice_mapAccountUpdate: {
+    onSuccess: function (formType, result) {
+      alertify.mapAccount().close();
       alertify.success('Success');
+      console.log(result);
     },
     onError: function (formType, error) {
       alertify.error(error.message);

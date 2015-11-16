@@ -1,6 +1,6 @@
-Rice.TabularTable.MapClosing = new Tabular.Table({
-  name: "accMapClosingList",
-  collection: Rice.Collection.MapClosing,
+Rice.TabularTable.MapAccount = new Tabular.Table({
+  name: "accMapAccountList",
+  collection: Rice.Collection.MapAccount,
   pagingType: "full_numbers",
   autoWidth: true,
   columnDefs: [{
@@ -9,10 +9,13 @@ Rice.TabularTable.MapClosing = new Tabular.Table({
   }],
   columns: [{
     title: '<i class="fa fa-bars"></i>',
-    tmpl: Meteor.isClient && Template.acc_mapClosingAction
+    tmpl: Meteor.isClient && Template.acc_mapAccountAction
   }, {
     data: "chartAccountCompare",
     title: "Compare Account"
+  }, {
+    data: 'type',
+    title: 'Type'
   }, {
     data: "chartAccount",
     title: "Chart Account"

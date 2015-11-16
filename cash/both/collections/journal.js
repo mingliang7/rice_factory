@@ -59,6 +59,7 @@ Cash.Schema.Journal = new SimpleSchema({
   memo: {
     type: String,
     label: "Description",
+    optional: true,
     autoform: {
       type: "textarea"
     }

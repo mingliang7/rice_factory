@@ -280,6 +280,19 @@ Rice.List = {
       list.push(tmpPurchaseId[j])
     }
     return list;
+  },
+  productType: function () {
+    var list = [{
+      label: '(Select One)',
+      value: ''
+    }, {
+      label: 'Sale',
+      value: 'sale'
+    }, {
+      label: 'Purchase',
+      value: 'purchase'
+    }]
+    return list;
   }
 };
 

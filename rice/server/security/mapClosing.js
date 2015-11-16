@@ -1,4 +1,0 @@
-// Customer
-Rice.Collection.MapClosing.permit(['insert', 'update', 'remove'])
-  .rice_ifGeneral()
-  .apply();
