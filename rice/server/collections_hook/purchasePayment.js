@@ -1,4 +1,4 @@
-Rice.Collection.PurchasePayment.before.insert(function(userId, doc) {
+Rice.Collection.PurchasePayment.before.insert(function (userId, doc) {
   var prefix = doc.branchId + '-';
   id = doc._id;
   doc._id = idGenerator.genWithPrefix(Rice.Collection.PurchasePayment,
@@ -8,16 +8,18 @@ Rice.Collection.PurchasePayment.before.insert(function(userId, doc) {
   } else {
     doc.status = 'active';
   }
+  doc.accountId = Meteor.call("mapAccountPurchase", doc);
+  StatePayment.set(id, doc);
 });
 
-Rice.Collection.PurchasePayment.after.insert(function(userId, doc) {
-  Meteor.defer(function() {
+Rice.Collection.PurchasePayment.after.insert(function (userId, doc) {
+  Meteor.defer(function () {
     Meteor._sleepForMs(1000);
     updatePurchase(doc);
   });
 });
 
-Rice.Collection.PurchasePayment.before.update(function(userId, doc, fieldNames,
+Rice.Collection.PurchasePayment.before.update(function (userId, doc, fieldNames,
   modifier, options) {
 
   if (modifier.$set.outstandingAmount == 0) {
@@ -27,21 +29,21 @@ Rice.Collection.PurchasePayment.before.update(function(userId, doc, fieldNames,
   }
 });
 
-Rice.Collection.PurchasePayment.after.update(function(userId, doc) {
+Rice.Collection.PurchasePayment.after.update(function (userId, doc) {
   var preDoc = this.previous;
-  Meteor.defer(function() {
+  Meteor.defer(function () {
     updatePurchase(doc, true, preDoc);
   });
 });
 
-Rice.Collection.PurchasePayment.after.remove(function(userId, doc) {
-  Meteor.defer(function() {
+Rice.Collection.PurchasePayment.after.remove(function (userId, doc) {
+  Meteor.defer(function () {
     removePurchasePaymentFromPurchase(doc);
   });
 });
 
 //for remove
-var removePurchasePaymentFromPurchase = function(doc) {
+var removePurchasePaymentFromPurchase = function (doc) {
 
   var purchase = Rice.Collection.Purchase.findOne(doc.purchaseId);
   var paidAmount = purchase.paidAmount - doc.paidAmount;
@@ -60,7 +62,7 @@ var removePurchasePaymentFromPurchase = function(doc) {
 
 
 // for update and insert
-var updatePurchase = function(doc, update, oldDoc) {
+var updatePurchase = function (doc, update, oldDoc) {
   var purchase = Rice.Collection.Purchase.findOne(doc.purchaseId);
   var paidAmount, outstandingAmount, selector;
   if (update) {

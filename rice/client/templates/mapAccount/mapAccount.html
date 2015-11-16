@@ -5,9 +5,6 @@
     </p>
     {{> tabular table=Rice.TabularTable.MapAccount class="table table-striped table-bordered table-condensed table-hover"}}
 </template>
-<template name="rice_mapAccountAction">
-    <a href="#" class="btn btn-primary update"> {{fa "pencil"}}</a>
-</template>
 
 <!--Update-->
 <template name="rice_mapAccountInsert">
@@ -15,21 +12,24 @@
     {{#autoForm collection=Rice.Collection.MapAccount id="rice_mapAccountInsert" doc=this type="insert"}}
         <div class="row">
           {{> afQuickField name='chartAccountCompare'}}
-          {{> afQuickField name='chartAccount'}}
           {{> afQuickField name='type'}}
         </div>
         <button type="submit" class="btn btn-primary preventDef">{{fa "floppy-o"}} Save</button>
         <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>
     {{/autoForm}}
 </template>
-
+<template name="rice_mapAccountAction">
+    {{#tabularAction}}
+        <li><a class="update">{{fa "pencil"}} Update</a></li>
+    {{/tabularAction}}
+</template>
 <!--Update-->
 <template name="rice_mapAccountUpdate">
 
     {{#autoForm collection=Rice.Collection.MapAccount id="rice_mapAccountUpdate" doc=this type="update"}}
         <div class="row">
           {{> afQuickField name='chartAccountCompare' readonly=true}}
-          {{> afQuickField name='chartAccount'}}
+          {{> afQuickField name='type'}}
         </div>
         <button type="submit" class="btn btn-primary preventDef">{{fa "floppy-o"}} Save</button>
         <button type="reset" class="btn btn-default">{{fa "refresh"}} Reset</button>

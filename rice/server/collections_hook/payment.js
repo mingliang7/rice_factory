@@ -1,4 +1,4 @@
-Rice.Collection.Payment.before.insert(function(userId, doc) {
+Rice.Collection.Payment.before.insert(function (userId, doc) {
   var prefix = doc.branchId + '-';
   id = doc._id;
   doc._id = idGenerator.genWithPrefix(Rice.Collection.Payment, prefix, 14);
@@ -7,17 +7,18 @@ Rice.Collection.Payment.before.insert(function(userId, doc) {
   } else {
     doc.status = 'active';
   }
+  doc.accountId = Meteor.call("mapAccountSale", doc);
   StatePayment.set(id, doc);
 });
 
-Rice.Collection.Payment.after.insert(function(userId, doc) {
-  Meteor.defer(function() {
+Rice.Collection.Payment.after.insert(function (userId, doc) {
+  Meteor.defer(function () {
     Meteor._sleepForMs(1000);
     updateSale(doc);
   });
 });
 
-Rice.Collection.Payment.before.update(function(userId, doc, fieldNames,
+Rice.Collection.Payment.before.update(function (userId, doc, fieldNames,
   modifier, options) {
 
   if (modifier.$set.outstandingAmount == 0) {
@@ -27,21 +28,21 @@ Rice.Collection.Payment.before.update(function(userId, doc, fieldNames,
   }
 });
 
-Rice.Collection.Payment.after.update(function(userId, doc) {
+Rice.Collection.Payment.after.update(function (userId, doc) {
   var preDoc = this.previous;
-  Meteor.defer(function() {
+  Meteor.defer(function () {
     updateSale(doc, true, preDoc);
   });
 });
 
-Rice.Collection.Payment.after.remove(function(userId, doc) {
-  Meteor.defer(function() {
+Rice.Collection.Payment.after.remove(function (userId, doc) {
+  Meteor.defer(function () {
     removePaymentFromSale(doc);
   });
 });
 
 //for remove
-var removePaymentFromSale = function(doc) {
+var removePaymentFromSale = function (doc) {
 
   var sale = Rice.Collection.Sale.findOne(doc.saleId);
   var paidAmount = sale.paidAmount - doc.paidAmount;
@@ -60,7 +61,7 @@ var removePaymentFromSale = function(doc) {
 
 
 // for update and insert
-var updateSale = function(doc, update, oldDoc) {
+var updateSale = function (doc, update, oldDoc) {
   var sale = Rice.Collection.Sale.findOne(doc.saleId);
   var paidAmount, outstandingAmount, selector;
   if (update) {

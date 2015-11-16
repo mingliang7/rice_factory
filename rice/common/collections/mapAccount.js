@@ -10,11 +10,6 @@ Rice.Collection.MapAccount = new Mongo.Collection("rice_mapAccount");
  * @type {AccSchema}
  */
 Rice.Schema.MapAccount = new SimpleSchema({
-  chartAccount: {
-    type: String,
-    optional: true,
-    label: "Chart Account",
-  },
   chartAccountCompare: {
     type: String,
     max: 200,

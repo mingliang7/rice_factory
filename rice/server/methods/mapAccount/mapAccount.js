@@ -5,37 +5,30 @@ Meteor.methods({
     data.staff = doc.staffId;
     data.currencyId = "USD";
     data.memo = doc.des === undefined ? '' : doc.des;
-    data.total = doc.total;
-    findChartAccount(data, doc, 'sale');
+    data.total = doc.paidAmount;
+    return findChartAccount(data, doc, 'sale');
   },
   mapAccountPurchase: function (doc) {
-    console.log(doc);
     var data = {};
-    var transaction = [];
-
     data.voucherId = "1";
     data.staff = doc.staffId;
     data.currencyId = "USD";
     data.memo = doc.des === undefined ? '' : doc.des;
-    data.total = doc.total;
-    findChartAccount(data, doc, 'purchase');
+    data.total = doc.paidAmount;
+    return findChartAccount(data, doc, 'purchase');
   }
 });
 
 
 findChartAccount = function (data, doc, type) {
   var transaction = [];
-  doc[type + 'Items'].forEach(function (item) {
-    var chartAccount = Rice.Collection.MapAccount.findOne({
-      chartAccount: item[type + 'ItemId'],
-      type: type
-    });
-    if (!_.isUndefined(chartAccount)) {
-      transaction.push({
-        account: chartAccount.chartAccountCompare,
-        amount: item.amount
-      });
-    }
+  var chartAccount = Rice.Collection.MapAccount.findOne({
+    type: type
   });
-  Meteor.call('journalEntry', data, transaction, doc.branchId);
+  transaction.push({
+    account: chartAccount.chartAccountCompare,
+    amount: doc.paidAmount
+  });
+  console.log(data, transaction);
+  return Meteor.call('journalEntry', data, transaction, doc.branchId);
 }

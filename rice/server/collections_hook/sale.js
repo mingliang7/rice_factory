@@ -20,8 +20,5 @@ Rice.Collection.Sale.before.update(function (userId, doc, fieldNames, modifier,
 });
 //set categoryId for each item
 Rice.Collection.Sale.after.insert(function (userId, doc) {
-	Meteor.defer(function () {
-		Meteor._sleepForMs(1500);
-		Meteor.call("mapAccountSale", doc);
-	});
+
 });
