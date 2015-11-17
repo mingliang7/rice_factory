@@ -71,7 +71,6 @@ indexTpl.events({
       this));
 
   }
-
 });
 /**
  * Insert
@@ -112,7 +111,33 @@ insertTpl.events({
       Session.set('accountTypeId', parent.accountTypeId);
     }
 
+  },
+  'click .insertMethod': function (evt) {
+    var data = {};
+    var transaction = [];
+
+    data.voucherId = "1";
+    data.staff = "001-001";
+    data.currencyId = "USD";
+    data.memo = "Test Update";
+    data.total = 50;
+
+    transaction.push({
+      account: "00001",
+      amount: 45
+    });
+    transaction.push({
+      account: "00002",
+      amount: 405,
+    });
+
+    var journalId="001-1511000007";
+
+    var branchId = "001";
+    debugger;
+    Meteor.call('journalUpdate', data,transaction, branchId,journalId);
   }
+
 });
 /**
  * Update

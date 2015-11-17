@@ -29,6 +29,9 @@ Rice.Schema.PurchasePayment = new SimpleSchema(
 
   branchId:
     type: String
+  accountId:
+    type: String
+    optional: true
   staffId:
     type: String
     label: 'Staff'

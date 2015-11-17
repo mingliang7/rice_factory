@@ -62,31 +62,7 @@ insertTpl.events({
         return !(charCode != 46 && charCode > 31 && (charCode < 48 ||
         charCode > 57));
     }
-    ,
-    'click .insertMethod': function (evt) {
-        var data = {};
-        var transaction = [];
 
-        data.voucherId = "1";
-        data.staff = "001-002";
-        data.currencyId = "USD";
-        data.memo = "Test";
-        data.total = 49;
-
-        transaction.push({
-            account: "00001",
-            amount: 45
-        });
-        transaction.push({
-            account: "00002",
-            amount: 405,
-        });
-
-
-        var branchId = "001";
-        debugger;
-        Meteor.call('journalEntry', data,transaction, branchId);
-    }
 });
 updateTpl.events({
     'keypress #voucherId,.transaction-amount': function (evt) {
@@ -200,14 +176,9 @@ AutoForm.hooks({
             insert: function (doc) {
 
                 var currentBranch = Session.get("currentBranch");
-                var date = moment(journalDate).format("YYMM");
-                var prefix = currentBranch + "-" + date;
-                doc._id = idGenerator.genWithPrefix(Cash.Collection.Journal,
-                    prefix, 6);
+
                 doc.branchId = Session.get("currentBranch");
-
                 var year = moment(journalDate).format("YYYY");
-
                 doc.voucherId = currentBranch + "-" + year + s.pad($(
                         '[name="voucherId"]').val(), 6, "0");
                 doc.total = $('#total-amount').val();

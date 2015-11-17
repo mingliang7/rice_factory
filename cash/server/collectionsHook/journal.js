@@ -12,8 +12,14 @@ Cash.Collection.Journal.before.insert(function (userId, doc) {
         }
     });
 
+    var date = moment(doc.journalDate).format("YYMM");
+    var prefix = doc.branchId + "-" + date;
+    doc._id = idGenerator.genWithPrefix(Cash.Collection.Journal,
+        prefix, 6);
     doc.transaction = transaction;
 });
+
+
 Cash.Collection.Journal.before.update(function (userId, doc, fieldNames, modifier, options) {
     modifier.$set = modifier.$set || {};
     var transaction = [];
@@ -27,3 +33,8 @@ Cash.Collection.Journal.before.update(function (userId, doc, fieldNames, modifie
 
     modifier.$set.transaction = transaction;
 });
+
+
+
+
+

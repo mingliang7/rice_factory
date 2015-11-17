@@ -11,7 +11,7 @@ indexTpl.onRendered(function () {
   createNewAlertify("mapAccount");
   // SEO
   SEO.set({
-    title: 'Map Closing',
+    title: 'Map Account',
     description: 'Description for this page'
   });
 });
@@ -21,11 +21,9 @@ indexTpl.events({
     alertify.mapAccount(fa('eyes', 'New Chart'), renderTemplate(insertTpl));
   },
   'click .update': function (e, t) {
-    var data = Rice.Collection.MapClosing.findOne(this._id);
-    alertify.mapAccount(renderTemplate(updateTpl, data))
-      .set({
-        title: fa("pencil", "Map Closing")
-      });
+    var data = Rice.Collection.MapAccount.findOne(this._id);
+    alertify.mapAccount(fa('pencil', 'Edit'), renderTemplate(updateTpl,
+      data))
   },
 });
 

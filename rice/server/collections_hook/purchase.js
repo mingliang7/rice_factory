@@ -20,9 +20,4 @@ Rice.Collection.Purchase.before.update(function (userId, doc, fieldNames,
   }
 });
 //set categoryId for each item
-Rice.Collection.Purchase.after.insert(function (userId, doc) {
-  Meteor.defer(function (argument) {
-    Meteor._sleepForMs(1500);
-    Meteor.call('mapAccountPurchase', doc);
-  });
-});
+Rice.Collection.Purchase.after.insert(function (userId, doc) {});

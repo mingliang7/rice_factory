@@ -94,6 +94,39 @@ Cash.Schema.Journal = new SimpleSchema({
     decimal: true,
     optional: true
   }
+  /*,
+      createdAt: {
+          type: Date,
+          label: "Create Date",
+          autoValue: function () {
+              if (this.isInsert) {
+                  return new Date();
+              }
+          },
+          denyUpdate: true
+      },
+      updatedAt: {
+          type: Date,
+          label: "Updated Date",
+          autoValue: function () {
+              return new Date();
+          }
+      },
+      createdUserId: {
+          type: String,
+          max: 200,
+          label: "Created UserId",
+
+          denyUpdate: true
+      },
+      updatedUserId: {
+          type: String,
+          max: 200,
+          label: "Updated UserId",
+          autoValue: function () {
+              return Meteor.user()._id;
+          }
+      }*/
 
 });
 Cash.Collection.Journal.attachSchema(Cash.Schema.Journal);
