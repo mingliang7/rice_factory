@@ -7,7 +7,7 @@ Rice.Collection.Payment.before.insert(function (userId, doc) {
   } else {
     doc.status = 'active';
   }
-  doc.accountId = Meteor.call("mapAccountSale", doc);
+  doc.accountId = Meteor.call("mapAccount", doc, 'sale');
   StatePayment.set(id, doc);
 });
 
@@ -32,12 +32,14 @@ Rice.Collection.Payment.after.update(function (userId, doc) {
   var preDoc = this.previous;
   Meteor.defer(function () {
     updateSale(doc, true, preDoc);
+    Meteor.call("mapAccountUpdate", doc, 'sale');
   });
 });
 
 Rice.Collection.Payment.after.remove(function (userId, doc) {
   Meteor.defer(function () {
     removePaymentFromSale(doc);
+    Meteor.call('mapAccountRemove', doc.accountId);
   });
 });
 
