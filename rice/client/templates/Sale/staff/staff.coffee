@@ -5,22 +5,22 @@ Template.rice_staff.events
 		alertify.staff(fa('eyes', 'Show Staff'), renderTemplate(Template.rice_staffShowTemplate, this))
 
 	'click .remove': ->
-		id = this._id
-		available = checkAvailable(id);
-		if available
-			alertify.confirm(
-	      fa('remove', 'Remove staff'),
-	      "Are you sure to delete "+id+" ?",
-	      ->
-	        Rice.Collection.Staffs.remove id, (error) ->
-	          if error is 'undefined'
-	            alertify.error error.message
-	          else
-	            alertify.warning 'Successfully Remove'
-	      null
-	    )
-		else
-			alertify.error "Staff ##{id} is in user staff :("
+		# id = this._id
+		# available = checkAvailable(id);
+		# if available
+		# 	alertify.confirm(
+	  #     fa('remove', 'Remove staff'),
+	  #     "Are you sure to delete "+id+" ?",
+	  #     ->
+	  #       Rice.Collection.Staffs.remove id, (error) ->
+	  #         if error is 'undefined'
+	  #           alertify.error error.message
+	  #         else
+	  #           alertify.warning 'Successfully Remove'
+	  #     null
+	  #   )
+		# else
+		# 	alertify.error "Staff ##{id} is in user staff :("
 	'click .update': ->
 		data = Rice.Collection.Staffs.findOne(@_id)
 		id = @_id
