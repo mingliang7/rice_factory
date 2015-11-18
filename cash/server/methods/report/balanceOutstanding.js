@@ -28,15 +28,14 @@ Meteor.methods({
       var branchId = self.branchId;
     }
     var openingBalance = Cash.Collection.OpeningClosingBalance.findOne({
-      /*date: {
+      date: {
        $lt: curDate
-       }*/
-      _id:  "001"
-    }/*, {
+       }
+    }, {
       sort: {
         date: -1
       }
-    }*/);
+    });
 
     data.openingBalanceKHR = openingBalance.value.KHR;
     data.openingBalanceDate = openingBalance.date;

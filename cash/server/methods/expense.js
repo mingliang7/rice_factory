@@ -1,7 +1,6 @@
 Meteor.methods({
     getExpense: function (selector,baseCurrency,exchangeDate) {
 
-        debugger;
         var arr = [];
         var result = Cash.Collection.Journal.aggregate([
 
