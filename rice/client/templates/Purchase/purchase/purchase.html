@@ -62,7 +62,12 @@
                         <!--{{> afQuickField name='supplierId' readonly="true" style="cursor: pointer" placeholder="Click me..."}}-->
                         {{> afQuickField name='supplierId' type="hidden" value=supplier._id}}
                         {{> afQuickField name='purchaseDate' type="text"}}
-                        {{> afQuickField name='exchange'}}
+                        <span class="input-group-addon">
+                            {{> afQuickField name='exchange'}}
+                            <a  class='add-exchange' style="cursor: pointer;">
+                                {{fa "plus"}}
+                            </a>
+                        </span>
                         {{> afQuickField name='staffId'}}
                         {{> afQuickField name='des'}}
                     </div>

@@ -8,7 +8,7 @@ var indexTpl = Template.rice_purchase,
   supplierAddonTpl = Template.rice_supplierInsert;
 
 // Index
-indexTpl.onCreated(function() {
+indexTpl.onCreated(function () {
   // SEO
   SEO.set({
     title: 'Purchase',
@@ -17,27 +17,27 @@ indexTpl.onCreated(function() {
 
   // Create new  alertify
   createNewAlertify(['purchase', 'supplier', 'supplierSearch',
-    'purchaseQuickPayment'
+    'purchaseQuickPayment', 'exchange'
   ]);
 });
 
-indexTpl.onRendered(function() {
+indexTpl.onRendered(function () {
   //
 });
 Template.rice_purchaseInsert.events({
-  "change [name='exchange']": function(e) {
+  "change [name='exchange']": function (e) {
     var val = $(e.currentTarget).val();
     var exchange = Cpanel.Collection.Exchange.findOne(val);
     StateItem.set('exchange', exchange);
   }
 });
 indexTpl.helpers({
-  tabularSelector: function() {
+  tabularSelector: function () {
     return {
       supplierId: FlowRouter.getParam('supplierId')
     };
   },
-  supplier: function() {
+  supplier: function () {
     var supplierId = FlowRouter.getParam('supplierId');
     var data = ReactiveMethod.call('getSupplier', supplierId);
     if (!_.isUndefined(data.photo)) {
@@ -50,28 +50,28 @@ indexTpl.helpers({
 });
 
 indexTpl.events({
-  'click .print': function() {
+  'click .print': function () {
     Report.purchaseInvoice(this._id);
   },
-  'click #payment': function() {
+  'click #payment': function () {
     FlowRouter.go('rice.purchasePayment', {
       supplierId: this.supplierId,
       purchaseId: this._id
     });
 
   },
-  'click .insert': function(e, t) {
+  'click .insert': function (e, t) {
     purchaseItemsState.clear();
     alertify.purchase(fa("plus", "Purchase"), renderTemplate(insertTpl))
       .maximize();
   },
-  'click .update': function(e, t) {
+  'click .update': function (e, t) {
     var id = this._id;
     var data = this;
     if (data.paidAmount !== 0) {
       alertify.warning('Sorry purchase #' + data._id + ' had payment!');
     } else {
-      Meteor.call('purchaseItem', id, function(err, data) {
+      Meteor.call('purchaseItem', id, function (err, data) {
         if (err) {
           console.log(err);
         } else {
@@ -82,7 +82,7 @@ indexTpl.events({
       });
     }
   },
-  'click .remove': function(e, t) {
+  'click .remove': function (e, t) {
     var self = this;
     if (self.paidAmount !== 0) {
       alertify.warning('Sorry purchase #' + self._id + ' had payment!');
@@ -91,8 +91,8 @@ indexTpl.events({
       alertify.confirm(
         fa("remove", "Purchase"),
         "Are you sure to delete [" + self._id + "]?",
-        function() {
-          Rice.Collection.Purchase.remove(self._id, function(error) {
+        function () {
+          Rice.Collection.Purchase.remove(self._id, function (error) {
             if (error) {
               alertify.warning(error.message);
             } else {
@@ -104,9 +104,9 @@ indexTpl.events({
       );
     }
   },
-  'click .show': function(e, t) {
+  'click .show': function (e, t) {
     var id = this._id;
-    Meteor.call("purchaseItem", id, function(error, result) {
+    Meteor.call("purchaseItem", id, function (error, result) {
       if (error) {
         console.log("error", error);
       }
@@ -117,7 +117,7 @@ indexTpl.events({
       }
     });
   },
-  'dblclick tbody > tr': function(event) {
+  'dblclick tbody > tr': function (event) {
     var dataTable = $(event.target).closest('table').DataTable();
     var rowData = dataTable.row(event.currentTarget).data();
     if (rowData.outstandingAmount === 0) {
@@ -131,9 +131,9 @@ indexTpl.events({
   }
 });
 showTpl.helpers({
-  extract: function(items) {
+  extract: function (items) {
     var concate = '';
-    items.forEach(function(item) {
+    items.forEach(function (item) {
       concate += '<li>' + 'Item: ' + getItemName(item.purchaseItemId) +
         ', Qty: ' + formatKh(item.qty) +
         ', Price: ' + formatKh(item.price) +
@@ -145,12 +145,12 @@ showTpl.helpers({
     return concate;
   }
 });
-indexTpl.onDestroyed(function() {
+indexTpl.onDestroyed(function () {
   //
 });
 
 // Insert
-insertTpl.onRendered(function() {
+insertTpl.onRendered(function () {
   Session.set('invioceId', undefined);
   Session.set('payNprint', undefined);
   Session.set('pay', undefined);
@@ -158,7 +158,7 @@ insertTpl.onRendered(function() {
 });
 
 insertTpl.helpers({
-  supplier: function() {
+  supplier: function () {
     data = this;
     supplierId = FlowRouter.getParam('supplierId');
     if (supplierId) {
@@ -176,13 +176,13 @@ insertTpl.helpers({
 });
 
 insertTpl.events({
-  'click .pay': function() {
+  'click .pay': function () {
     Session.set('saveNpay', true);
   },
-  'click .payNprint': function() {
+  'click .payNprint': function () {
     Session.set('payNprint', true);
   },
-  'click [name="supplierId"]': function(e, t) {
+  'click [name="supplierId"]': function (e, t) {
     var val = $('[name="supplierId"]').val();
     var data = {
       data: val
@@ -191,27 +191,31 @@ insertTpl.events({
     alertify.supplierSearch(fa("list", "Supplier Search List"),
       renderTemplate(supplierSearchTpl, data));
   },
-  'click .supplierAddon': function(e, t) {
+  'click .supplierAddon': function (e, t) {
     alertify.supplier(fa("plus", "Supplier"), renderTemplate(
       supplierAddonTpl));
   },
   // Test search list change
-  'change [name="supplierId"]': function() {
+  'change [name="supplierId"]': function () {
     $('[name="des"]').val('Supplier is changed');
+  },
+  'click .add-exchange': function () {
+    alertify.exchange(fa('plus', 'Add Exchange'), renderTemplate(
+      Template.cpanel_exchangeInsert)).maximize();
   }
 });
 
-insertTpl.onDestroyed(function() {});
+insertTpl.onDestroyed(function () {});
 
 // Update
-updateTpl.onRendered(function() {
+updateTpl.onRendered(function () {
   datePicker();
 });
 
 updateTpl.helpers({});
 
 updateTpl.events({
-  'click [name="supplierId"]': function(e, t) {
+  'click [name="supplierId"]': function (e, t) {
     var val = $('[name="supplierId"]').val();
     var data = {
       data: val
@@ -220,26 +224,26 @@ updateTpl.events({
     alertify.supplierSearch(fa("list", "Supplier Search List"),
       renderTemplate(supplierSearchTpl, data));
   },
-  'click .supplierAddon': function(e, t) {
+  'click .supplierAddon': function (e, t) {
     alertify.supplier(fa("plus", "Supplier"), renderTemplate(
       supplierAddonTpl));
   }
 });
 
-updateTpl.onDestroyed(function() {});
+updateTpl.onDestroyed(function () {});
 
 // Hook
 
 
 // Config date picker
-var datePicker = function() {
+var datePicker = function () {
   var dob = $('[name="purchaseDate"]');
   DateTimePicker.dateTime(dob);
 };
 
 // Supplier search
 supplierSearchTpl.events({
-  'click .purchaseItem': function(e, t) {
+  'click .purchaseItem': function (e, t) {
     $('[name="supplierId"]').val(this._id);
     $('[name="supplierId"]').change();
 
@@ -248,15 +252,15 @@ supplierSearchTpl.events({
 });
 
 // Get current supplier
-var getCurrentSupplier = function(id) {
+var getCurrentSupplier = function (id) {
 
 };
 
 
-var getItemName = function(id) {
+var getItemName = function (id) {
   return Rice.Collection.PurchaseItem.findOne(id).name;
 };
 
-var formatKh = function(val) {
+var formatKh = function (val) {
   return numeral(val).format('0,0');
 };

@@ -26,7 +26,7 @@ Rice.TabularTable.Customer = new Tabular.Table({
   }, {
     data: 'type',
     title: 'Type',
-    render: function(value) {
+    render: function (value) {
       if (value == 'local') {
         return '<label class="label label-success">' + value +
           '</label>';
@@ -35,6 +35,9 @@ Rice.TabularTable.Customer = new Tabular.Table({
           '</label>';
       }
     }
+  }, {
+    data: 'status',
+    title: 'Status'
   }, {
     data: "gender",
     title: "Gender"
@@ -51,7 +54,7 @@ Rice.TabularTable.Customer = new Tabular.Table({
   }, {
     data: "photo",
     title: "Photo",
-    render: function(val, type, doc) {
+    render: function (val, type, doc) {
       if (_.isUndefined(val)) {
         return null;
       } else {
@@ -59,5 +62,5 @@ Rice.TabularTable.Customer = new Tabular.Table({
         return lightbox(img.url(), doc._id, doc.name);
       }
     }
-  }]
+  }],
 });

@@ -10,7 +10,7 @@ var indexTpl = Template.rice_customer,
 /**
  * Index
  */
-indexTpl.onCreated(function() {
+indexTpl.onCreated(function () {
   // SEO
   SEO.set({
     title: 'Customer',
@@ -18,28 +18,30 @@ indexTpl.onCreated(function() {
   });
 
   // Create new  alertify
-  createNewAlertify(["sale", "customer", "address", 'quickPayment']);
+  createNewAlertify(["sale", "customer", "address", 'quickPayment',
+    'exchange'
+  ]);
 });
 
-indexTpl.onRendered(function() {
+indexTpl.onRendered(function () {
   createNewAlertify('saleQuickPayment');
 });
 
 indexTpl.helpers({});
 
 indexTpl.events({
-  'click .insert': function(e, t) {
+  'click .insert': function (e, t) {
     alertify.customer(fa("plus", "Customer"), renderTemplate(insertTpl))
       .maximize();
   },
-  'click .update': function(e, t) {
-    var data = Rice.Collection.Customer.findOne(this._id);
-
+  'click .update': function (e, t) {
+    var data = this;
+    console.log(data);
     alertify.customer(fa("pencil", "Customer"), renderTemplate(updateTpl,
         data))
       .maximize();
   },
-  'click #sale': function() {
+  'click #sale': function () {
     StateItem = new ReactiveObj({
       qty: 0,
       price: 0,
@@ -53,14 +55,14 @@ indexTpl.events({
       customerId: this._id
     });
   },
-  'click .remove': function(e, t) {
+  'click .remove': function (e, t) {
     var self = this;
 
     alertify.confirm(
       fa("remove", "Customer"),
       "Are you sure to delete [" + self._id + "]?",
-      function() {
-        Rice.Collection.Customer.softRemove(self._id, function(error) {
+      function () {
+        Rice.Collection.Customer.softRemove(self._id, function (error) {
           if (error) {
             alertify.error(error.message);
           } else {
@@ -72,7 +74,7 @@ indexTpl.events({
     );
 
   },
-  'click .show': function(e, t) {
+  'click .show': function (e, t) {
     var data = Rice.Collection.Customer.findOne({
       _id: this._id
     });
@@ -84,7 +86,7 @@ indexTpl.events({
 
     alertify.customer(fa("eye", "Customer"), renderTemplate(showTpl, data));
   },
-  'dblclick tbody > tr': function(event) {
+  'dblclick tbody > tr': function (event) {
     StateItem = new ReactiveObj({
       qty: 0,
       price: 0,
@@ -103,19 +105,19 @@ indexTpl.events({
   }
 });
 
-indexTpl.onDestroyed(function() {
+indexTpl.onDestroyed(function () {
   //
 });
 
 /**
  * Insert
  */
-insertTpl.onRendered(function() {
+insertTpl.onRendered(function () {
   configOnRender();
 });
 
 insertTpl.events({
-  'click .addressAddon': function(e, t) {
+  'click .addressAddon': function (e, t) {
     alertify.address(fa("plus", "Address"), renderTemplate(
       addressAddonTpl))
   }
@@ -124,14 +126,14 @@ insertTpl.events({
 /**
  * Update
  */
-updateTpl.onRendered(function() {
+updateTpl.onRendered(function () {
   configOnRender();
 });
 
 updateTpl.helpers({});
 
 updateTpl.events({
-  'click .addressAddon': function(e, t) {
+  'click .addressAddon': function (e, t) {
     alertify.address(fa("plus", "Address"), renderTemplate(
       addressAddonTpl));
   }
@@ -144,47 +146,47 @@ AutoForm.hooks({
   // Customer
   rice_customerInsert: {
     before: {
-      insert: function(doc) {
+      insert: function (doc) {
         doc.branchId = Session.get('currentBranch');
         return doc;
       }
     },
-    onSuccess: function(formType, result) {
+    onSuccess: function (formType, result) {
       alertify.success('Success');
     },
-    onError: function(formType, error) {
+    onError: function (formType, error) {
       alertify.error(error.message);
     }
   },
   rice_customerUpdate: {
-    onSuccess: function(formType, result) {
+    onSuccess: function (formType, result) {
       alertify.customer().close();
       alertify.success('Success');
     },
-    onError: function(formType, error) {
+    onError: function (formType, error) {
       alertify.error(error.message);
     }
   },
   // Address addon
   rice_addressAddon: {
     before: {
-      insert: function(doc) {
+      insert: function (doc) {
         doc._id = idGenerator.gen(Rice.Collection.Address, 3);
         return doc;
       }
     },
-    onSuccess: function(formType, result) {
+    onSuccess: function (formType, result) {
       //alertify.address().close();
       alertify.success('Success');
     },
-    onError: function(formType, error) {
+    onError: function (formType, error) {
       alertify.error(error.message);
     }
   }
 });
 
 // Config date picker
-var configOnRender = function() {
+var configOnRender = function () {
   // date
   var dob = $('[name="dob"]');
   DateTimePicker.date(dob);

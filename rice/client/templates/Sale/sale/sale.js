@@ -8,7 +8,7 @@ var indexTpl = Template.rice_sale,
   customerAddonTpl = Template.rice_customerInsert;
 
 // Index
-indexTpl.onCreated(function() {
+indexTpl.onCreated(function () {
   // SEO
   SEO.set({
     title: 'Sale',
@@ -17,21 +17,21 @@ indexTpl.onCreated(function() {
 
   // Create new  alertify
   createNewAlertify(['sale', 'customer', 'customerSearch',
-    'saleQuickPayment'
+    'saleQuickPayment', 'exchange'
   ]);
 });
 
-indexTpl.onRendered(function() {
+indexTpl.onRendered(function () {
   //
 });
 
 indexTpl.helpers({
-  tabularSelector: function() {
+  tabularSelector: function () {
     return {
       customerId: FlowRouter.getParam('customerId')
     };
   },
-  customer: function() {
+  customer: function () {
     var customerId = FlowRouter.getParam('customerId');
     var data = ReactiveMethod.call('getCustomer', customerId);
     if (!_.isUndefined(data.photo)) {
@@ -44,28 +44,28 @@ indexTpl.helpers({
 });
 
 indexTpl.events({
-  'click .print': function() {
+  'click .print': function () {
     Report.saleInvoice(this._id);
   },
-  'click #payment': function() {
+  'click #payment': function () {
     FlowRouter.go('rice.payment', {
       customerId: this.customerId,
       saleId: this._id
     });
 
   },
-  'click .insert': function(e, t) {
+  'click .insert': function (e, t) {
     saleItemsState.clear();
     alertify.sale(fa("plus", "Sale"), renderTemplate(insertTpl))
       .maximize();
   },
-  'click .update': function(e, t) {
+  'click .update': function (e, t) {
     var id = this._id;
     var data = this;
     if (data.paidAmount !== 0) {
       alertify.warning('Sorry sale #' + data._id + ' had payment!');
     } else {
-      Meteor.call('saleItem', id, function(err, data) {
+      Meteor.call('saleItem', id, function (err, data) {
         if (err) {
           console.log(err);
         } else {
@@ -76,7 +76,7 @@ indexTpl.events({
       });
     }
   },
-  'click .remove': function(e, t) {
+  'click .remove': function (e, t) {
     var self = this;
     if (self.paidAmount !== 0) {
       alertify.warning('Sorry sale #' + self._id + ' had payment!');
@@ -85,8 +85,8 @@ indexTpl.events({
       alertify.confirm(
         fa("remove", "Sale"),
         "Are you sure to delete [" + self._id + "]?",
-        function() {
-          Rice.Collection.Sale.remove(self._id, function(error) {
+        function () {
+          Rice.Collection.Sale.remove(self._id, function (error) {
             if (error) {
               alertify.warning(error.message);
             } else {
@@ -99,9 +99,9 @@ indexTpl.events({
     }
   },
 
-  'click .show': function(e, t) {
+  'click .show': function (e, t) {
     var id = this._id;
-    Meteor.call("saleItem", id, function(error, result) {
+    Meteor.call("saleItem", id, function (error, result) {
       if (error) {
         console.log("error", error);
       }
@@ -111,7 +111,7 @@ indexTpl.events({
       }
     });
   },
-  'dblclick tbody > tr': function(event) {
+  'dblclick tbody > tr': function (event) {
     var dataTable = $(event.target).closest('table').DataTable();
     var rowData = dataTable.row(event.currentTarget).data();
     if (rowData.outstandingAmount === 0) {
@@ -123,9 +123,9 @@ indexTpl.events({
   }
 });
 showTpl.helpers({
-  extract: function(items) {
+  extract: function (items) {
     var concate = '';
-    items.forEach(function(item) {
+    items.forEach(function (item) {
       concate += '<li>' + 'Item: ' + getItemName(item.saleItemId) +
         ', Qty: ' + formatKh(item.qty) +
         ', Price: ' + formatKh(item.price) +
@@ -137,12 +137,12 @@ showTpl.helpers({
     return concate;
   }
 });
-indexTpl.onDestroyed(function() {
+indexTpl.onDestroyed(function () {
   //
 });
 
 // Insert
-insertTpl.onRendered(function() {
+insertTpl.onRendered(function () {
   Session.set('invioceId', undefined);
   Session.set('payNprint', undefined);
   Session.set('pay', undefined);
@@ -150,7 +150,7 @@ insertTpl.onRendered(function() {
 });
 
 insertTpl.helpers({
-  customer: function() {
+  customer: function () {
     data = this;
     customerId = FlowRouter.getParam('customerId');
     if (customerId) {
@@ -168,13 +168,13 @@ insertTpl.helpers({
 });
 
 insertTpl.events({
-  'click .pay': function() {
+  'click .pay': function () {
     Session.set('saveNpay', true);
   },
-  'click .payNprint': function() {
+  'click .payNprint': function () {
     Session.set('payNprint', true);
   },
-  'click [name="customerId"]': function(e, t) {
+  'click [name="customerId"]': function (e, t) {
     var val = $('[name="customerId"]').val();
     var data = {
       data: val
@@ -183,35 +183,39 @@ insertTpl.events({
     alertify.customerSearch(fa("list", "Customer Search List"),
       renderTemplate(customerSearchTpl, data));
   },
-  'click .customerAddon': function(e, t) {
+  'click .customerAddon': function (e, t) {
     alertify.customer(fa("plus", "Customer"), renderTemplate(
       customerAddonTpl));
   },
   // Test search list change
-  'change [name="customerId"]': function() {
+  'change [name="customerId"]': function () {
     $('[name="des"]').val('Customer is changed');
   },
-  'click .saveNprint': function() {
+  'click .saveNprint': function () {
     Session.set('saveNprint', true);
   },
-  'change [name="exchange"]': function(e) {
+  'change [name="exchange"]': function (e) {
     var val = $(e.currentTarget).val();
     var exchange = Cpanel.Collection.Exchange.findOne(val);
     StateItem.set('exchange', exchange);
+  },
+  'click .add-exchange': function () {
+    alertify.exchange(fa('plus', 'Add Exchange'), renderTemplate(
+      Template.cpanel_exchangeInsert)).maximize();
   }
 });
 
-insertTpl.onDestroyed(function() {});
+insertTpl.onDestroyed(function () {});
 
 // Update
-updateTpl.onRendered(function() {
+updateTpl.onRendered(function () {
   datePicker();
 });
 
 updateTpl.helpers({});
 
 updateTpl.events({
-  'click [name="customerId"]': function(e, t) {
+  'click [name="customerId"]': function (e, t) {
     var val = $('[name="customerId"]').val();
     var data = {
       data: val
@@ -220,26 +224,26 @@ updateTpl.events({
     alertify.customerSearch(fa("list", "Customer Search List"),
       renderTemplate(customerSearchTpl, data));
   },
-  'click .customerAddon': function(e, t) {
+  'click .customerAddon': function (e, t) {
     alertify.customer(fa("plus", "Customer"), renderTemplate(
       customerAddonTpl));
   }
 });
 
-updateTpl.onDestroyed(function() {});
+updateTpl.onDestroyed(function () {});
 
 // Hook
 
 
 // Config date picker
-var datePicker = function() {
+var datePicker = function () {
   var dob = $('[name="saleDate"]');
   DateTimePicker.dateTime(dob);
 };
 
 // Customer search
 customerSearchTpl.events({
-  'click .saleItem': function(e, t) {
+  'click .saleItem': function (e, t) {
     $('[name="customerId"]').val(this._id);
     $('[name="customerId"]').change();
 
@@ -248,15 +252,15 @@ customerSearchTpl.events({
 });
 
 // Get current customer
-var getCurrentCustomer = function(id) {
+var getCurrentCustomer = function (id) {
 
 };
 
 
-var getItemName = function(id) {
+var getItemName = function (id) {
   return Rice.Collection.SaleItem.findOne(id).name;
 }
 
-var formatKh = function(val) {
+var formatKh = function (val) {
   return numeral(val).format('0,0');
 }
